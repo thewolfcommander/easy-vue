@@ -8,16 +8,16 @@ import Profile from '@/views/accounts/myaccount/Profile'
 
 // Delivery Boy
 // Accounts
-// import DBOrders from '@/views/accounts/dbaccount/Orders'
-// import DBCancelledOrders from '@/views/accounts/dbaccount/CancelledOrders'
-// import DBCompletedOrders from '@/views/accounts/dbaccount/CompletedOrders'
-// import DBShippedOrders from '@/views/accounts/dbaccount/ShippedOrders'
-// import DBOrderDetail from '@/views/accounts/dbaccount/OrderDetail'
-// import DBProfile from '@/views/accounts/dbaccount/Profile'
+import DBOrders from '@/views/accounts/dbaccount/Orders'
+import DBCancelledOrders from '@/views/accounts/dbaccount/CancelledOrders'
+import DBCompletedOrders from '@/views/accounts/dbaccount/CompletedOrders'
+import DBShippedOrders from '@/views/accounts/dbaccount/ShippedOrders'
+import DBOrderDetail from '@/views/accounts/dbaccount/OrderDetail'
+import DBProfile from '@/views/accounts/dbaccount/Profile'
 
 const routes = [
     {
-        path: '/login',
+        path: '/login/',
         name: 'Login',
         component: Login,
         meta: {
@@ -25,7 +25,7 @@ const routes = [
         },
     },
     {
-        path: '/register',
+        path: '/register/',
         name: 'Register',
         component: Register,
         meta: {
@@ -35,7 +35,7 @@ const routes = [
 
     // Accounts
     {
-        path: '/account',
+        path: '/account/',
         name: 'Account',
         redirect: {name: 'Profile'},
         meta: {
@@ -43,7 +43,7 @@ const routes = [
         },
         children: [
             {
-                path: '/profile',
+                path: '/profile/',
                 name: 'Profile',
                 component: Profile,
                 meta: {
@@ -51,7 +51,7 @@ const routes = [
                 },
             },
             {
-                path: '/orders',
+                path: '/orders/',
                 name: 'Orders',
                 component: Orders,
                 meta: {
@@ -59,11 +59,71 @@ const routes = [
                 },
             },
             {
-                path: '/orders/:orderId',
+                path: '/orders/:orderId/',
                 name: 'OrderDetail',
                 component: OrderDetail,
                 meta: {
                     title: 'My Order Detail - EasyEats | Order food online',
+                },
+            },
+        ]
+    },
+
+    // Delivery Boy Accounts
+    {
+        path: '/delivery-boy/account/',
+        name: 'DBAccount',
+        redirect: {name: 'DBProfile'},
+        meta: {
+            title: 'My Profile - EasyEats | Order food online',
+        },
+        children: [
+            {
+                path: '/db-profile/',
+                name: 'DBProfile',
+                component: DBProfile,
+                meta: {
+                    title: 'My Delivery Boy Profile - EasyEats | Order food online',
+                },
+            },
+            {
+                path: '/db-orders/',
+                name: 'DBOrders',
+                component: DBOrders,
+                meta: {
+                    title: 'New Orders - EasyEats | Order food online',
+                },
+            },
+            {
+                path: '/db-orders/:orderId/',
+                name: 'DBOrderDetail',
+                component: DBOrderDetail,
+                meta: {
+                    title: 'Order Detail - EasyEats | Order food online',
+                },
+            },
+            {
+                path: '/db-cancelled-orders/',
+                name: 'DBCancelledOrders',
+                component: DBCancelledOrders,
+                meta: {
+                    title: 'Cancelled Orders - EasyEats | Order food online',
+                },
+            },
+            {
+                path: '/db-completed-orders/',
+                name: 'DBCompletedOrders',
+                component: DBCompletedOrders,
+                meta: {
+                    title: 'Completed Orders - EasyEats | Order food online',
+                },
+            },
+            {
+                path: '/db-shipped-orders/',
+                name: 'DBShippedOrders',
+                component: DBShippedOrders,
+                meta: {
+                    title: 'Shipped Orders - EasyEats | Order food online',
                 },
             },
         ]
