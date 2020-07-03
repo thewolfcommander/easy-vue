@@ -9,18 +9,18 @@
         >
             <v-app-bar-nav-icon class="d-flex d-md-none"></v-app-bar-nav-icon>
             <v-toolbar-title>
-                <nuxt-link :to="{path: '/'}">
+                <router-link :to="{path: '/'}">
                     <v-img
                         src="brand/logo.png"
                         lazy-src="brand/logo.png"
                         max-width="120px"
                     ></v-img>
-                </nuxt-link>
+                </router-link>
             </v-toolbar-title>
             <v-spacer></v-spacer>
 
             <v-btn
-                nuxt
+                router
                 :to="{path: 'wishlist'}"
                 icon
             >
@@ -32,7 +32,7 @@
             <v-btn
                 icon
                 class="mr-md-5 mr-lg-5"
-                nuxt
+                router
                 :to="{path: 'cart'}"
             >
                 <v-badge
@@ -47,7 +47,7 @@
             <v-btn
                 text
                 rounded
-                nuxt
+                router
                 :to="{path: '/'}"
                 color="primary"
                 class="d-none d-md-flex mx-1"
@@ -89,7 +89,7 @@
             <v-btn
                 rounded
                 color="primary"
-                nuxt
+                router
                 :to="{path: 'register'}"
                 class="mr-md-5 mr-lg-5 d-none d-md-flex"
             >Join Now</v-btn>

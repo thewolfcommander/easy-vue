@@ -61,6 +61,7 @@
                 color="primary"
                 class="mt-3"
                 large
+                @click="start"
             >
                 <v-icon>mdi-close</v-icon>
             </v-btn>
@@ -74,11 +75,19 @@
     </v-row>
 </template>
 <script>
+// import NProgress from 'nprogress'
+
+
 export default {
     data() {
         return {
             quantity: 1
         };
+    },
+    methods: {
+        start() {
+            console.log("Hello")
+        }
     }
 };
 </script>

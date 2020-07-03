@@ -5,7 +5,7 @@
     >
 
         <v-row justify="center">
-            <nuxt-link
+            <router-link
                 :to="{path: `/menu/${quantity}`}"
                 class="text-decoration-none black--text"
             >
@@ -30,14 +30,14 @@
                         </v-row>
                     </template>
                 </v-img>
-            </nuxt-link>
+            </router-link>
         </v-row>
 
         <v-card-title>
-            <nuxt-link
+            <router-link
                 :to="{path: '/menu/:id', params: {id: 'Hello'}}"
                 class="text-decoration-none black--text"
-            >{{ itemName }}</nuxt-link>
+            >{{ itemName }}</router-link>
         </v-card-title>
         <v-card-subtitle>{{ restaurantName }} Restraunt</v-card-subtitle>
 
@@ -92,46 +92,51 @@
                 </v-btn>
             </v-row>
         </v-card-actions>
-        <Snackbar :snack="snack" :snackbar="snackbar" />
+        <SnackBar
+            :snack="snack"
+            :snackbar="snackbar"
+        />
     </v-card>
 </template>
 
 <script>
-import SnackBar from '@/components/Common/SnackBar'
+import SnackBar from "@/components/Common/SnackBar";
 
 export default {
-    data: () => ({
-        loading: false,
-        selection: 1,
-        itemId: 2983627382673,
-        quantity: 1,
-        itemName: "Cheese Pizza",
-        restaurantName: "Jugrans",
-        rating: 4.2,
-        price: 199,
-        snack: {
-            text: null,
-            color: null,
-        },
-        snackbar: false
-    }),
+    data() {
+        return {
+            loading: false,
+            selection: 1,
+            itemId: 2983627382673,
+            quantity: 1,
+            itemName: "Cheese Pizza",
+            restaurantName: "Jugrans",
+            rating: 4.2,
+            price: 199,
+            snack: {
+                text: null,
+                color: null
+            },
+            snackbar: false
+        };
+    },
 
     methods: {
         reserve() {
             this.loading = true;
             setTimeout(() => {
-                data = {
-                    itemId: this.itemId,
-                    itemName: this.itemName,
-                    quantity: this.quantity,
-                    restaurantName: this.restaurantName,
-                    rating: this.rating,
-                    price: this.price
-                }
+                // data = {
+                //     itemId: this.itemId,
+                //     itemName: this.itemName,
+                //     quantity: this.quantity,
+                //     restaurantName: this.restaurantName,
+                //     rating: this.rating,
+                //     price: this.price
+                // };
 
                 // this.$store.dispatch('updateCart', data)
                 // .then(() => {
-                    
+
                 // })
                 // .catch(err => {
                 //     this.snack.text = err.message
@@ -139,16 +144,16 @@ export default {
                 //     this.snackbar = true
                 //     this.loading = false;
                 // })
-                this.snack.text = `You have successfully added ${this.itemName} in your cart`
-                this.snack.color = 'success'
-                this.snackbar = true
-                alert('Added')
+                this.snack.text = `You have successfully added ${this.itemName} in your cart`;
+                this.snack.color = "success";
+                this.snackbar = true;
+                alert("Added");
                 this.loading = false;
             }, 2000);
         }
     },
     components: {
-        SnackBar,
+        SnackBar
     }
 };
 </script>

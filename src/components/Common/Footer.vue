@@ -39,7 +39,7 @@
                                     <v-btn
                                         text
                                         color="primary"
-                                        nuxt
+                                        router
                                         :to="{path: 'about'}"
                                     >All Food Items</v-btn>
                                 </v-col>
@@ -50,7 +50,7 @@
                                     <v-btn
                                         text
                                         color="primary"
-                                        nuxt
+                                        router
                                         :to="{path: 'about'}"
                                     >Restaurants</v-btn>
                                 </v-col>
@@ -61,7 +61,7 @@
                                     <v-btn
                                         text
                                         color="primary"
-                                        nuxt
+                                        router
                                         :to="{path: 'about'}"
                                     >Food Categories</v-btn>
                                 </v-col>
@@ -72,7 +72,7 @@
                                     <v-btn
                                         text
                                         color="primary"
-                                        nuxt
+                                        router
                                         :to="{path: 'about'}"
                                     >Groceries</v-btn>
                                 </v-col>
@@ -92,7 +92,7 @@
                                     <v-btn
                                         text
                                         color="primary"
-                                        nuxt
+                                        router
                                         :to="{path: 'report'}"
                                     >Report an Issue</v-btn>
                                 </v-col>
@@ -103,7 +103,7 @@
                                     <v-btn
                                         text
                                         color="primary"
-                                        nuxt
+                                        router
                                         :to="{path: 'privacy-policy'}"
                                     >Privacy Policy</v-btn>
                                 </v-col>
@@ -114,7 +114,7 @@
                                     <v-btn
                                         text
                                         color="primary"
-                                        nuxt
+                                        router
                                         :to="{path: 'partner-relations'}"
                                     >Partner Relations</v-btn>
                                 </v-col>
@@ -125,7 +125,7 @@
                                     <v-btn
                                         text
                                         color="primary"
-                                        nuxt
+                                        router
                                         :to="{path: 'terms-of-service'}"
                                     >Terms of Service</v-btn>
                                 </v-col>
@@ -145,7 +145,7 @@
                                     <v-btn
                                         text
                                         color="primary"
-                                        nuxt
+                                        router
                                         :to="{path: 'about'}"
                                     >About Us</v-btn>
                                 </v-col>
@@ -156,7 +156,7 @@
                                     <v-btn
                                         text
                                         color="primary"
-                                        nuxt
+                                        router
                                         :to="{path: 'contact'}"
                                     >Contact Us</v-btn>
                                 </v-col>
@@ -176,7 +176,7 @@
                                     <v-btn
                                         text
                                         color="primary"
-                                        nuxt
+                                        router
                                         :to="{path: 'join-as-vendor'}"
                                     >Join as Vendor</v-btn>
                                 </v-col>
@@ -187,7 +187,7 @@
                                     <v-btn
                                         text
                                         color="primary"
-                                        nuxt
+                                        router
                                         :to="{path: 'join-as-delivery'}"
                                     >Join as Delivery Partner</v-btn>
                                 </v-col>
