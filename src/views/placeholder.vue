@@ -6,7 +6,7 @@
                     cols="12"
                     class="text-center"
                 >
-                    <h2 class="text-h4 grey--text">Food Categories</h2>
+                    <h2 class="text-h4 grey--text"></h2>
                 </v-col>
             </v-row>
             <v-row justify="center">
@@ -15,11 +15,7 @@
                         flat
                         class="px-md-5 px-lg-5"
                     >
-                        <v-row wrap>
-                            <v-col cols="6" md="3" lg="3" v-for="(item, index) in 8" :key="index">
-                                <CategoryCard />
-                            </v-col>
-                        </v-row>
+                        
                     </v-card>
                 </v-col>
             </v-row>
@@ -28,11 +24,8 @@
 </template>
 
 <script>
-import CategoryCard from '@/components/Common/CategoryCard'
-
 export default {
     components: {
-        CategoryCard
     }
 }
 </script>

@@ -1,8 +1,5 @@
 <template>
     <v-container>
-        <v-row justify="start">
-            <p class=" ml-4 headline primary--text">Narrow your Result</p>
-        </v-row>
         <v-divider></v-divider>
         <v-row
             justify="start"

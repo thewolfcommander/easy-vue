@@ -11,8 +11,8 @@
             <v-toolbar-title>
                 <router-link :to="{name:  'Home'}">
                     <v-img
-                        src="brand/logo.png"
-                        lazy-src="brand/logo.png"
+                        src="@/assets/brand/logo.png"
+                        lazy-src="@/assets/brand/logo.png"
                         max-width="120px"
                     ></v-img>
                 </router-link>
