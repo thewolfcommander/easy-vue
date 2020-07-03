@@ -62,7 +62,7 @@
                                         text
                                         color="primary"
                                         router
-                                        :to="{name:  'FoodCategories'}"
+                                        :to="{name:  'Categories'}"
                                     >Food Categories</v-btn>
                                 </v-col>
                                 <v-col

@@ -1,8 +1,8 @@
-import Categories from '@/views/products/foods/Categories'
-import CategoryDetail from '@/views/products/foods/CategoryDetail'
-import Menu from '@/views/products/foods/Menu'
-import RestaurantDetail from '@/views/products/foods/RestaurantDetail'
-import Restaurants from '@/views/products/foods/Restaurants'
+import Categories from '@/views/products/food/Categories'
+import CategoryDetail from '@/views/products/food/CategoryDetail'
+import Menu from '@/views/products/food/Menu'
+import RestaurantDetail from '@/views/products/food/RestaurantDetail'
+import Restaurants from '@/views/products/food/Restaurants'
 
 
 const routes = [

@@ -16,7 +16,7 @@ const routes = [
         }
     },
     {
-        path: '/groceries/items/',
+        path: '/grocery-items/',
         name: 'GroceryMenu',
         component: GroceryMenu,
         meta: {

@@ -9,7 +9,7 @@
         >
             <v-app-bar-nav-icon class="d-flex d-md-none"></v-app-bar-nav-icon>
             <v-toolbar-title>
-                <router-link :to="{name:  '/'}">
+                <router-link :to="{name:  'Home'}">
                     <v-img
                         src="brand/logo.png"
                         lazy-src="brand/logo.png"
@@ -21,7 +21,7 @@
 
             <v-btn
                 router
-                :to="{name:  'wishlist'}"
+                :to="{name:  'Wishlist'}"
                 icon
             >
                 <v-icon>mdi-heart</v-icon>
@@ -63,6 +63,7 @@
 
             <v-menu
                 offset-y
+                open-on-hover
                 class="d-none d-md-flex mx-1"
                 transition="slide-y-transition"
             >
@@ -82,7 +83,7 @@
                         v-for="(item, index) in items"
                         :key="index"
                     >
-                        <v-list-item-title>{{ item.title }}</v-list-item-title>
+                        <v-btn block tile depressed color="white" class="primary--text"  router :to="{name: item.routeName }">{{ item.title }}</v-btn>
                     </v-list-item>
                 </v-list>
             </v-menu>
@@ -101,10 +102,12 @@
   export default {
     data: () => ({
       items: [
-        { title: 'Food Menu' },
-        { title: 'Restaurants' },
-        { title: 'Food Categories' },
-        { title: 'Special Items' },
+        { title: 'Food Menu', routeName: 'Menu' },
+        { title: 'Restaurants', routeName: 'Restaurants' },
+        { title: 'Food Categories', routeName: 'Categories' },
+        { title: 'Grocery Menu', routeName: 'GroceryMenu' },
+        { title: 'Grocery Categories', routeName: 'GroceryCategories' },
+        { title: 'Grocery Sub Categories', routeName: 'SubCategories' },
       ],
     }),
   }

@@ -1,4 +1,4 @@
-import Index from '../views/index.vue'
+import Home from '../views/index.vue'
 import Cart from '@/views/essentials/Cart'
 import About from '@/views/essentials/About'
 import Contact from '@/views/essentials/Contact'
@@ -12,8 +12,8 @@ import Wishlist from '@/views/essentials/Wishlist'
 
 const routes = [{
         path: '/',
-        name: 'Index',
-        component: Index,
+        name: 'Home',
+        component: Home,
         meta: {
             title: 'Home - EasyEats | Order food online',
             metaTags: [{
