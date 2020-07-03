@@ -4,13 +4,17 @@ import NProgress from 'nprogress'
 
 import EssentialRoutes from './essential'
 import AccountsRoutes from './accounts'
+import FoodRoutes from './foods'
+import GroceryRoutes from './grocery'
 
 Vue.use(VueRouter)
 var allRoutes = []
 
 allRoutes = allRoutes.concat(
   ...EssentialRoutes,
-  ...AccountsRoutes
+  ...AccountsRoutes,
+  ...FoodRoutes,
+  ...GroceryRoutes,
 )
 
 const routes = allRoutes
