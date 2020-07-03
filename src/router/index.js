@@ -2,57 +2,18 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import NProgress from 'nprogress'
 
-
-import Index from '../views/index.vue'
-
-// Essentials
-import Cart from '@/views/essentials/Cart'
+import EssentialRoutes from './essential'
+import AccountsRoutes from './accounts'
 
 Vue.use(VueRouter)
+var allRoutes = []
 
-  const routes = [
-  {
-    path: '/',
-    name: 'Index',
-    component: Index,
-    meta: {
-      title: 'Home - EasyEats | Order food online',
-      metaTags: [
-        {
-          name: 'description',
-          content: 'Home - EasyEats | Order food online'
-        },
-        {
-          property: 'og:description',
-          content: 'Home - EasyEats | Order food online'
-        }
-      ]
-    }
-  },
-  {
-    path: '/cart',
-    name: 'Cart',
-    component: Cart,
-    meta: {
-      title: 'Your Cart - EasyEats | Order food online',
-      metaTags: [
-        {
-          name: 'description',
-          content: 'Your Cart - EasyEats | Order food online'
-        },
-        {
-          property: 'og:description',
-          content: 'Your cart - EasyEats | Order food online'
-        }
-      ]
-    }
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
+allRoutes = allRoutes.concat(
+  ...EssentialRoutes,
+  ...AccountsRoutes
+)
+
+const routes = allRoutes
 
 const router = new VueRouter({
   mode: 'history',

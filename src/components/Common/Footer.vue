@@ -40,7 +40,7 @@
                                         text
                                         color="primary"
                                         router
-                                        :to="{path: 'about'}"
+                                        :to="{name:  'Menu'}"
                                     >All Food Items</v-btn>
                                 </v-col>
                                 <v-col
@@ -51,7 +51,7 @@
                                         text
                                         color="primary"
                                         router
-                                        :to="{path: 'about'}"
+                                        :to="{name:  'Restaurants'}"
                                     >Restaurants</v-btn>
                                 </v-col>
                                 <v-col
@@ -62,7 +62,7 @@
                                         text
                                         color="primary"
                                         router
-                                        :to="{path: 'about'}"
+                                        :to="{name:  'FoodCategories'}"
                                     >Food Categories</v-btn>
                                 </v-col>
                                 <v-col
@@ -73,7 +73,7 @@
                                         text
                                         color="primary"
                                         router
-                                        :to="{path: 'about'}"
+                                        :to="{name:  'GroceryHome'}"
                                     >Groceries</v-btn>
                                 </v-col>
                             </v-row>
@@ -93,7 +93,7 @@
                                         text
                                         color="primary"
                                         router
-                                        :to="{path: 'report'}"
+                                        :to="{name:  'Report'}"
                                     >Report an Issue</v-btn>
                                 </v-col>
                                 <v-col
@@ -104,7 +104,7 @@
                                         text
                                         color="primary"
                                         router
-                                        :to="{path: 'privacy-policy'}"
+                                        :to="{name:  'PrivacyPolicy'}"
                                     >Privacy Policy</v-btn>
                                 </v-col>
                                 <v-col
@@ -115,7 +115,7 @@
                                         text
                                         color="primary"
                                         router
-                                        :to="{path: 'partner-relations'}"
+                                        :to="{name:  'PartnerRelations'}"
                                     >Partner Relations</v-btn>
                                 </v-col>
                                 <v-col
@@ -126,7 +126,7 @@
                                         text
                                         color="primary"
                                         router
-                                        :to="{path: 'terms-of-service'}"
+                                        :to="{name:  'TermsOfService'}"
                                     >Terms of Service</v-btn>
                                 </v-col>
                             </v-row>
@@ -146,7 +146,7 @@
                                         text
                                         color="primary"
                                         router
-                                        :to="{path: 'about'}"
+                                        :to="{name:  'About'}"
                                     >About Us</v-btn>
                                 </v-col>
                                 <v-col
@@ -157,7 +157,7 @@
                                         text
                                         color="primary"
                                         router
-                                        :to="{path: 'contact'}"
+                                        :to="{name:  'Contact'}"
                                     >Contact Us</v-btn>
                                 </v-col>
                                 <v-col
@@ -177,7 +177,7 @@
                                         text
                                         color="primary"
                                         router
-                                        :to="{path: 'join-as-vendor'}"
+                                        :to="{name:  'JoinAsVendor'}"
                                     >Join as Vendor</v-btn>
                                 </v-col>
                                 <v-col
@@ -188,7 +188,7 @@
                                         text
                                         color="primary"
                                         router
-                                        :to="{path: 'join-as-delivery'}"
+                                        :to="{name:  'JoinAsDeliveryBoy'}"
                                     >Join as Delivery Partner</v-btn>
                                 </v-col>
                             </v-row>

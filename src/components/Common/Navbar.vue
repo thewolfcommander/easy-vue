@@ -9,7 +9,7 @@
         >
             <v-app-bar-nav-icon class="d-flex d-md-none"></v-app-bar-nav-icon>
             <v-toolbar-title>
-                <router-link :to="{path: '/'}">
+                <router-link :to="{name:  '/'}">
                     <v-img
                         src="brand/logo.png"
                         lazy-src="brand/logo.png"
@@ -21,7 +21,7 @@
 
             <v-btn
                 router
-                :to="{path: 'wishlist'}"
+                :to="{name:  'wishlist'}"
                 icon
             >
                 <v-icon>mdi-heart</v-icon>
@@ -33,7 +33,7 @@
                 icon
                 class="mr-md-5 mr-lg-5"
                 router
-                :to="{path: 'cart'}"
+                :to="{name: 'Cart' }"
             >
                 <v-badge
                     content="3"
@@ -48,21 +48,21 @@
                 text
                 rounded
                 router
-                :to="{path: '/'}"
+                :to="{name:  'Home'}"
                 color="primary"
                 class="d-none d-md-flex mx-1"
             >Home</v-btn>
             <v-btn
                 text
                 rounded
+                router
+                :to="{name: 'GroceryHome'}"
                 color="primary"
                 class="d-none d-md-flex mx-1"
             >Groceries</v-btn>
 
             <v-menu
                 offset-y
-                top
-                close-on-click
                 class="d-none d-md-flex mx-1"
                 transition="slide-y-transition"
             >
@@ -90,7 +90,7 @@
                 rounded
                 color="primary"
                 router
-                :to="{path: 'register'}"
+                :to="{name:  'Register'}"
                 class="mr-md-5 mr-lg-5 d-none d-md-flex"
             >Join Now</v-btn>
         </v-app-bar>
