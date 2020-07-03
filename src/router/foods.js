@@ -21,16 +21,14 @@ const routes = [
         meta: {
             title: "Best Restaurants - EasyEats | Order Food Online"
         },
-        children: [
-            {
-                path: '/restaurant/:restaurantId/',
-                name: 'RestaurantDetail',
-                component: RestaurantDetail,
-                meta: {
-                    title: "Restaurant Detail - EasyEats | Order Food Online"
-                }
-            }
-        ]
+    },
+    {
+        path: '/restaurant/:restaurantId/',
+        name: 'RestaurantDetail',
+        component: RestaurantDetail,
+        meta: {
+            title: "Restaurant Detail - EasyEats | Order Food Online"
+        }
     },
     {
         path: '/food-categories/',
@@ -39,16 +37,14 @@ const routes = [
         meta: {
             title: "Amazing Food Categories - EasyEats | Order Food Online"
         },
-        children: [
-            {
-                path: '/food-category/:categoryId/',
-                name: 'CategoryDetail',
-                component: CategoryDetail,
-                meta: {
-                    title: "Category Detail - EasyEats | Order Food Online"
-                }
-            }
-        ]
+    },
+    {
+        path: '/food-category/:categoryId/',
+        name: 'CategoryDetail',
+        component: CategoryDetail,
+        meta: {
+            title: "Category Detail - EasyEats | Order Food Online"
+        }
     }
 ]
 

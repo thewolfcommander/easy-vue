@@ -55,6 +55,8 @@
                 <v-btn
                     color="secondary"
                     text
+                    router
+                    :to="{name: 'RestaurantDetail', params: {restaurantId: 'Hello'}}"
                 >
                     View More
                 </v-btn>

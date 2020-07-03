@@ -37,6 +37,8 @@
                 <v-btn
                     color="secondary"
                     text
+                    router
+                    :to="{name: 'CategoryDetail', params: {categoryId: 'Hello'} }"
                 >
                     View
                 </v-btn>
