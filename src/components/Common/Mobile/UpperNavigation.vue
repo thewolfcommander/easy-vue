@@ -1,23 +1,17 @@
 <template>
     <nav class="mobile-nav">
         <v-app-bar
-      fixed
-      height="65"
-      color="white"
-      elevate-on-scroll
-    >
-            <v-btn
-                router
-                :to="{name:  'Wishlist'}"
-                icon
-            >
-                <v-icon>mdi-heart</v-icon>
-            </v-btn>
+            fixed
+            height="65"
+            color="white"
+            elevate-on-scroll
+        >
+
             <v-btn icon>
                 <v-icon>mdi-magnify</v-icon>
             </v-btn>
             <v-spacer></v-spacer>
-            <v-toolbar-title class="ml-n5 mr-5">
+            <v-toolbar-title class="mr-n5 ml-5">
                 <router-link :to="{name:  'Home'}">
                     <v-img
                         src="@/assets/brand/logo.png"
@@ -27,7 +21,13 @@
                 </router-link>
             </v-toolbar-title>
             <v-spacer></v-spacer>
-
+            <v-btn
+                router
+                :to="{name:  'Wishlist'}"
+                icon
+            >
+                <v-icon>mdi-heart</v-icon>
+            </v-btn>
             <v-btn
                 icon
                 class="mr-md-5 mr-lg-5"
@@ -46,3 +46,24 @@
         </v-app-bar>
     </nav>
 </template>
+
+
+<script>
+export default {
+    data() {
+        return {
+            show: false,
+            items: [
+                { title: "Food Categories", routeName: "Categories" },
+                { title: "Grocery Menu", routeName: "GroceryMenu" },
+                { title: "Grocery Categories", routeName: "GroceryCategories" },
+                { title: "Grocery Sub Categories", routeName: "SubCategories" },
+                { title: "Contact Us", routeName: "Contact" },
+                { title: "About Us", routeName: "About" },
+                { title: "Report Issue", routeName: "Report" }
+            ]
+        };
+    },
+    components: {}
+};
+</script>

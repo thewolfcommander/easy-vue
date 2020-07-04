@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import RestaurantCard from '@/components/Common/RestaurantCard'
+import RestaurantCard from '@/components/Common/Mobile/SmallRestaurantCard'
 
 export default {
     components: {
