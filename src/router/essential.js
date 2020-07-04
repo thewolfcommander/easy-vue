@@ -10,8 +10,13 @@ import Report from '@/views/essentials/Report'
 import TermsOfService from '@/views/essentials/TermsOfService'
 import Wishlist from '@/views/essentials/Wishlist'
 
-const routes = [{
-        path: '/',
+const routes = [
+    {
+        path: '',
+        redirect: {name: 'Home'}
+    },
+    {
+        path: '/home',
         name: 'Home',
         component: Home,
         meta: {
