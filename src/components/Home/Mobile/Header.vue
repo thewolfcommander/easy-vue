@@ -12,13 +12,14 @@
       <v-sheet
         :color="colors[i]"
         height="100%"
+        min-width="100vw"
       >
         <v-row
           class="fill-height"
           align="center"
           justify="center"
         >
-          <div class="display-4">{{ slide }}</div>
+          <div class="text-h5">{{ slide }}</div>
         </v-row>
       </v-sheet>
     </v-carousel-item>

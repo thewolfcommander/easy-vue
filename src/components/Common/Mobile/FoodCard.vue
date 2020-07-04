@@ -1,7 +1,7 @@
 <template>
     <v-card
         :loading="loading"
-        class="mx-auto my-12"
+        class="mx-auto my-4"
     >
 
         <v-row justify="center">
@@ -32,7 +32,7 @@
             </router-link>
         </v-row>
 
-        <v-card-subtitle>
+        <v-card-subtitle class="mt-n2">
             <router-link
                 :to="{path: '/menu/:id', params: {id: 'Hello'}}"
                 class="text-decoration-none black--text"
@@ -50,9 +50,9 @@
                     dense
                     half-increments
                     readonly
-                    size="11"
+                    size="9"
                 ></v-rating>
-                <div class="grey--text ml-4">4.5</div>
+                <div class="grey--text ml-1">4.5</div>
             </v-row>
 
             <div class="subtitle-1 my-0">
@@ -65,29 +65,29 @@
         <v-card-actions class="mt-n4">
             <v-btn
                 color="primary"
-                small
+                x-small
                 @click="reserve"
             >
-                Add
+                <v-icon center color="white" small>mdi-cart</v-icon>
             </v-btn>
 
-            <v-row justify="space-around mt-4 ml-3 mr-2">
+            <v-row justify="space-around mt-4 ml-1 mr-1">
                 <v-btn
-                    fab
+                icon
                     x-small
                     color="secondary"
                     @click="quantity--"
                 >
-                    <v-icon>mdi-minus</v-icon>
+                    <v-icon x-small center>mdi-minus</v-icon>
                 </v-btn>
-                <p class="mt-2">{{ quantity }}</p>
+                <p class="mt-n0">{{ quantity }}</p>
                 <v-btn
-                    fab
+                icon
                     x-small
                     color="primary"
                     @click="quantity++"
                 >
-                    <v-icon>mdi-plus</v-icon>
+                    <v-icon x-small center>mdi-plus</v-icon>
                 </v-btn>
             </v-row>
         </v-card-actions>

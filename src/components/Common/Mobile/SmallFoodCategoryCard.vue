@@ -1,7 +1,7 @@
 <template>
     <v-card
         :loading="loading"
-        class="mx-auto my-12"
+        class="mx-auto my-2"
     >
 
         <v-row justify="center">
@@ -31,63 +31,20 @@
             </router-link>
         </v-row>
 
-        <v-card-subtitle>
-            <router-link
-                :to="{path: '/menu/:id', params: {id: 'Hello'}}"
-                class="text-decoration-none black--text"
-            >Cheese Pizza</router-link>
+        <v-card-subtitle class="text-center">
+            Category
         </v-card-subtitle>
+        <p class="caption grey--text text-center mt-n4">44 Products</p>
 
-        <v-card-text class="my-0">
-            <v-row
-                align="center"
-                class="mx-0 my-0 mt-n5"
-            >
-                <v-rating
-                    :value="4.5"
-                    color="amber"
-                    dense
-                    half-increments
-                    readonly
-                    size="11"
-                ></v-rating>
-                <div class="grey--text ml-4">4.5</div>
-            </v-row>
-
-            <div class="subtitle-1 my-0">
-                $ • 199
-            </div>
-
-        </v-card-text>
-
-        <v-divider class="mx-4 mt-n4"></v-divider>
-        <v-card-actions class="mt-n4">
-            <v-btn
+        <v-card-actions class="mt-n4 text-center">
+            <v-row justify="center">
+                <v-btn
                 color="primary"
+                text
                 small
-                @click="reserve"
             >
-                Add
+                View
             </v-btn>
-
-            <v-row justify="space-around mt-4 ml-3 mr-2">
-                <v-btn
-                    fab
-                    x-small
-                    color="secondary"
-                    @click="quantity--"
-                >
-                    <v-icon>mdi-minus</v-icon>
-                </v-btn>
-                <p class="mt-2">{{ quantity }}</p>
-                <v-btn
-                    fab
-                    x-small
-                    color="primary"
-                    @click="quantity++"
-                >
-                    <v-icon>mdi-plus</v-icon>
-                </v-btn>
             </v-row>
         </v-card-actions>
     </v-card>
@@ -102,11 +59,6 @@ export default {
     }),
 
     methods: {
-        reserve() {
-            this.loading = true;
-
-            setTimeout(() => (this.loading = false), 2000);
-        }
     }
 };
 </script>
