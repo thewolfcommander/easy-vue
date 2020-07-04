@@ -1,11 +1,11 @@
 <template>
     <v-card
         :loading="loading"
-        class="mx-auto my-2"
+        class="mx-auto my-12"
     >
 
         <v-row justify="center">
-            <nuxt-link
+            <router-link
                 :to="{path: `/menu/${quantity}`}"
                 class="text-decoration-none black--text"
             >
@@ -28,14 +28,14 @@
                         </v-row>
                     </template>
                 </v-img>
-            </nuxt-link>
+            </router-link>
         </v-row>
 
         <v-card-subtitle>
-            <nuxt-link
+            <router-link
                 :to="{path: '/menu/:id', params: {id: 'Hello'}}"
                 class="text-decoration-none black--text"
-            >Dove Shampoo</nuxt-link>
+            >Cheese Pizza</router-link>
         </v-card-subtitle>
 
         <v-card-text class="my-0">

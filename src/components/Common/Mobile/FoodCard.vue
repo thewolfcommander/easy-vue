@@ -1,7 +1,7 @@
 <template>
     <v-card
         :loading="loading"
-        class="mx-auto my-2"
+        class="mx-auto my-12"
     >
 
         <v-row justify="center">
@@ -12,10 +12,9 @@
                 <v-img
                     src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
                     lazy-src="https://fitmirchi.com/admin/assets/images/image_not_available.png"
-                    aspect-ratio="1"
-                    class="grey lighten-2"
-                    max-width="160"
+                    class="transparent"
                     max-height="90"
+                    contain
                 >
                     <template v-slot:placeholder>
                         <v-row

@@ -1,15 +1,19 @@
 <template>
     <v-app>
-        <Navbar />
+        <Navbar class="d-none d-md-flex" />
+        <UpperNavigation class="d-flex d-md-none" />
 
         <v-row class="mt-5 mb-5 pt-5 pb-5"></v-row>
         <v-content>
             <router-view></router-view>
         </v-content>
+        <BottomNavigation class="d-flex d-md-none" />
+        <Footer class="d-none d-md-flex" />
+
         <v-row
             v-if="scrollpx>600"
             justify="center"
-            class="scroll-up"
+            class="scroll-up d-none d-md-flex"
         >
             <v-fab-transition>
                 <v-btn
@@ -25,7 +29,6 @@
                 </v-btn>
             </v-fab-transition>
         </v-row>
-        <Footer />
     </v-app>
 </template>
 
@@ -33,12 +36,17 @@
 import Navbar from "@/components/Common/Navbar";
 import Footer from "@/components/Common/Footer";
 
+import BottomNavigation from '@/components/Common/Mobile/BottomNavigation'
+import UpperNavigation from '@/components/Common/Mobile/UpperNavigation'
+
 export default {
     name: "App",
 
     components: {
         Navbar,
-        Footer
+        Footer,
+        BottomNavigation,
+        UpperNavigation,
     },
 
     data: () => ({
