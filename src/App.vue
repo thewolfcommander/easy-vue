@@ -7,6 +7,7 @@
         <v-content>
             <router-view></router-view>
         </v-content>
+        <v-row class="mt-5 mb-5 pt-5 pb-5 d-flex d-md-none"></v-row>
         <BottomNavigation class="d-flex d-md-none" />
         <Footer class="d-none d-md-flex" />
 
