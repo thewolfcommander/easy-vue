@@ -15,6 +15,8 @@
                         <v-btn
                             text
                             rounded
+                            router
+                            :to="{name: 'GroceryMenu'}"
                             color="primary"
                             class="mt-1"
                         >Explore all</v-btn>

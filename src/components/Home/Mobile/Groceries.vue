@@ -15,6 +15,8 @@
                         <v-btn
                             text
                             small
+                            router
+                            :to="{name: 'GroceryMenu'}"
                             rounded
                             color="primary"
                             class="mt-1"

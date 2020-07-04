@@ -9,6 +9,7 @@
         <Categories class="d-none d-md-flex" />
         <Foods class="d-none d-md-flex" />
         <Groceries class="d-none d-md-flex" />
+        
         <MobileHeader class="d-flex d-md-none" />
         <MobileFeaturedProducts class="d-flex d-md-none" />
         <MobileTopRestaurants class="d-flex d-md-none" />

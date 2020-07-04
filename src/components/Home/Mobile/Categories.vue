@@ -16,6 +16,8 @@
                             text
                             small
                             rounded
+                            router
+                            :to="{name: 'Categories'}"
                             color="primary"
                             class="mt-1"
                         >Explore all</v-btn>

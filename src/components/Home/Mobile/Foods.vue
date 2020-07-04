@@ -16,8 +16,8 @@
                             text
                             small
                             rounded
-                            nuxt
-                            :to="{path: 'menu'}"
+                            router
+                            :to="{name: 'Menu'}"
                             color="primary"
                             class="mt-1"
                         >Explore all</v-btn>
