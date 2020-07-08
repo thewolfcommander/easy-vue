@@ -1,6 +1,6 @@
 <template>
     <v-row wrap>
-        <v-col cols="3">
+        <v-col cols="12" md="3" sm="6">
             <v-card
                 outlined
                 class="pa-4"
@@ -18,7 +18,7 @@
                 </v-row>
             </v-card>
         </v-col>
-        <v-col cols="3">
+        <v-col cols="12" md="3" sm="6">
             <v-card
                 outlined
                 class="pa-4"
@@ -36,7 +36,7 @@
                 </v-row>
             </v-card>
         </v-col>
-        <v-col cols="3">
+        <v-col cols="12" md="3" sm="6">
             <v-card
                 outlined
                 class="pa-4"
@@ -54,7 +54,7 @@
                 </v-row>
             </v-card>
         </v-col>
-        <v-col cols="3">
+        <v-col cols="12" md="3" sm="6">
             <v-card
                 outlined
                 class="pa-4"

@@ -18,13 +18,15 @@
                         <v-card-text>
                             <v-row wrap>
                                 <v-col
-                                    cols="6"
+                                    cols="4"
+                                    md="6"
                                     class="text-center"
                                 >
                                     <p class="subtitle-2 black--text">Description</p>
                                 </v-col>
                                 <v-col
-                                    cols="2"
+                                    cols="3"
+                                    md="2"
                                     class="text-center"
                                 >
                                     <p class="subtitle-2 black--text">Quantity</p>
@@ -36,7 +38,8 @@
                                     <p class="subtitle-2 black--text">Remove</p>
                                 </v-col>
                                 <v-col
-                                    cols="2"
+                                    cols="3"
+                                    md="2"
                                     class="text-center"
                                 >
                                     <p class="subtitle-2 black--text">Price</p>

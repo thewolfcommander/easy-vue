@@ -4,10 +4,12 @@
     height="400"
     hide-delimiter-background
     show-arrows-on-hover
+    width="100vw"
   >
     <v-carousel-item
       v-for="(slide, i) in slides"
       :key="i"
+    width="100vw"
     >
       <v-sheet
         :color="colors[i]"
@@ -18,7 +20,7 @@
           align="center"
           justify="center"
         >
-          <div class="display-3">{{ slide }}</div>
+          <div class="text-h5">{{ slide }}</div>
         </v-row>
       </v-sheet>
     </v-carousel-item>

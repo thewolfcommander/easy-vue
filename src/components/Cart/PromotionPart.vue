@@ -6,11 +6,11 @@
         >
             <p class="caption">If you have a promotion code, please enter it here:</p>
         </v-col>
-        <v-col cols="9" class="inline">
+        <v-col cols="12" md="9" class="inline">
             <v-text-field
                 v-model="promo"
                 outlined
-                placeholder="Please Enter Promo Code"
+                placeholder="Enter Promo Code"
                 solo
                 class="inline-field"
                 full-width
@@ -23,7 +23,7 @@
                 class="inline-field-button"
             >Apply Discount</v-btn>
         </v-col>
-        <v-col cols="3">
+        <v-col cols="12" md="3">
             <v-row wrap class="mt-n3">
                 <v-col cols="12">
                     <v-btn color="primary" tile depressed class="text-start" x-large width="100%">Checkout</v-btn>
