@@ -40,6 +40,7 @@ const routes = [
         redirect: {name: 'Profile'},
         meta: {
             title: 'My Profile - EasyEats | Order food online',
+            requiresAuth: true
         },
         children: [
             {
@@ -48,6 +49,7 @@ const routes = [
                 component: Profile,
                 meta: {
                     title: 'My Profile - EasyEats | Order food online',
+                    requiresAuth: true
                 },
             },
             {
@@ -56,6 +58,7 @@ const routes = [
                 component: Orders,
                 meta: {
                     title: 'My Orders - EasyEats | Order food online',
+                    requiresAuth: true
                 },
             },
             {
@@ -64,6 +67,7 @@ const routes = [
                 component: OrderDetail,
                 meta: {
                     title: 'My Order Detail - EasyEats | Order food online',
+                    requiresAuth: true
                 },
             },
         ]
@@ -76,6 +80,7 @@ const routes = [
         redirect: {name: 'DBProfile'},
         meta: {
             title: 'My Profile - EasyEats | Order food online',
+            requiresAuth: true
         },
         children: [
             {
@@ -84,6 +89,7 @@ const routes = [
                 component: DBProfile,
                 meta: {
                     title: 'My Delivery Boy Profile - EasyEats | Order food online',
+                    requiresAuth: true
                 },
             },
             {
@@ -92,6 +98,7 @@ const routes = [
                 component: DBOrders,
                 meta: {
                     title: 'New Orders - EasyEats | Order food online',
+                    requiresAuth: true
                 },
             },
             {
@@ -100,6 +107,7 @@ const routes = [
                 component: DBOrderDetail,
                 meta: {
                     title: 'Order Detail - EasyEats | Order food online',
+                    requiresAuth: true
                 },
             },
             {
@@ -108,6 +116,7 @@ const routes = [
                 component: DBCancelledOrders,
                 meta: {
                     title: 'Cancelled Orders - EasyEats | Order food online',
+                    requiresAuth: true
                 },
             },
             {
@@ -116,6 +125,7 @@ const routes = [
                 component: DBCompletedOrders,
                 meta: {
                     title: 'Completed Orders - EasyEats | Order food online',
+                    requiresAuth: true
                 },
             },
             {
@@ -124,6 +134,7 @@ const routes = [
                 component: DBShippedOrders,
                 meta: {
                     title: 'Shipped Orders - EasyEats | Order food online',
+                    requiresAuth: true
                 },
             },
         ]

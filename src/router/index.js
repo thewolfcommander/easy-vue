@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import NProgress from 'nprogress'
+import store from '@/store'
 
 import EssentialRoutes from './essential'
 import AccountsRoutes from './accounts'
@@ -90,6 +91,22 @@ router.beforeEach((to, from, next) => {
 
   next();
 });
+
+
+
+// Handling Unauthenticated Requests
+router.beforeEach((to, from, next) => {
+  if (to.matched.some (record => record.meta.requiresAuth )) {
+    if (store.getters.isLoggedIn) {
+      next()
+      return
+    }
+    next('/login')
+  } else {
+    next()
+  }
+})
+
 
 
 export default router

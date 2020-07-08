@@ -94,8 +94,24 @@ export default {
     methods: {
         sendMessage() {
             if (this.username && this.password) {
-                console.log("Submitted Login Form");
-                this.snackbar = false;
+                let data = {
+                    username: this.username,
+                    password: this.password
+                }
+                this.$store.dispatch('loginUser', data)
+                .then(() => {
+                    this.snackbar = true
+                    this.snack.text = "Successfully Logged In";
+                    this.snack.color = "success"
+                    setTimeout(() => {
+                        this.snackbar = false
+                    }, 3000)
+                    this.$router.go('-1');
+                })
+                .catch(err => {
+                    this.snackbar = true
+                    this.snack.text = err.message;
+                });
             } else {
                 this.snackbar = true;
             }

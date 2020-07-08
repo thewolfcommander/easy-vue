@@ -91,6 +91,7 @@ const routes = [
         component: JoinAsDeliveryBoy,
         meta: {
             title: 'Join as Delivery Boy - EasyEats | Order food online',
+            requiresAuth: true,
             metaTags: [{
                     name: 'description',
                     content: 'Join as Delivery Boy - EasyEats | Order food online'
@@ -103,11 +104,12 @@ const routes = [
         }
     },
     {
-        path: '/join-as-dendor',
+        path: '/join-as-vendor',
         name: 'JoinAsVendor',
         component: JoinAsVendor,
         meta: {
             title: 'Join as Vendor - EasyEats | Order food online',
+            requiresAuth: true,
             metaTags: [{
                     name: 'description',
                     content: 'Join as Vendor - EasyEats | Order food online'
@@ -165,7 +167,8 @@ const routes = [
         name: 'Wishlist',
         component: Wishlist,
         meta: {
-            title: 'Your Wishlist - EasyEats | Order food online'
+            title: 'Your Wishlist - EasyEats | Order food online',
+            requiresAuth: true
         }
     }
 ]
