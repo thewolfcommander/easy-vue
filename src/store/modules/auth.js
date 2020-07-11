@@ -10,11 +10,13 @@ const getters = {
 const actions = {
     loginUser({commit}, data) {
         localStorage.setItem('user', JSON.stringify(data))
+        localStorage.setItem('status', true)
         commit('LOGIN_USER', JSON.stringify(data));
     },
 
     registerUser({commit}, data) {
         localStorage.setItem('user', JSON.stringify(data))
+        localStorage.setItem('status', true)
         commit('LOGIN_USER', JSON.stringify(data));
     },
 

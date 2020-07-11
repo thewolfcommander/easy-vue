@@ -36,8 +36,8 @@
                 :to="{name: 'Cart' }"
             >
                 <v-badge
-                    content="3"
-                    value="3"
+                    :content="cartItems"
+                    :value="cartItems"
                     color="secondary"
                     overlap
                 >
@@ -97,50 +97,29 @@
             <v-btn
                 rounded
                 color="primary"
-                v-if="!authenticated"
+                v-if="authenticated === false"
                 router
                 :to="{name:  'Login'}"
                 class="mr-md-5 mr-lg-5 d-none d-md-flex"
             >Join Now</v-btn>
-
-            <v-menu
-                v-if="authenticated"
-                offset-y
-                class="d-none d-md-flex mx-1"
+            <!-- <v-btn
+                rounded
+                v-else
+                color="primary"
+                outlined
+                router
+                :to="{name:  'Profile'}"
+                class="mr-md-5 mr-lg-5"
+            >Me</v-btn> -->
+            <v-btn
+            v-else
+                icon
+                color="primary"
+                @click="logout"
             >
-                <template v-slot:activator="{ on, attrs }">
-                    <v-avatar color="secondary" v-on="on" v-bind="attrs" style="cursor: pointer;">
-                        <span class="caption white--text headline">{{ authenticated }}</span>
-                    </v-avatar>
-                </template>
+                <v-icon>mdi-exit-to-app</v-icon>
+            </v-btn>
 
-                <v-list>
-                    <v-list-item
-                        v-for="(item, index) in account"
-                        :key="index"
-                    >
-                        <v-btn
-                            block
-                            tile
-                            depressed
-                            color="white"
-                            class="primary--text"
-                            router
-                            :to="{name: item.routeName }"
-                        >{{ item.title }}</v-btn>
-                    </v-list-item>
-                    <v-list-item>
-                        <v-btn
-                            block
-                            tile
-                            depressed
-                            color="white"
-                            @click="logout"
-                            class="primary--text"
-                        >Sign Out</v-btn>
-                    </v-list-item>
-                </v-list>
-            </v-menu>
         </v-app-bar>
     </nav>
 </template>
@@ -148,9 +127,6 @@
 <script>
 export default {
     data: () => ({
-        authenticated: function() {
-            return this.$store.getters.isLoggedIn;
-        },
         items: [
             { title: "Food Menu", routeName: "Menu" },
             { title: "Restaurants", routeName: "Restaurants" },
@@ -158,24 +134,33 @@ export default {
             { title: "Grocery Menu", routeName: "GroceryMenu" },
             { title: "Grocery Categories", routeName: "GroceryCategories" },
             { title: "Grocery Sub Categories", routeName: "SubCategories" }
-        ],
-        account: [
-            {title: "My Account", routeName: "Profile"},
-            {title: "IAM DBoy", routeName: "Profile"},
-            {title: "IAM Admin", routeName: "Profile"},
-            {title: "IAM Vendor", routeName: "Profile"},
         ]
     }),
 
     methods: {
         logout() {
-            this.$store.dispatch('logoutUser')
-            .then(() => {
-                this.$route.push({name: 'Login'});
-            })
-            .catch(err => {
-                console.log(err.message)
-            }) 
+            this.$store
+                .dispatch("logoutUser")
+                .then(() => {
+                    this.$router.push({ name: "Login" });
+                })
+                .catch(err => {
+                    console.log(err.message);
+                });
+        }
+    },
+
+    computed: {
+        authenticated() {
+            return this.$store.getters.isLoggedIn
+        },
+
+        cartItems() {
+            if (this.$store.getters.getCartItemsCount) {
+                return String(this.$store.getters.getCartItemsCount)
+            } else {
+                return "0"
+            }
         }
     }
 };

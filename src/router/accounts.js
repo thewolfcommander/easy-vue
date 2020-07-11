@@ -22,6 +22,7 @@ const routes = [
         component: Login,
         meta: {
             title: 'Login to your account - EasyEats | Order food online',
+            loggedNotAllowed: true
         },
     },
     {
@@ -30,6 +31,7 @@ const routes = [
         component: Register,
         meta: {
             title: 'Register Now - EasyEats | Order food online',
+            loggedNotAllowed: true
         },
     },
 

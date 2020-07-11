@@ -71,6 +71,11 @@ export default {
     },
     destroyed() {
         window.removeEventListener("scroll", this.handleScroll);
+    },
+    computed: {
+        loading() {
+            return this.$store.getters.loading
+        }
     }
 };
 </script>

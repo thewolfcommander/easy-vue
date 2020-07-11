@@ -103,9 +103,6 @@ export default {
                     this.snackbar = true
                     this.snack.text = "Successfully Logged In";
                     this.snack.color = "success"
-                    setTimeout(() => {
-                        this.snackbar = false
-                    }, 3000)
                     this.$router.go('-1');
                 })
                 .catch(err => {

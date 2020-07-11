@@ -67,7 +67,7 @@
         <v-card-actions>
             <v-btn
                 color="primary"
-                @click="addToCart"
+                @click="reserve"
             >
                 Add to Cart
             </v-btn>
@@ -92,15 +92,31 @@
                 </v-btn>
             </v-row>
         </v-card-actions>
-        <SnackBar
-            :snack="snack"
-            :snackbar="snackbar"
-        />
+        <v-snackbar
+            v-model="snackbar"
+            bottom
+            :color="snack.color"
+            left
+            multi-line
+            :timeout="6000"
+        >
+            {{ snack.text }}
+
+            <template v-slot:action="{ attrs }">
+                <v-btn
+                    dark
+                    text
+                    v-bind="attrs"
+                    @click="snackbar = false"
+                >
+                    Close
+                </v-btn>
+            </template>
+        </v-snackbar>
     </v-card>
 </template>
 
 <script>
-import SnackBar from "@/components/Common/SnackBar";
 
 export default {
     data() {
@@ -124,36 +140,33 @@ export default {
     methods: {
         reserve() {
             this.loading = true;
-            setTimeout(() => {
-                // data = {
-                //     itemId: this.itemId,
-                //     itemName: this.itemName,
-                //     quantity: this.quantity,
-                //     restaurantName: this.restaurantName,
-                //     rating: this.rating,
-                //     price: this.price
-                // };
+            let data = {
+                    id: this.itemId,
+                    itemName: this.itemName,
+                    quantity: this.quantity,
+                    restaurantName: this.restaurantName,
+                    rating: this.rating,
+                    price: this.price
+                };
 
-                // this.$store.dispatch('updateCart', data)
-                // .then(() => {
-
-                // })
-                // .catch(err => {
-                //     this.snack.text = err.message
-                //     this.snack.color = 'error'
-                //     this.snackbar = true
-                //     this.loading = false;
-                // })
-                this.snack.text = `You have successfully added ${this.itemName} in your cart`;
-                this.snack.color = "success";
-                this.snackbar = true;
-                alert("Added");
-                this.loading = false;
-            }, 2000);
+                this.$store
+                    .dispatch("addToCart", data)
+                    .then(() => {
+                        this.snack.text = `You have successfully added ${this.itemName} in your cart`;
+                        this.snack.color = "success";
+                        this.snackbar = true;
+                        this.loading = false;
+                    })
+                    .catch(() => {
+                        this.snack.text = "Some Error occured";
+                        this.snack.color = "error";
+                        this.snackbar = true;
+                        this.loading = false;
+                    });
         }
     },
     components: {
-        SnackBar
+        // SnackBar
     }
 };
 </script>

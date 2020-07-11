@@ -26,29 +26,20 @@ const router = new VueRouter({
   routes
 })
 
-NProgress.configure({
-  easing: 'ease',
-  speed: 1000,
-  showSpinner: false
-});
 
 
 router.beforeResolve((to, from, next) => {
   // If this isn't an initial page load.
-  if (to.name) {
-    // Start the route progress bar.
-    NProgress.start();
-  }
-  console.log(from)
+  NProgress.start()
   next()
+  console.log(to, from)
 })
 
 router.afterEach((to, from) => {
   // Complete the animation of the route progress bar.
-  NProgress.done();
-  console.log(NProgress.status())
-  console.log(to)
-  console.log(from)
+  
+  NProgress.done()
+  console.log(to, from)
 })
 
 
@@ -65,29 +56,29 @@ router.beforeEach((to, from, next) => {
   console.log(previousNearestWithMeta);
 
   // If a route with a title was found, set the document (page) title to that value.
-  if(nearestWithTitle) document.title = nearestWithTitle.meta.title;
+  if (nearestWithTitle) document.title = nearestWithTitle.meta.title;
 
   // Remove any stale meta tags from the document using the key attribute we set below.
   Array.from(document.querySelectorAll('[data-vue-router-controlled]')).map(el => el.parentNode.removeChild(el));
 
   // Skip rendering meta tags if there are none.
-  if(!nearestWithMeta) return next();
+  if (!nearestWithMeta) return next();
 
   // Turn the meta tag definitions into actual elements in the head.
   nearestWithMeta.meta.metaTags.map(tagDef => {
-    const tag = document.createElement('meta');
+      const tag = document.createElement('meta');
 
-    Object.keys(tagDef).forEach(key => {
-      tag.setAttribute(key, tagDef[key]);
-    });
+      Object.keys(tagDef).forEach(key => {
+        tag.setAttribute(key, tagDef[key]);
+      });
 
-    // We use this to track which meta tags we create, so we don't interfere with other ones.
-    tag.setAttribute('data-vue-router-controlled', '');
+      // We use this to track which meta tags we create, so we don't interfere with other ones.
+      tag.setAttribute('data-vue-router-controlled', '');
 
-    return tag;
-  })
-  // Add the meta tags to the document head.
-  .forEach(tag => document.head.appendChild(tag));
+      return tag;
+    })
+    // Add the meta tags to the document head.
+    .forEach(tag => document.head.appendChild(tag));
 
   next();
 });
@@ -96,7 +87,7 @@ router.beforeEach((to, from, next) => {
 
 // Handling Unauthenticated Requests
 router.beforeEach((to, from, next) => {
-  if (to.matched.some (record => record.meta.requiresAuth )) {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
     if (store.getters.isLoggedIn) {
       next()
       return
