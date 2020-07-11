@@ -104,7 +104,7 @@
                 <v-col class="text-start">
                     <v-btn text>
                         <v-rating
-                            value="5"
+                            :value="5"
                             color="secondary"
                             small
                             readonly
@@ -112,7 +112,7 @@
                     </v-btn>
                     <v-btn text>
                         <v-rating
-                            value="4"
+                            :value="4"
                             color="secondary"
                             small
                             readonly
@@ -120,7 +120,7 @@
                     </v-btn>
                     <v-btn text>
                         <v-rating
-                            value="3"
+                            :value="3"
                             color="secondary"
                             small
                             readonly
@@ -128,7 +128,7 @@
                     </v-btn>
                     <v-btn text>
                         <v-rating
-                            value="2"
+                            :value="2"
                             color="secondary"
                             small
                             readonly
@@ -136,7 +136,7 @@
                     </v-btn>
                     <v-btn text>
                         <v-rating
-                            value="1"
+                            :value="1"
                             color="secondary"
                             small
                             readonly

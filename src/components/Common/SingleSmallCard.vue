@@ -5,41 +5,32 @@
     >
 
         <v-row justify="center">
-            <router-link
-                :to="{path: `/menu/${quantity}`}"
-                class="text-decoration-none black--text"
+            <v-img
+                src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+                lazy-src="https://fitmirchi.com/admin/assets/images/image_not_available.png"
+                aspect-ratio="1"
+                class="grey lighten-2"
+                max-width="250"
+                max-height="150"
             >
-                <v-img
-                    src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-                    lazy-src="https://fitmirchi.com/admin/assets/images/image_not_available.png"
-                    aspect-ratio="1"
-                    class="grey lighten-2"
-                    max-width="250"
-                    max-height="150"
-                >
-                    <template v-slot:placeholder>
-                        <v-row
-                            class="fill-height ma-0"
-                            align="center"
-                            justify="center"
-                        >
-                            <v-progress-circular
-                                indeterminate
-                                color="grey lighten-5"
-                            ></v-progress-circular>
-                        </v-row>
-                    </template>
-                </v-img>
-            </router-link>
+                <template v-slot:placeholder>
+                    <v-row
+                        class="fill-height ma-0"
+                        align="center"
+                        justify="center"
+                    >
+                        <v-progress-circular
+                            indeterminate
+                            color="grey lighten-5"
+                        ></v-progress-circular>
+                    </v-row>
+                </template>
+            </v-img>
         </v-row>
 
-        <v-card-title>
-            <router-link
-                :to="{path: '/menu/:id', params: {id: 'Hello'}}"
-                class="text-decoration-none black--text"
-            >{{ itemName }}</router-link>
+        <v-card-title>{{ item.itemName }}
         </v-card-title>
-        <v-card-subtitle>{{ restaurantName }} Restraunt</v-card-subtitle>
+        <v-card-subtitle>{{ item.restaurantName }} Restraunt</v-card-subtitle>
 
         <v-card-text class="my-0">
             <v-row
@@ -47,51 +38,60 @@
                 class="mx-0 my-0"
             >
                 <v-rating
-                    :value="rating"
+                    :value="item.rating"
                     color="amber"
                     dense
                     half-increments
                     readonly
                     size="14"
                 ></v-rating>
-                <div class="grey--text ml-4">{{ rating }}</div>
+                <div class="grey--text ml-4">{{ item.rating }}</div>
             </v-row>
 
             <div class="subtitle-1 my-0">
-                $ • {{ price }}
+                $ • {{ item.price }}
             </div>
 
         </v-card-text>
 
         <v-divider class="mx-4"></v-divider>
-        <v-card-actions>
-            <v-btn
-                color="primary"
-                @click="reserve"
-            >
-                Add to Cart
-            </v-btn>
+        <v-card-actions class="text-center">
+            <v-row wrap>
+                <v-col cols="10">
+                    <v-btn
+                        color="primary"
+                        small
+                        depressed
+                        block
+                        @click="sheet=!sheet"
+                    >
+                        <v-icon
+                            small
+                            left
+                        >mdi-cart</v-icon>
+                        <span class="subtitle-2">Add to cart</span>
+                    </v-btn>
+                </v-col>
+                <v-col cols="2">
+                    <v-btn
+                        class="ml-n4 mt-n1"
+                        icon
+                        :color="wishlistColor"
+                        @click="addToWishlist"
+                    >
+                        <v-icon>mdi-heart</v-icon>
+                    </v-btn>
+                </v-col>
 
-            <v-row justify="space-around ml-3 mr-2">
-                <v-btn
-                    fab
-                    small
-                    color="secondary"
-                    @click="quantity--"
-                >
-                    <v-icon>mdi-minus</v-icon>
-                </v-btn>
-                <p class="mt-2">{{ quantity }}</p>
-                <v-btn
-                    fab
-                    small
-                    color="primary"
-                    @click="quantity++"
-                >
-                    <v-icon>mdi-plus</v-icon>
-                </v-btn>
             </v-row>
+
         </v-card-actions>
+
+        <FoodSpecModal
+            :sheet="sheet"
+            :item="item"
+        />
+
         <v-snackbar
             v-model="snackbar"
             bottom
@@ -119,18 +119,22 @@
 </template>
 
 <script>
+import FoodSpecModal from "@/components/Common/FoodSpecModal";
 
 export default {
     data() {
         return {
+            sheet: false,
             loading: false,
             selection: 1,
-            itemId: 2983627382673,
-            quantity: 1,
-            itemName: "Cheese Pizza",
-            restaurantName: "Jugrans",
-            rating: 4.2,
-            price: 199,
+            wishlistColor: "grey",
+            item: {
+                itemId: 2983627382673,
+                itemName: "Cheese Pizza",
+                restaurantName: "Jugrans",
+                rating: 4.2,
+                price: 199
+            },
             snack: {
                 text: null,
                 color: null
@@ -138,37 +142,35 @@ export default {
             snackbar: false
         };
     },
-
+    components: {
+        FoodSpecModal
+    },
     methods: {
-        reserve() {
-            this.loading = true;
-            let data = {
-                    id: this.itemId,
-                    itemName: this.itemName,
-                    quantity: this.quantity,
-                    restaurantName: this.restaurantName,
-                    rating: this.rating,
-                    price: this.price
-                };
+        addToWishlist() {
+            var data = {
+                id: this.item.itemId,
+                itemName: this.item.itemName,
+                restaurantName: this.item.restaurantName,
+                rating: this.item.rating,
+                price: this.item.price
+            };
 
-                this.$store
-                    .dispatch("addToCart", data)
-                    .then(() => {
-                        this.snack.text = `You have successfully added ${this.itemName} in your cart`;
-                        this.snack.color = "success";
-                        this.snackbar = true;
-                        this.loading = false;
-                    })
-                    .catch(() => {
-                        this.snack.text = "Some Error occured";
-                        this.snack.color = "error";
-                        this.snackbar = true;
-                        this.loading = false;
-                    });
+            this.$store
+                .dispatch("addToWishlist", data)
+                .then(() => {
+                    this.snack.text = `You have successfully added ${this.item.itemName} in your wishlist`;
+                    this.snack.color = "success";
+                    this.snackbar = true;
+                    this.wishlistColor = "primary";
+                    this.loading = false;
+                })
+                .catch(() => {
+                    this.snack.text = "Some Error occured";
+                    this.snack.color = "error";
+                    this.snackbar = true;
+                    this.loading = false;
+                });
         }
     },
-    components: {
-        // SnackBar
-    }
 };
 </script>

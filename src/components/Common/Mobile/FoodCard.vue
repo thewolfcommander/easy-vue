@@ -5,10 +5,6 @@
     >
 
         <v-row justify="center">
-            <router-link
-                :to="{path: `/menu/${quantity}`}"
-                class="text-decoration-none black--text"
-            >
                 <v-img
                     src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
                     lazy-src="https://fitmirchi.com/admin/assets/images/image_not_available.png"
@@ -29,14 +25,9 @@
                         </v-row>
                     </template>
                 </v-img>
-            </router-link>
         </v-row>
 
-        <v-card-subtitle class="mt-n2">
-            <router-link
-                :to="{path: '/menu/:id', params: {id: 'Hello'}}"
-                class="text-decoration-none black--text"
-            >{{ itemName }}</router-link>
+        <v-card-subtitle class="mt-n2">{{ item.itemName }}
         </v-card-subtitle>
 
         <v-card-text class="my-0">
@@ -62,117 +53,66 @@
         </v-card-text>
 
         <v-divider class="mx-4 mt-n4"></v-divider>
-        <v-card-actions class="mt-n4">
-            <v-btn
-                color="primary"
-                x-small
-                @click="reserve"
-            >
-                <v-icon
-                    center
-                    color="white"
-                    small
-                >mdi-cart</v-icon>
-            </v-btn>
+        <v-card-actions class="text-center">
+            <v-row wrap>
+                <v-col cols="9">
+                    <v-btn
+                        color="primary"
+                        small
+                        depressed
+                        block
+                        @click="sheet=!sheet"
+                    >
+                        <v-icon
+                            small
+                            left
+                        >mdi-cart</v-icon>
+                    </v-btn>
+                </v-col>
+                <v-col cols="3">
+                     <v-btn
+                     class="ml-n4 mt-n1" 
+                    icon
+                    :color="wishlistColor"
+                    
+                >
+                    <v-icon center>mdi-heart</v-icon>
+                </v-btn>
+                </v-col>
 
-            <v-row justify="space-around mt-4 ml-1 mr-1">
-                <v-btn
-                    icon
-                    x-small
-                    color="secondary"
-                    @click="quantity--"
-                >
-                    <v-icon
-                        x-small
-                        center
-                    >mdi-minus</v-icon>
-                </v-btn>
-                <p class="mt-n0">{{ quantity }}</p>
-                <v-btn
-                    icon
-                    x-small
-                    color="primary"
-                    @click="quantity++"
-                >
-                    <v-icon
-                        x-small
-                        center
-                    >mdi-plus</v-icon>
-                </v-btn>
+               
             </v-row>
         </v-card-actions>
-        <v-snackbar
-            v-model="snackbar"
-            bottom
-            light
-            :class="`${snack.color}--text`"
-            left
-            multi-line
-            :timeout="6000"
-        >
-            {{ snack.text }}
+        <FoodSpecModal :sheet="sheet" :item="item" />
 
-            <template v-slot:action="{ attrs }">
-                <v-btn
-                    dark
-                    text
-                    :color="snack.color"
-                    v-bind="attrs"
-                    @click="snackbar = false"
-                >
-                    Close
-                </v-btn>
-            </template>
-        </v-snackbar>
     </v-card>
 </template>
 
 <script>
+import FoodSpecModal from "@/components/Common/FoodSpecModal";
+
 export default {
     data: () => ({
+        sheet: false,
         loading: false,
         selection: 1,
-        itemId: 2983627382673,
-        quantity: 1,
-        itemName: "Cheese Pizza",
-        restaurantName: "Jugrans",
-        rating: 4.2,
-        price: 199,
+        wishlistColor: "grey",
+        item: {
+            itemId: 2983627382673,
+            itemName: "Cheese Pizza",
+            restaurantName: "Jugrans",
+            rating: 4.2,
+            price: 199
+        },
         snack: {
             text: null,
             color: null
         },
         snackbar: false
     }),
-
-    methods: {
-        reserve() {
-            this.loading = true;
-            let data = {
-                id: this.itemId,
-                itemName: this.itemName,
-                quantity: this.quantity,
-                restaurantName: this.restaurantName,
-                rating: this.rating,
-                price: this.price
-            };
-
-            this.$store
-                .dispatch("addToCart", data)
-                .then(() => {
-                    this.snack.text = `You have successfully added ${this.itemName} in your cart`;
-                    this.snack.color = "success";
-                    this.snackbar = true;
-                    this.loading = false;
-                })
-                .catch(() => {
-                    this.snack.text = "Some Error occured";
-                    this.snack.color = "error";
-                    this.snackbar = true;
-                    this.loading = false;
-                });
-        }
-    }
+    components: {
+        FoodSpecModal
+    },
 };
 </script>
 

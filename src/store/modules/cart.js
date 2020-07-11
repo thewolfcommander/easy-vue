@@ -1,6 +1,6 @@
 const state= {
-    cart: localStorage.getItem('cart') || [],
-    cartItems: localStorage.getItem('cartItems') || 1
+    cart: Array(localStorage.getItem('cart')) || [],
+    cartItems: +localStorage.getItem('cartItems') || 0
 };
 const getters= {
     getCartItemsCount: state => state.cartItems,

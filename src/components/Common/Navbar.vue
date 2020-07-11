@@ -24,7 +24,15 @@
                 :to="{name:  'Wishlist'}"
                 icon
             >
-                <v-icon>mdi-heart</v-icon>
+                
+                <v-badge
+                    :content="wishlistItems"
+                    :value="wishlistItems"
+                    color="primary"
+                    overlap
+                >
+                    <v-icon>mdi-heart</v-icon>
+                </v-badge>
             </v-btn>
             <v-btn icon>
                 <v-icon>mdi-magnify</v-icon>
@@ -111,14 +119,6 @@
                 :to="{name:  'Profile'}"
                 class="mr-md-5 mr-lg-5"
             >Me</v-btn>
-            <!-- <v-btn
-            v-else
-                icon
-                color="primary"
-                @click="logout"
-            >
-                <v-icon>mdi-exit-to-app</v-icon>
-            </v-btn> -->
 
         </v-app-bar>
     </nav>
@@ -158,6 +158,14 @@ export default {
         cartItems() {
             if (this.$store.getters.getCartItemsCount) {
                 return String(this.$store.getters.getCartItemsCount)
+            } else {
+                return "0"
+            }
+        },
+
+        wishlistItems() {
+            if (this.$store.getters.getWishlistItemsCount) {
+                return String(this.$store.getters.getWishlistItemsCount)
             } else {
                 return "0"
             }
