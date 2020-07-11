@@ -43,36 +43,34 @@ const routes = [
         meta: {
             title: 'My Profile - EasyEats | Order food online',
             requiresAuth: true
+        }
+    },
+    {
+        path: '/profile/',
+        name: 'Profile',
+        component: Profile,
+        meta: {
+            title: 'My Profile - EasyEats | Order food online',
+            requiresAuth: true
         },
-        children: [
-            {
-                path: '/profile/',
-                name: 'Profile',
-                component: Profile,
-                meta: {
-                    title: 'My Profile - EasyEats | Order food online',
-                    requiresAuth: true
-                },
-            },
-            {
-                path: '/orders/',
-                name: 'Orders',
-                component: Orders,
-                meta: {
-                    title: 'My Orders - EasyEats | Order food online',
-                    requiresAuth: true
-                },
-            },
-            {
-                path: '/orders/:orderId/',
-                name: 'OrderDetail',
-                component: OrderDetail,
-                meta: {
-                    title: 'My Order Detail - EasyEats | Order food online',
-                    requiresAuth: true
-                },
-            },
-        ]
+    },
+    {
+        path: '/orders/',
+        name: 'Orders',
+        component: Orders,
+        meta: {
+            title: 'My Orders - EasyEats | Order food online',
+            requiresAuth: true
+        },
+    },
+    {
+        path: '/orders/:orderId/',
+        name: 'OrderDetail',
+        component: OrderDetail,
+        meta: {
+            title: 'My Order Detail - EasyEats | Order food online',
+            requiresAuth: true
+        },
     },
 
     // Delivery Boy Accounts

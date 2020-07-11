@@ -102,7 +102,7 @@
                 :to="{name:  'Login'}"
                 class="mr-md-5 mr-lg-5 d-none d-md-flex"
             >Join Now</v-btn>
-            <!-- <v-btn
+            <v-btn
                 rounded
                 v-else
                 color="primary"
@@ -110,15 +110,15 @@
                 router
                 :to="{name:  'Profile'}"
                 class="mr-md-5 mr-lg-5"
-            >Me</v-btn> -->
-            <v-btn
+            >Me</v-btn>
+            <!-- <v-btn
             v-else
                 icon
                 color="primary"
                 @click="logout"
             >
                 <v-icon>mdi-exit-to-app</v-icon>
-            </v-btn>
+            </v-btn> -->
 
         </v-app-bar>
     </nav>
