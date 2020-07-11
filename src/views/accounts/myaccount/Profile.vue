@@ -35,13 +35,17 @@
                 </v-row>
                 <v-row
                     justify="center"
-                    class="mt-3"
+                    class="mt-3 mb-4"
                 >
                     <v-btn
                         small
                         rounded
                         color="primary"
                     >Edit Profile</v-btn>
+                </v-row>
+                <v-divider></v-divider>
+                <v-row class="mt-5">
+                    <UsefulLinks />
                 </v-row>
             </v-col>
         </v-row>
@@ -60,6 +64,7 @@
 
 <script>
 import NormalNavigation from "@/components/Account/NormalNavigation";
+import UsefulLinks from "@/components/Account/Profile/UsefulLinks";
 import BottomSheet from "@/components/Account/Mobile/BottomSheet";
 
 export default {
@@ -70,7 +75,8 @@ export default {
     },
     components: {
         NormalNavigation,
-        BottomSheet
+        BottomSheet,
+        UsefulLinks
     }
 };
 </script>
