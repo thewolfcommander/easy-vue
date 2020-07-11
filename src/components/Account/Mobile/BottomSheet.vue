@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <v-bottom-sheet v-model="sheet">
+    <div >
+        <v-bottom-sheet v-model="sheet" class="d-flex d-md-none">
             
             <v-list>
                 <v-subheader>Open in</v-subheader>

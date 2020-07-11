@@ -5,6 +5,7 @@ import Register from '@/views/accounts/Register'
 import Orders from '@/views/accounts/myaccount/Orders'
 import OrderDetail from '@/views/accounts/myaccount/OrderDetail'
 import Profile from '@/views/accounts/myaccount/Profile'
+import Settings from '@/views/accounts/myaccount/Settings'
 
 // Delivery Boy
 // Accounts
@@ -14,6 +15,7 @@ import DBCompletedOrders from '@/views/accounts/dbaccount/CompletedOrders'
 import DBShippedOrders from '@/views/accounts/dbaccount/ShippedOrders'
 import DBOrderDetail from '@/views/accounts/dbaccount/OrderDetail'
 import DBProfile from '@/views/accounts/dbaccount/Profile'
+import DBSettings from '@/views/accounts/dbaccount/Settings'
 
 const routes = [
     {
@@ -38,10 +40,10 @@ const routes = [
     // Accounts
     {
         path: '/account/',
-        name: 'Account',
-        redirect: {name: 'Profile'},
+        name: 'Settings',
+        component: Settings,
         meta: {
-            title: 'My Profile - EasyEats | Order food online',
+            title: 'My Profile Settings - EasyEats | Order food online',
             requiresAuth: true
         }
     },
@@ -76,68 +78,67 @@ const routes = [
     // Delivery Boy Accounts
     {
         path: '/delivery-boy/account/',
-        name: 'DBAccount',
-        redirect: {name: 'DBProfile'},
+        name: 'DBSettings',
+        component: DBSettings,
         meta: {
-            title: 'My Profile - EasyEats | Order food online',
+            title: 'My Delivery Boy Profile Settings - EasyEats | Order food online',
             requiresAuth: true
         },
-        children: [
-            {
-                path: '/db-profile/',
-                name: 'DBProfile',
-                component: DBProfile,
-                meta: {
-                    title: 'My Delivery Boy Profile - EasyEats | Order food online',
-                    requiresAuth: true
-                },
-            },
-            {
-                path: '/db-orders/',
-                name: 'DBOrders',
-                component: DBOrders,
-                meta: {
-                    title: 'New Orders - EasyEats | Order food online',
-                    requiresAuth: true
-                },
-            },
-            {
-                path: '/db-orders/:orderId/',
-                name: 'DBOrderDetail',
-                component: DBOrderDetail,
-                meta: {
-                    title: 'Order Detail - EasyEats | Order food online',
-                    requiresAuth: true
-                },
-            },
-            {
-                path: '/db-cancelled-orders/',
-                name: 'DBCancelledOrders',
-                component: DBCancelledOrders,
-                meta: {
-                    title: 'Cancelled Orders - EasyEats | Order food online',
-                    requiresAuth: true
-                },
-            },
-            {
-                path: '/db-completed-orders/',
-                name: 'DBCompletedOrders',
-                component: DBCompletedOrders,
-                meta: {
-                    title: 'Completed Orders - EasyEats | Order food online',
-                    requiresAuth: true
-                },
-            },
-            {
-                path: '/db-shipped-orders/',
-                name: 'DBShippedOrders',
-                component: DBShippedOrders,
-                meta: {
-                    title: 'Shipped Orders - EasyEats | Order food online',
-                    requiresAuth: true
-                },
-            },
-        ]
+    },
+
+    {
+        path: '/db-profile/',
+        name: 'DBProfile',
+        component: DBProfile,
+        meta: {
+            title: 'My Delivery Boy Profile - EasyEats | Order food online',
+            requiresAuth: true
+        },
+    },
+    {
+        path: '/db-orders/',
+        name: 'DBOrders',
+        component: DBOrders,
+        meta: {
+            title: 'New Orders - EasyEats | Order food online',
+            requiresAuth: true
+        },
+    },
+    {
+        path: '/db-orders/:orderId/',
+        name: 'DBOrderDetail',
+        component: DBOrderDetail,
+        meta: {
+            title: 'Order Detail - EasyEats | Order food online',
+            requiresAuth: true
+        },
+    },
+    {
+        path: '/db-cancelled-orders/',
+        name: 'DBCancelledOrders',
+        component: DBCancelledOrders,
+        meta: {
+            title: 'Cancelled Orders - EasyEats | Order food online',
+            requiresAuth: true
+        },
+    },
+    {
+        path: '/db-completed-orders/',
+        name: 'DBCompletedOrders',
+        component: DBCompletedOrders,
+        meta: {
+            title: 'Completed Orders - EasyEats | Order food online',
+            requiresAuth: true
+        },
+    },
+    {
+        path: '/db-shipped-orders/',
+        name: 'DBShippedOrders',
+        component: DBShippedOrders,
+        meta: {
+            title: 'Shipped Orders - EasyEats | Order food online',
+            requiresAuth: true
+        },
     },
 
 ]
