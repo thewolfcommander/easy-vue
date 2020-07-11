@@ -24,7 +24,7 @@
             <span class="caption">Groceries</span>
             <v-icon small>mdi-basket</v-icon>
         </v-btn>
-        <v-btn router :to="{name: 'Home' }">
+        <v-btn router :to="{name: 'Profile' }">
             <span class="caption">Me</span>
             <v-icon small>mdi-face</v-icon>
         </v-btn>

@@ -1,26 +1,55 @@
 <template>
     <div >
         <v-bottom-sheet v-model="sheet" class="d-flex d-md-none">
-            
+            <v-row class="transparent" justify="center" @click="sheet = false"><v-btn depressed fab color="white"><v-icon center color="black">mdi-window-close</v-icon></v-btn></v-row>
             <v-list>
-                <v-subheader>Open in</v-subheader>
+                <v-subheader>Me</v-subheader>
                 <v-list-item
-                    v-for="tile in tiles"
-                    :key="tile.title"
-                    @click="sheet = false"
+                    v-for="tile in items"
+                    :key="tile.text"
+                    link
+                    :to="{name: tile.routeName}"
                 >
                     <v-list-item-avatar>
                         <v-avatar
                             size="32px"
                             tile
                         >
-                            <img
-                                :src="`https://cdn.vuetifyjs.com/images/bottom-sheets/${tile.img}`"
-                                :alt="tile.title"
-                            >
+                            <v-icon center>{{ tile.icon }}</v-icon>
                         </v-avatar>
                     </v-list-item-avatar>
-                    <v-list-item-title>{{ tile.title }}</v-list-item-title>
+                    <v-list-item-title>{{ tile.text }}</v-list-item-title>
+                </v-list-item>
+                <v-list-item
+                @click="signout"
+                >
+                    <v-list-item-avatar>
+                        <v-avatar
+                            size="32px"
+                            tile
+                        >
+                            <v-icon center>mdi-exit-to-app</v-icon>
+                        </v-avatar>
+                    </v-list-item-avatar>
+                    <v-list-item-title>Sign out</v-list-item-title>
+                </v-list-item>
+
+                <v-subheader>Delivery Profile</v-subheader>
+                <v-list-item
+                    v-for="tile in useful"
+                    :key="tile.text"
+                    link
+                    :to="{name: tile.routeName}"
+                >
+                    <v-list-item-avatar>
+                        <v-avatar
+                            size="32px"
+                            tile
+                        >
+                            <v-icon center>{{ tile.icon }}</v-icon>
+                        </v-avatar>
+                    </v-list-item-avatar>
+                    <v-list-item-title>{{ tile.text }}</v-list-item-title>
                 </v-list-item>
             </v-list>
         </v-bottom-sheet>
@@ -30,14 +59,31 @@
 <script>
 export default {
     data: () => ({
-        tiles: [
-            { img: "keep.png", title: "Keep" },
-            { img: "inbox.png", title: "Inbox" },
-            { img: "hangouts.png", title: "Hangouts" },
-            { img: "messenger.png", title: "Messenger" },
-            { img: "google.png", title: "Google+" }
+        items: [
+            { text: "Profile", icon: "mdi-face-profile", routeName: 'Profile'},
+            { text: "Orders", icon: "mdi-clock" , routeName: 'Orders'},
+            { text: "Settings", icon: "mdi-shield-half-full", routeName: 'Settings' },
+        ],
+        useful: [
+            { text: "Delivery Profile", icon: "mdi-truck-delivery", routeName: 'DBProfile' },
+            { text: "New Orders", icon: "mdi-cart-plus", routeName: 'DBOrders' },
+            { text: "Shipped Orders", icon: "mdi-cart-outline", routeName: 'DBShippedOrders' },
+            { text: "Completed Orders", icon: "mdi-cart", routeName: 'DBCompletedOrders' },
+            { text: "Cancelled Orders", icon: "mdi-cart-off", routeName: 'DBCancelledOrders' },
+            { text: "DB Settings", icon: "mdi-caravan", routeName: 'DBSettings' },
         ]
     }),
-    props: ["sheet"]
+    props: ["sheet"],
+    methods: {
+        signout() {
+            this.$store.dispatch('logoutUser')
+            .then(() => {
+                this.$router.push({name: 'Login'})
+            })
+            .catch(() => {
+                alert("Some error occured")
+            })
+        }
+    }
 };
 </script>

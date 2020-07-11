@@ -17,7 +17,6 @@ const actions= {
 };
 const mutations= {
     ADD_TO_CART(state, data) {
-        alert(data)
         state.cart.push(data)
         state.cartItems += 1
         localStorage.removeItem('cart')

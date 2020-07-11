@@ -35,8 +35,8 @@
                 :to="{name: 'Cart' }"
             >
                 <v-badge
-                    content="3"
-                    value="3"
+                    :content="cartItems"
+                    :value="cartItems"
                     color="secondary"
                     overlap
                 >
@@ -64,6 +64,18 @@ export default {
             ]
         };
     },
-    components: {}
+    computed: {
+        authenticated() {
+            return this.$store.getters.isLoggedIn
+        },
+
+        cartItems() {
+            if (this.$store.getters.getCartItemsCount) {
+                return String(this.$store.getters.getCartItemsCount)
+            } else {
+                return "0"
+            }
+        }
+    }
 };
 </script>

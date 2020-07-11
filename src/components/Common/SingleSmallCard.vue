@@ -95,7 +95,8 @@
         <v-snackbar
             v-model="snackbar"
             bottom
-            :color="snack.color"
+            light
+            :class="`${snack.color}--text`"
             left
             multi-line
             :timeout="6000"
@@ -106,6 +107,7 @@
                 <v-btn
                     dark
                     text
+                    :color="snack.color"
                     v-bind="attrs"
                     @click="snackbar = false"
                 >

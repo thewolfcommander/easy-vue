@@ -36,7 +36,7 @@
             <router-link
                 :to="{path: '/menu/:id', params: {id: 'Hello'}}"
                 class="text-decoration-none black--text"
-            >Cheese Pizza</router-link>
+            >{{ itemName }}</router-link>
         </v-card-subtitle>
 
         <v-card-text class="my-0">
@@ -68,29 +68,62 @@
                 x-small
                 @click="reserve"
             >
-                <v-icon center color="white" small>mdi-cart</v-icon>
+                <v-icon
+                    center
+                    color="white"
+                    small
+                >mdi-cart</v-icon>
             </v-btn>
 
             <v-row justify="space-around mt-4 ml-1 mr-1">
                 <v-btn
-                icon
+                    icon
                     x-small
                     color="secondary"
                     @click="quantity--"
                 >
-                    <v-icon x-small center>mdi-minus</v-icon>
+                    <v-icon
+                        x-small
+                        center
+                    >mdi-minus</v-icon>
                 </v-btn>
                 <p class="mt-n0">{{ quantity }}</p>
                 <v-btn
-                icon
+                    icon
                     x-small
                     color="primary"
                     @click="quantity++"
                 >
-                    <v-icon x-small center>mdi-plus</v-icon>
+                    <v-icon
+                        x-small
+                        center
+                    >mdi-plus</v-icon>
                 </v-btn>
             </v-row>
         </v-card-actions>
+        <v-snackbar
+            v-model="snackbar"
+            bottom
+            light
+            :class="`${snack.color}--text`"
+            left
+            multi-line
+            :timeout="6000"
+        >
+            {{ snack.text }}
+
+            <template v-slot:action="{ attrs }">
+                <v-btn
+                    dark
+                    text
+                    :color="snack.color"
+                    v-bind="attrs"
+                    @click="snackbar = false"
+                >
+                    Close
+                </v-btn>
+            </template>
+        </v-snackbar>
     </v-card>
 </template>
 
@@ -99,24 +132,55 @@ export default {
     data: () => ({
         loading: false,
         selection: 1,
-        quantity: 1
+        itemId: 2983627382673,
+        quantity: 1,
+        itemName: "Cheese Pizza",
+        restaurantName: "Jugrans",
+        rating: 4.2,
+        price: 199,
+        snack: {
+            text: null,
+            color: null
+        },
+        snackbar: false
     }),
 
     methods: {
         reserve() {
             this.loading = true;
+            let data = {
+                id: this.itemId,
+                itemName: this.itemName,
+                quantity: this.quantity,
+                restaurantName: this.restaurantName,
+                rating: this.rating,
+                price: this.price
+            };
 
-            setTimeout(() => (this.loading = false), 2000);
+            this.$store
+                .dispatch("addToCart", data)
+                .then(() => {
+                    this.snack.text = `You have successfully added ${this.itemName} in your cart`;
+                    this.snack.color = "success";
+                    this.snackbar = true;
+                    this.loading = false;
+                })
+                .catch(() => {
+                    this.snack.text = "Some Error occured";
+                    this.snack.color = "error";
+                    this.snackbar = true;
+                    this.loading = false;
+                });
         }
     }
 };
 </script>
 
 <style scoped>
-.small-card-buttons{
-    margin-top: 0px!important;
-    margin-bottom: 0px!important;
-    padding-top: 0px!important;
-    padding-bottom: 0px!important;
+.small-card-buttons {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
 }
 </style>

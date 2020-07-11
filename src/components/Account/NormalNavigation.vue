@@ -25,6 +25,7 @@
                     </v-list-item-content>
                 </v-list-item>
                 <v-list-item
+                @click="signout"
                 >
                     <v-list-item-icon>
                         <v-icon>mdi-exit-to-app</v-icon>
@@ -75,6 +76,17 @@ export default {
             { text: "Cancelled Orders", icon: "mdi-cart-off", routeName: 'DBCancelledOrders' },
             { text: "DB Settings", icon: "mdi-caravan", routeName: 'DBSettings' },
         ]
-    })
+    }),
+    methods: {
+        signout() {
+            this.$store.dispatch('logoutUser')
+            .then(() => {
+                this.$router.push({name: 'Login'})
+            })
+            .catch(() => {
+                alert("Some error occured")
+            })
+        }
+    }
 };
 </script>
