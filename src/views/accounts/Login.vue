@@ -107,7 +107,8 @@ export default {
                 })
                 .catch(err => {
                     this.snackbar = true
-                    this.snack.text = err.message;
+                    this.snack.text = err;
+                    console.log(err)
                 });
             } else {
                 this.snackbar = true;

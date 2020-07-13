@@ -5,26 +5,26 @@
     >
 
         <v-row justify="center">
-                <v-img
-                    src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-                    lazy-src="https://fitmirchi.com/admin/assets/images/image_not_available.png"
-                    class="transparent"
-                    max-height="90"
-                    contain
-                >
-                    <template v-slot:placeholder>
-                        <v-row
-                            class="fill-height ma-0"
-                            align="center"
-                            justify="center"
-                        >
-                            <v-progress-circular
-                                indeterminate
-                                color="grey lighten-5"
-                            ></v-progress-circular>
-                        </v-row>
-                    </template>
-                </v-img>
+            <v-img
+                src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+                lazy-src="https://fitmirchi.com/admin/assets/images/image_not_available.png"
+                class="transparent"
+                max-height="90"
+                contain
+            >
+                <template v-slot:placeholder>
+                    <v-row
+                        class="fill-height ma-0"
+                        align="center"
+                        justify="center"
+                    >
+                        <v-progress-circular
+                            indeterminate
+                            color="grey lighten-5"
+                        ></v-progress-circular>
+                    </v-row>
+                </template>
+            </v-img>
         </v-row>
 
         <v-card-subtitle class="mt-n2">{{ item.itemName }}
@@ -70,20 +70,22 @@
                     </v-btn>
                 </v-col>
                 <v-col cols="3">
-                     <v-btn
-                     class="ml-n4 mt-n1" 
-                    icon
-                    :color="wishlistColor"
-                    
-                >
-                    <v-icon center>mdi-heart</v-icon>
-                </v-btn>
+                    <v-btn
+                        class="ml-n4 mt-n1"
+                        icon
+                        :color="wishlistColor"
+                        @click="addToWishlist"
+                    >
+                        <v-icon center>mdi-heart</v-icon>
+                    </v-btn>
                 </v-col>
 
-               
             </v-row>
         </v-card-actions>
-        <FoodSpecModal :sheet="sheet" :item="item" />
+        <FoodSpecModal
+            :sheet="sheet"
+            :item="item"
+        />
 
     </v-card>
 </template>
@@ -113,6 +115,34 @@ export default {
     components: {
         FoodSpecModal
     },
+
+    methods: {
+        addToWishlist() {
+            var data = {
+                id: this.item.itemId,
+                itemName: this.item.itemName,
+                restaurantName: this.item.restaurantName,
+                rating: this.item.rating,
+                price: this.item.price
+            };
+
+            this.$store
+                .dispatch("addToWishlist", data)
+                .then(() => {
+                    this.snack.text = `You have successfully added ${this.item.itemName} in your wishlist`;
+                    this.snack.color = "success";
+                    this.snackbar = true;
+                    this.wishlistColor = "primary";
+                    this.loading = false;
+                })
+                .catch(() => {
+                    this.snack.text = "Some Error occured";
+                    this.snack.color = "error";
+                    this.snackbar = true;
+                    this.loading = false;
+                });
+        }
+    }
 };
 </script>
 
