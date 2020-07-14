@@ -28,7 +28,8 @@ const routes = [
         component: RestaurantDetail,
         meta: {
             title: "Restaurant Detail - EasyEats | Order Food Online"
-        }
+        },
+        props: true
     },
     {
         path: '/food-categories/',
@@ -44,7 +45,8 @@ const routes = [
         component: CategoryDetail,
         meta: {
             title: "Category Detail - EasyEats | Order Food Online"
-        }
+        },
+        props: true
     }
 ]
 

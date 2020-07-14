@@ -20,7 +20,7 @@
                     <v-avatar size="128">
                         <img
                             src="https://cdn.vuetifyjs.com/images/john.jpg"
-                            alt="John"
+                            :alt="user.full_name"
                         >
                     </v-avatar>
                 </v-row>
@@ -28,10 +28,10 @@
                     justify="center"
                     class="mt-3"
                 >
-                    <h2 class="subtitle-1">Manoj Tyagi</h2>
+                    <h2 class="subtitle-1">{{ user.full_name }}</h2>
                 </v-row>
                 <v-row justify="center">
-                    <h2 class="subtitle-1">manojtyagi@gmail.com | +91-7253919169</h2>
+                    <h2 class="subtitle-1">{{ user.email }}<span v-if="user.mobile_number"> | {{ user.mobile_number }}</span></h2>
                 </v-row>
                 <v-row
                     justify="center"
@@ -71,12 +71,17 @@ export default {
     data() {
         return {
             sheet: false,
+            user: {}
         };
     },
     components: {
         NormalNavigation,
         BottomSheet,
         UsefulLinks
+    },
+    mounted() {
+        // this.user = JSON.parse(localStorage.getItem('user'))
+        this.user = this.$store.getters.getUser
     }
 };
 </script>

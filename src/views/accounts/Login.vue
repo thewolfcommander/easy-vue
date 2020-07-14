@@ -9,7 +9,7 @@
                     <h2 class="text-h4 grey--text">Login Here</h2>
                 </v-col>
             </v-row>
-            <v-row justify="center">
+            <v-row justify="center" v-if="!getAuthStatus">
                 <v-col
                     cols="12"
                     md="7"
@@ -60,6 +60,11 @@
                     </v-card>
                 </v-col>
             </v-row>
+
+            <v-row v-else justify="center">
+                <v-col cols="12" class="text-center"><p class="subtitle-2">You are already logged in</p></v-col>
+                <v-btn rounded color="primary" router :to="{name: 'Profile'}">Go to Profile</v-btn>
+            </v-row>
             <v-snackbar v-model="snackbar" bottom right light>
                 <p class="primary--text">{{ snack.text }}</p>
 
@@ -103,7 +108,7 @@ export default {
                     this.snackbar = true
                     this.snack.text = "Successfully Logged In";
                     this.snack.color = "success"
-                    this.$router.go('-1');
+                    this.$router.go(-3)
                 })
                 .catch(err => {
                     this.snackbar = true
@@ -113,6 +118,11 @@ export default {
             } else {
                 this.snackbar = true;
             }
+        }
+    },
+    computed: {
+        getAuthStatus() {
+            return localStorage.getItem('status') || false
         }
     }
 };

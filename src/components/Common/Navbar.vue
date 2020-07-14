@@ -107,7 +107,7 @@
                 color="primary"
                 v-if="authenticated === false"
                 router
-                :to="{name:  'Login'}"
+                :to="{name:  'Register'}"
                 class="mr-md-5 mr-lg-5 d-none d-md-flex"
             >Join Now</v-btn>
             <v-btn

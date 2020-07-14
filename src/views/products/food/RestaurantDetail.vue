@@ -6,7 +6,7 @@
                     cols="12"
                     class="text-center"
                 >
-                    <h2 class="text-h4 grey--text">Restaurant Name</h2>
+                    <h2 class="text-h4 grey--text">{{ restaurant.name }}</h2>
                 </v-col>
             </v-row>
             <v-row justify="center">
@@ -35,11 +35,11 @@
                     </v-row>
                 </v-col>
                 <v-col cols="12" md="8" class="text-center">
-                    <p class="grey--text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit deleniti, modi recusandae dolorum exercitationem consequatur! Odio assumenda incidunt dolorum fugit, recusandae nam illum vero consequuntur consectetur temporibus sit expedita rem quos unde saepe, consequatur alias similique suscipit dicta inventore magnam nostrum quas ipsum ipsa? Consequuntur nostrum iste hic vel doloribus?</p>
+                    <p class="grey--text">{{ restaurant.city }}, {{ restaurant.state }}, {{ restaurant.country }} - {{ restaurant.pincode }}</p>
                 </v-col>
             </v-row>
             <v-row wrap>
-                <v-col cols="6" sm="4" md="2" v-for="(item, index) in 16" :key="index">
+                <v-col cols="6" sm="4" md="2" v-for="item in foods" :key="item.id">
                     <FoodCard />
                 </v-col>
             </v-row>
@@ -51,8 +51,27 @@
 import FoodCard from '@/components/Common/Mobile/FoodCard'
 
 export default {
+    data() {
+        return {
+            restaurant: {
+                name: "Loading...",
+                city: "Loading...",
+                state: "Loading...",
+                country: "Loading...",
+                pincode: "Loading...",
+            },
+            foods: [],
+        }
+    },
     components: {
         FoodCard
+    },
+    created() {
+        let restaurantId = this.$route.params.restaurantId
+        this.$store.dispatch('getRestaurantDetailFromServer', restaurantId)
+        this.restaurant = this.$store.getters.getRestaurantDetail
+        this.foods = this.$store.getters.getFoods
+        console.log(this.foods)
     }
 };
 </script>

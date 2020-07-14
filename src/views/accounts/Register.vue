@@ -9,7 +9,7 @@
                     <h2 class="text-h4 grey--text">Register Here</h2>
                 </v-col>
             </v-row>
-            <v-row justify="center">
+            <v-row justify="center" v-if="!getAuthStatus">
                 <v-col
                     cols="12"
                     md="7"
@@ -19,7 +19,10 @@
                         flat
                         max-width="600px"
                     >
-                        <v-row wrap justify="center">
+                        <v-row
+                            wrap
+                            justify="center"
+                        >
                             <v-col
                                 cols="12"
                                 md="8"
@@ -33,7 +36,8 @@
                             </v-col>
                             <v-col
                                 cols="12"
-                                md="8" class="mt-n5"
+                                md="8"
+                                class="mt-n5"
                             >
                                 <v-text-field
                                     outlined
@@ -44,7 +48,8 @@
                             </v-col>
                             <v-col
                                 cols="12"
-                                md="8" class="mt-n5"
+                                md="8"
+                                class="mt-n5"
                             >
                                 <v-text-field
                                     outlined
@@ -55,7 +60,8 @@
                             </v-col>
                             <v-col
                                 cols="12"
-                                md="8"  class="mt-n5"
+                                md="8"
+                                class="mt-n5"
                             >
                                 <v-text-field
                                     outlined
@@ -65,7 +71,11 @@
                                     label="Your Password"
                                 ></v-text-field>
                             </v-col>
-                            <v-col cols="12" md="8" class="mt-n5">
+                            <v-col
+                                cols="12"
+                                md="8"
+                                class="mt-n5"
+                            >
                                 <v-row justify="center">
                                     <v-btn
                                         large
@@ -75,14 +85,28 @@
                                     >Register</v-btn>
                                 </v-row>
                             </v-col>
-                            <v-col cols="12" md="8" class="text-center">
-                                <p class="caption">Not registered yet? <router-link :to="{name: 'Login'}">Login</router-link></p>
+                            <v-col
+                                cols="12"
+                                md="8"
+                                class="text-center"
+                            >
+                                <p class="caption">Not registered yet? <router-link :to="{name: 'Login'}">Login</router-link>
+                                </p>
                             </v-col>
                         </v-row>
                     </v-card>
                 </v-col>
             </v-row>
-            <v-snackbar v-model="snackbar" bottom right light>
+            <v-row v-else justify="center">
+                <v-col cols="12" class="text-center"><p class="subtitle-2">You are already logged in</p></v-col>
+                <v-btn rounded color="primary" router :to="{name: 'Profile'}">Go to Profile</v-btn>
+            </v-row>
+            <v-snackbar
+                v-model="snackbar"
+                bottom
+                right
+                light
+            >
                 <p class="primary--text">{{ snack.text }}</p>
 
                 <template v-slot:action="{ attrs }">
@@ -118,11 +142,49 @@ export default {
     methods: {
         sendMessage() {
             if (this.username && this.email && this.fullName && this.password) {
-                console.log("Submitted Login Form");
-                this.snackbar = false;
+                let data = {
+                    user_id: this.username,
+                    password: this.password,
+                    full_name: this.fullName,
+                    email: this.email
+                };
+                this.$store
+                    .dispatch("registerUser", data)
+                    .then(() => {
+                        this.snackbar = true;
+                        this.snack.text = "Successfully Registered";
+                        this.snack.color = "success";
+                        let user = {
+                            username: this.username,
+                            password: this.password
+                        };
+                        this.$store
+                            .dispatch("loginUser", user)
+                            .then(() => {
+                                this.snackbar = true;
+                                this.snack.text = "Successfully Logged In";
+                                this.snack.color = "success";
+                                this.$router.go(-1);
+                            })
+                            .catch(err => {
+                                this.snackbar = true;
+                                this.snack.text = err;
+                                console.log(err);
+                            });
+                    })
+                    .catch(err => {
+                        this.snackbar = true;
+                        this.snack.text = err;
+                        console.log(err);
+                    });
             } else {
                 this.snackbar = true;
             }
+        }
+    },
+    computed: {
+        getAuthStatus() {
+            return localStorage.getItem('status') || false
         }
     }
 };

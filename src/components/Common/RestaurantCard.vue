@@ -1,6 +1,5 @@
 <template>
     <v-card
-        :loading="loading"
         rounded="lg"
         class="mx-auto my-12"
     >
@@ -69,6 +68,7 @@
 export default {
     data: () => ({
         selection: 1
-    })
+    }),
+    props: ['item']
 };
 </script>

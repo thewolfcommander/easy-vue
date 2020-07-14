@@ -9,29 +9,47 @@
                     <h2 class="text-h4 grey--text">Best Restaurants out there</h2>
                 </v-col>
             </v-row>
-            <v-row justify="center" class="d-none d-md-flex">
+            <v-row
+                justify="center"
+                class="d-none d-md-flex"
+            >
                 <v-col cols="12">
                     <v-card
                         flat
                         class="px-md-5 px-lg-5"
                     >
                         <v-row wrap>
-                            <v-col cols="6" md="3" lg="3" v-for="(item, index) in 8" :key="index">
-                                <RestaurantCard />
+                            <v-col
+                                cols="6"
+                                md="3"
+                                lg="3"
+                                v-for="item in restaurants"
+                                :key="item.id"
+                            >
+                                <RestaurantCard :item="item" />
                             </v-col>
                         </v-row>
                     </v-card>
                 </v-col>
             </v-row>
-            <v-row justify="center" class="d-flex d-md-none">
+            <v-row
+                justify="center"
+                class="d-flex d-md-none"
+            >
                 <v-col cols="12">
                     <v-card
                         flat
                         class="px-md-5 px-lg-5"
                     >
                         <v-row wrap>
-                            <v-col cols="6" md="3" lg="3" v-for="(item, index) in 8" :key="index">
-                                <MobileRestaurantCard />
+                            <v-col
+                                cols="6"
+                                md="3"
+                                lg="3"
+                                v-for="item in restaurants"
+                                :key="item.id"
+                            >
+                                <MobileRestaurantCard :item="item" />
                             </v-col>
                         </v-row>
                     </v-card>
@@ -42,15 +60,24 @@
 </template>
 
 <script>
-import MobileRestaurantCard from '@/components/Common/Mobile/SmallRestaurantCard'
-import RestaurantCard from '@/components/Common/RestaurantCard'
+import MobileRestaurantCard from "@/components/Common/Mobile/SmallRestaurantCard";
+import RestaurantCard from "@/components/Common/RestaurantCard";
 
 export default {
+    data() {
+        return {
+            restaurants: []
+        };
+    },
     components: {
         RestaurantCard,
         MobileRestaurantCard
+    },
+    created() {
+        this.$store.dispatch("getRestaurantsFromServer");
+        this.restaurants = this.$store.getters.getRestaurants;
     }
-}
+};
 </script>
 
 <style scoped>
