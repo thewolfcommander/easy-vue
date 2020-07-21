@@ -25,8 +25,8 @@
                 </v-col>
                 <v-col cols="12" class="mt-n5">
                     <v-row wrap class="my-0 py-0">
-                        <v-col cols="6" md="4" lg="3" v-for="(item, index) in 8" :key="index" class="my-n5">
-                            <FoodCard />
+                        <v-col cols="6" md="4" lg="3" v-for="(item, index) in items" :key="index" class="my-n5">
+                            <FoodCard :item="item" />
                         </v-col>
                     </v-row>
                 </v-col>
@@ -36,11 +36,38 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 import FoodCard from '@/components/Common/Mobile/FoodCard'
 
 export default {
     components: {
         FoodCard
+    },
+    data() {
+        return {
+            items: JSON.parse(localStorage.getItem('foods')) || [],
+        }
+    },
+
+    created() {
+        axios({
+            url: `https://www.easyeats.co.in/api/v1/products/foods/`,
+            method: 'GET'
+        })
+        .then(response => {
+            this.items = response.data.results
+            localStorage.setItem('foods', JSON.stringify(response.data.results))
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    },
+
+    computed: {
+        exItems() {
+            return this.items.slice(0, 8)
+        }
     }
 }
 </script>

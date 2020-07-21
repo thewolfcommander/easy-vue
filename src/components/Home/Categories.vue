@@ -24,7 +24,7 @@
                 </v-col>
                 <v-col cols="12" class="mt-n5">
                     <v-row wrap>
-                        <v-col cols="6" md="4" lg="3" v-for="(item, index) in 4" :key="index">
+                        <v-col cols="6" md="4" lg="3" v-for="(item, index) in exItems" :key="index">
                             <CategoryCard />
                         </v-col>
                     </v-row>
@@ -35,11 +35,38 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 import CategoryCard from '@/components/Common/CategoryCard'
 
 export default {
     components: {
         CategoryCard
+    },
+    data() {
+        return {
+            items: JSON.parse(localStorage.getItem('categories')) || [],
+        }
+    },
+
+    created() {
+        axios({
+            url: `https://www.easyeats.co.in/api/v1/products/categories/?active=true`,
+            method: 'GET'
+        })
+        .then(response => {
+            this.items = response.data.results
+            localStorage.setItem('categories', JSON.stringify(response.data.results))
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    },
+
+    computed: {
+        exItems() {
+            return this.items.slice(0, 4)
+        }
     }
 }
 </script>

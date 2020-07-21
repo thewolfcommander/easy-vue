@@ -24,7 +24,7 @@
         </v-row>
 
         <v-card-subtitle class="text-center">
-            {{ item.name }} Restaurant
+            {{ item.name }}
         </v-card-subtitle>
         <p class="caption grey--text text-center mt-n4">{{ item.city }}</p>
         <v-card-actions class="mt-n4 text-center">
