@@ -24,8 +24,8 @@
                 </v-col>
                 <v-col cols="12" class="mt-n5">
                     <v-row wrap>
-                        <v-col cols="6" md="4" lg="3" v-for="(item, index) in 4" :key="index">
-                            <SingleSmallCard />
+                        <v-col cols="6" md="4" lg="3" v-for="(item, index) in items" :key="index">
+                            <SingleSmallCard :item="item" />
                         </v-col>
                     </v-row>
                 </v-col>
@@ -35,11 +35,33 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 import SingleSmallCard from '@/components/Common/SingleSmallCard'
 
 export default {
     components: {
         SingleSmallCard
-    }
+    },
+
+    data() {
+        return {
+            items: JSON.parse(localStorage.getItem('featured_foods')) || [],
+        }
+    },
+
+    created() {
+        axios({
+            url: `https://www.easyeats.co.in/api/v1/products/foods/?featured=true`,
+            method: 'GET'
+        })
+        .then(response => {
+            this.items = response.data.results
+            localStorage.setItem('featured_foods', JSON.stringify(response.data.results))
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    },
 }
 </script>

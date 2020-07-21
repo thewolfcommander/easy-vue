@@ -28,9 +28,9 @@
             </v-img>
         </v-row>
 
-        <v-card-title>{{ item.itemName }}
+        <v-card-title class="subtitle-1">{{ trimmedName }}
         </v-card-title>
-        <v-card-subtitle>{{ item.restaurantName }} Restraunt</v-card-subtitle>
+        <v-card-subtitle>{{ item.restaurant.name }} Restraunt</v-card-subtitle>
 
         <v-card-text class="my-0">
             <v-row
@@ -38,18 +38,18 @@
                 class="mx-0 my-0"
             >
                 <v-rating
-                    :value="item.rating"
+                    :value="4.5"
                     color="amber"
                     dense
                     half-increments
                     readonly
                     size="14"
                 ></v-rating>
-                <div class="grey--text ml-4">{{ item.rating }}</div>
+                <div class="grey--text ml-4">4.5</div>
             </v-row>
 
             <div class="subtitle-1 my-0">
-                $ • {{ item.price }}
+                &#8377; <strike class="grey--text caption">{{ item.gross_price }}</strike> {{ item.discount_price }}
             </div>
 
         </v-card-text>
@@ -128,13 +128,6 @@ export default {
             loading: false,
             selection: 1,
             wishlistColor: "grey",
-            item: {
-                itemId: 2983627382673,
-                itemName: "Cheese Pizza",
-                restaurantName: "Jugrans",
-                rating: 4.2,
-                price: 199
-            },
             snack: {
                 text: null,
                 color: null
@@ -142,6 +135,8 @@ export default {
             snackbar: false
         };
     },
+
+    props: ["item"],
     components: {
         FoodSpecModal
     },
@@ -172,5 +167,15 @@ export default {
                 });
         }
     },
+
+    computed: {
+        trimmedName() {
+            if (this.item.name.length > 20) {
+                return `${this.item.name.slice(0, 20)} ...`
+            } else {
+                return this.item.name
+            }
+        }
+    }
 };
 </script>

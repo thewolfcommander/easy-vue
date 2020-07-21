@@ -18,23 +18,23 @@
                     max-width="400"
                 >
                     <v-card-title>
-                        <h2 class="display-1">{{ item.itemName }}</h2>
+                        <h2 class="display-1">{{ item.name }}</h2>
                         <v-spacer></v-spacer>
-                        <span class="title">${{ item.price}}</span>
+                        <span class="title">&#8377; <strike class="grey--text caption">{{ item.gross_price }}</strike> {{ item.discount_price}}</span>
                     </v-card-title>
 
                     <v-card-subtitle class="text-start">
-                        <h2 class="text-h6 grey--text">{{ item.restaurantName }} Restaurant</h2>
+                        <h2 class="text-h6 grey--text">{{ item.restaurant.name }} Restaurant</h2>
                     </v-card-subtitle>
 
-                    <v-card-text>
+                    <v-card-text v-if="false">
                         Our company takes pride in making handmade brushes.
                         Our toothbrushes are available in 4 different bristel types, from extra soft to hard.
                     </v-card-text>
 
                     <v-divider class="mx-4"></v-divider>
 
-                    <v-card-text>
+                    <v-card-text v-if="false">
                         <span class="subheading">Select type</span>
 
                         <v-chip-group
@@ -135,12 +135,8 @@ export default {
             this.loading = true;
             if (this.quantity > 0) {
                 let data = {
-                    id: this.item.itemId,
-                    itemName: this.item.itemName,
-                    quantity: this.quantity,
-                    restaurantName: this.item.restaurantName,
-                    rating: this.item.rating,
-                    price: this.item.price
+                    food: this.item.id,
+                    quantity: this.quantity
                 };
 
                 this.$store

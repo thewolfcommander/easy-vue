@@ -27,7 +27,7 @@
             </v-img>
         </v-row>
 
-        <v-card-subtitle class="mt-n2">{{ item.itemName }}
+        <v-card-subtitle class="mt-n2">{{ trimmedName }}
         </v-card-subtitle>
 
         <v-card-text class="my-0">
@@ -47,7 +47,7 @@
             </v-row>
 
             <div class="subtitle-1 my-0">
-                $ • 199
+               &#8377; <strike class="grey--text caption">{{ item.gross_price }}</strike> {{ item.discount_price }}
             </div>
 
         </v-card-text>
@@ -99,13 +99,6 @@ export default {
         loading: false,
         selection: 1,
         wishlistColor: "grey",
-        item: {
-            itemId: 2983627382673,
-            itemName: "Cheese Pizza",
-            restaurantName: "Jugrans",
-            rating: 4.2,
-            price: 199
-        },
         snack: {
             text: null,
             color: null
@@ -115,12 +108,13 @@ export default {
     components: {
         FoodSpecModal
     },
+    props: ["item"],
 
     methods: {
         addToWishlist() {
             var data = {
                 id: this.item.itemId,
-                itemName: this.item.itemName,
+                name: this.item.name,
                 restaurantName: this.item.restaurantName,
                 rating: this.item.rating,
                 price: this.item.price
@@ -129,7 +123,7 @@ export default {
             this.$store
                 .dispatch("addToWishlist", data)
                 .then(() => {
-                    this.snack.text = `You have successfully added ${this.item.itemName} in your wishlist`;
+                    this.snack.text = `You have successfully added ${this.item.name} in your wishlist`;
                     this.snack.color = "success";
                     this.snackbar = true;
                     this.wishlistColor = "primary";
@@ -141,6 +135,17 @@ export default {
                     this.snackbar = true;
                     this.loading = false;
                 });
+        }
+    },
+
+
+    computed: {
+        trimmedName() {
+            if (this.item.name.length > 20) {
+                return `${this.item.name.slice(0, 20)} ...`
+            } else {
+                return this.item.name
+            }
         }
     }
 };

@@ -60,6 +60,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 import MobileRestaurantCard from "@/components/Common/Mobile/SmallRestaurantCard";
 import RestaurantCard from "@/components/Common/RestaurantCard";
 
@@ -74,8 +76,20 @@ export default {
         MobileRestaurantCard
     },
     created() {
-        this.$store.dispatch("getRestaurantsFromServer");
-        this.restaurants = this.$store.getters.getRestaurants;
+        this.restaurants = JSON.parse(localStorage.getItem('restaurants'))
+    },
+    mounted() {
+        axios({
+            url: `https://www.easyeats.co.in/api/v1/products/restaurants/?active`,
+            method: "GET"
+        })
+            .then(response => {
+                this.restaurants = response.data.results;
+                localStorage.setItem('restaurants', JSON.stringify(response.data.results))
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
 };
 </script>

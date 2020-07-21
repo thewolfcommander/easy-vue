@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 const state= {
     cart: Array(localStorage.getItem('cart')) || [],
     cartItems: +localStorage.getItem('cartItems') || 0
@@ -7,8 +9,25 @@ const getters= {
     getCart: state => JSON.parse(state.cart)
 };
 const actions= {
+
+    // getCartItems({commit}) {
+    //     axios({
+    //         url: `https://www.easyeats.co.in/api/v1/cart/food-entry/create/`
+    //     })
+    // },
     addToCart({commit}, data) {
-        commit('ADD_TO_CART', JSON.stringify(data))
+        axios({
+            url: `https://www.easyeats.co.in/api/v1/cart/food-entry/create/`,
+            method: 'POST',
+            data: data
+        })
+        .then(response => {
+            commit('ADD_TO_CART', JSON.stringify(data))
+            console.log(response)
+        })
+        .catch(err => {
+            console.log(err)
+        })
     },
 
     removeFromCart({commit}, id) {
