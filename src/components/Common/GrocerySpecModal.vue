@@ -41,7 +41,7 @@
                     </v-card-title>
 
                     <v-card-subtitle class="text-start">
-                        <h2 class="text-h6 grey--text">{{ item.restaurant.name }} Restaurant</h2>
+                        <h2 class="text-h6 grey--text">{{ item.grocery_category.name }}</h2>
                     </v-card-subtitle>
 
                     <v-card-text v-if="false">
@@ -152,7 +152,7 @@ export default {
             this.loading = true;
             if (this.quantity > 0) {
                 let data = {
-                    food: this.item.id,
+                    grocery: this.item.id,
                     quantity: this.quantity
                 };
 
@@ -163,14 +163,14 @@ export default {
                         this.snack.color = "success";
                         this.snackbar = true;
                         this.loading = false;
-                        this.sheet = false
+                        this.sheet = false;
                     })
                     .catch(() => {
                         this.snack.text = "Some Error occured";
                         this.snack.color = "error";
                         this.snackbar = true;
                         this.loading = false;
-                        this.sheet = false
+                        this.sheet = false;
                     });
             } else {
                 this.snack.text = "Quantity can never be less than 1";

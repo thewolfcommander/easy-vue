@@ -3,7 +3,7 @@
         fluid
         class="primary lighten-5"
     >
-        <v-container class="py-5">
+        <v-container fluid class="py-5">
             <v-row wrap class="mx-0 px-0">
                 <v-col cols="9">
                     <v-row justify="start" class="px-1">
@@ -25,7 +25,7 @@
                 </v-col>
                 <v-col cols="12" class="mt-n5">
                     <v-row wrap class="my-0 py-0">
-                        <v-col cols="6" md="4" lg="3" v-for="(item, index) in items" :key="index" class="my-n5">
+                        <v-col cols="6" md="4" lg="3" v-for="(item, index) in items.slice(0, 8)" :key="index" class="my-n5">
                             <FoodCard :item="item" />
                         </v-col>
                     </v-row>

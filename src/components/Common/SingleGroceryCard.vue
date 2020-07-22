@@ -28,8 +28,8 @@
             </v-img>
         </v-row>
 
-        <v-card-title>Dove 100g</v-card-title>
-        <v-card-subtitle>Households</v-card-subtitle>
+        <v-card-title class="subtitle-1">{{ trimmedName }}</v-card-title>
+        <v-card-subtitle>{{ item.grocery_category.name }}</v-card-subtitle>
 
         <v-card-text class="my-0">
             <v-row
@@ -48,56 +48,97 @@
             </v-row>
 
             <div class="subtitle-1 my-0">
-                $ • 199
+                &#8377; <strike class="grey--text caption">{{ item.gross_price }}</strike> {{ item.discount_price }}
             </div>
 
         </v-card-text>
 
         <v-divider class="mx-4"></v-divider>
-        <v-card-actions>
-            <v-btn
-                color="primary"
-                @click="reserve"
-            >
-                Add to Cart
-            </v-btn>
+         <v-card-actions class="text-center">
+            <v-row wrap>
+                <v-col cols="9">
+                    <v-btn
+                        color="primary"
+                        small
+                        depressed
+                        block
+                        @click="sheet=!sheet"
+                    >
+                        <v-icon
+                            small
+                            left
+                        >mdi-cart</v-icon>
+                    </v-btn>
+                </v-col>
+                <v-col cols="3">
+                    <v-btn
+                        class="ml-n4 mt-n1"
+                        icon
+                        :color="wishlistColor"
+                        @click="addToWishlist"
+                    >
+                        <v-icon center>mdi-heart</v-icon>
+                    </v-btn>
+                </v-col>
 
-            <v-row justify="space-around ml-3 mr-2">
-                <v-btn
-                    fab
-                    small
-                    color="secondary"
-                    @click="quantity--"
-                >
-                    <v-icon>mdi-minus</v-icon>
-                </v-btn>
-                <p class="mt-2">{{ quantity }}</p>
-                <v-btn
-                    fab
-                    small
-                    color="primary"
-                    @click="quantity++"
-                >
-                    <v-icon>mdi-plus</v-icon>
-                </v-btn>
             </v-row>
         </v-card-actions>
+        <GrocerySpecModal
+            :sheet="sheet"
+            :item="item"
+        />
+
     </v-card>
 </template>
 
 <script>
+import GrocerySpecModal from "@/components/Common/GrocerySpecModal";
 export default {
     data: () => ({
         loading: false,
         selection: 1,
+        sheet: false,
         quantity: 1
     }),
 
-    methods: {
-        reserve() {
-            this.loading = true;
+    components: {
+        GrocerySpecModal
+    },
+    props: ['item'],
 
-            setTimeout(() => (this.loading = false), 2000);
+    methods: {
+        addToWishlist() {
+            var data = {
+                id: this.item.itemId,
+                name: this.item.name,
+                rating: this.item.rating,
+                price: this.item.discount_price
+            };
+
+            this.$store
+                .dispatch("addToWishlist", data)
+                .then(() => {
+                    this.snack.text = `You have successfully added ${this.item.name} in your wishlist`;
+                    this.snack.color = "success";
+                    this.snackbar = true;
+                    this.wishlistColor = "primary";
+                    this.loading = false;
+                })
+                .catch(() => {
+                    this.snack.text = "Some Error occured";
+                    this.snack.color = "error";
+                    this.snackbar = true;
+                    this.loading = false;
+                });
+        }
+    },
+    computed: {
+        trimmedName() {
+            if (this.item.name.length > 28) {
+                return `${this.item.name.slice(0, 28)}...`
+            } else {
+                return this.item.name
+            }
         }
     }
 };

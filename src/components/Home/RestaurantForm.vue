@@ -16,12 +16,10 @@
 
       <v-col cols="8" sm="8" md="6" lg="6" class="mt-n5">
           <v-text-field
-            v-model="firstname"
-            :rules="nameRules"
+            v-model="email"
             outlined
             color="black"
-            :counter="10"
-            label="First name"
+            label="Email Address"
             required
           ></v-text-field>
          <v-row justify="center">
@@ -31,3 +29,13 @@
     </v-row>
   </v-parallax>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      email: null
+    }
+  }
+}
+</script>

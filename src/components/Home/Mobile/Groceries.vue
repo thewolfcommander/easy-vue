@@ -3,7 +3,7 @@
         fluid
         class="grey lighten-5"
     >
-        <v-container class="py-5">
+        <v-container fluid class="py-5">
             <v-row wrap class="mx-0 px-0">
                 <v-col cols="9">
                     <v-row justify="start" class="px-1">
@@ -25,8 +25,8 @@
                 </v-col>
                 <v-col cols="12" class="mt-n5">
                     <v-row wrap class="my-0 py-0">
-                        <v-col cols="6" md="4" lg="3" v-for="(item, index) in 8" :key="index" class="my-n5">
-                            <GroceryCard />
+                        <v-col cols="6" md="4" lg="3" v-for="(item, index) in items.slice(0, 8)" :key="index" class="my-n5">
+                            <GroceryCard :item="item" />
                         </v-col>
                     </v-row>
                 </v-col>
@@ -36,11 +36,31 @@
 </template>
 
 <script>
+import axios from 'axios'
 import GroceryCard from '@/components/Common/Mobile/GroceryCard'
 
 export default {
     components: {
         GroceryCard
-    }
+    },
+    data() {
+        return {
+            items: JSON.parse(localStorage.getItem('groceries')) || [],
+        }
+    },
+
+    created() {
+        axios({
+            url: `https://www.easyeats.co.in/api/v1/groceries/items/`,
+            method: 'GET'
+        })
+        .then(response => {
+            this.items = response.data.results
+            localStorage.setItem('groceries', JSON.stringify(response.data.results))
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    },
 }
 </script>
