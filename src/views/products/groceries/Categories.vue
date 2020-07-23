@@ -16,8 +16,8 @@
                         class="px-md-5 px-lg-5"
                     >
                         <v-row wrap>
-                            <v-col cols="6" md="3" lg="3" v-for="(item, index) in 8" :key="index">
-                                <GroceryCategoryCard />
+                            <v-col cols="6" md="3" lg="3" v-for="(item, index) in items" :key="index">
+                                <GroceryCategoryCard :item="item" />
                             </v-col>
                         </v-row>
                     </v-card>
@@ -30,8 +30,8 @@
                         class="px-md-5 px-lg-5"
                     >
                         <v-row wrap>
-                            <v-col cols="6" md="3" lg="3" v-for="(item, index) in 8" :key="index">
-                                <MobileGroceryCategoryCard />
+                            <v-col cols="6" md="3" lg="3" v-for="(item, index) in items" :key="index">
+                                <MobileGroceryCategoryCard :item="item" />
                             </v-col>
                         </v-row>
                     </v-card>
@@ -41,7 +41,9 @@
     </v-container>
 </template>
 
+
 <script>
+import axios from 'axios'
 import GroceryCategoryCard from '@/components/Common/GroceryCategoryCard'
 import MobileGroceryCategoryCard from '@/components/Common/Mobile/SmallGroceryCategoryCard'
 
@@ -49,7 +51,26 @@ export default {
     components: {
         GroceryCategoryCard,
         MobileGroceryCategoryCard,
-    }
+    },
+    data() {
+        return {
+            items: JSON.parse(localStorage.getItem('groceryCategories')) || [],
+        }
+    },
+
+    created() {
+        axios({
+            url: `https://www.easyeats.co.in/api/v1/groceries/categories/?active=true`,
+            method: 'GET'
+        })
+        .then(response => {
+            this.items = response.data.results
+            localStorage.setItem('groceryCategories', JSON.stringify(response.data.results))
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    },
 }
 </script>
 

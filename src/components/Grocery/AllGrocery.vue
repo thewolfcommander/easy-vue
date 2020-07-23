@@ -25,25 +25,126 @@
                             cols="6"
                             md="4"
                             lg="4"
-                            v-for="(item, index) in 8"
+                            v-for="(item, index) in groceries"
                             :key="index"
                             class="my-n5"
                         >
-                            <SingleGroceryCard />
+                            <SingleGroceryCard :item="item" />
                         </v-col>
                     </v-row>
                 </v-col>
             </v-row>
+            <v-row
+                justify="center"
+                v-if="morePage"
+            >
+                <v-btn
+                    color="secondary"
+                    class="mt-5"
+                    depressed
+                    @click="loadMore"
+                >Load more</v-btn>
+            </v-row>
+            <v-dialog
+                v-model="dialog"
+                hide-overlay
+                persistent
+                width="300"
+                class="pt-4 pb-3"
+            >
+                <v-card
+                    color="white"
+                    dark
+                >
+                    <v-card-text>
+                        <span class="subtitle-2 primary--text">
+                            Loading...
+                        </span>
+                        <v-progress-linear
+                            indeterminate
+                            color="primary"
+                            class="mb-0"
+                        ></v-progress-linear>
+                    </v-card-text>
+                </v-card>
+            </v-dialog>
         </v-container>
     </v-container>
 </template>
 
 <script>
+import axios from "axios";
 import SingleGroceryCard from "@/components/Common/SingleGroceryCard";
 
 export default {
     components: {
-        SingleGroceryCard
-    }
+        SingleGroceryCard,
+    },
+    data() {
+        return {
+            groceries: JSON.parse(localStorage.getItem("groceries")) || [],
+            morePage: false,
+            nextLink: null,
+            dialog: false,
+        };
+    },
+
+    created() {
+        this.dialog = true;
+        axios({
+            url: `https://www.easyeats.co.in/api/v1/groceries/items/`,
+            method: "GET",
+        })
+            .then((response) => {
+                this.groceries = response.data.results;
+                localStorage.setItem(
+                    "groceries",
+                    JSON.stringify(response.data)
+                );
+                console.log(response.data);
+                if (response.data.links.next) {
+                    this.morePage = true;
+                    this.nextLink = response.data.links.next.slice(4);
+                } else {
+                    (this.morePage = false), (this.nextLink = null);
+                }
+                this.dialog = false;
+            })
+            .catch((err) => {
+                console.log(err);
+                this.dialog = false;
+            });
+    },
+
+    methods: {
+        loadMore() {
+            this.dialog = true;
+            axios({
+                url: `https${this.nextLink}`,
+                method: "GET",
+            })
+                .then((response) => {
+                    response.data.results.forEach((item) => {
+                        this.groceries.push(item);
+                    });
+
+                    localStorage.setItem(
+                        "groceries",
+                        JSON.stringify(this.groceries)
+                    );
+                    console.log(this.groceries.length);
+                    if (response.data.links.next) {
+                        this.morePage = true;
+                        this.nextLink = response.data.links.next.slice(4);
+                    } else {
+                        (this.morePage = false), (this.nextLink = null);
+                    }
+                    this.dialog = false;
+                })
+                .catch((err) => {
+                    console.log(err);
+                    this.dialog = false;
+                });
+        },
+    },
 };
-</script>

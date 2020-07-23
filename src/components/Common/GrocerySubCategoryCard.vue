@@ -6,12 +6,13 @@
 
         <v-row justify="center">
             <v-img
-                src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+                :src="item.image"
                 lazy-src="https://fitmirchi.com/admin/assets/images/image_not_available.png"
                 aspect-ratio="1"
-                class="grey lighten-2"
+                class="white lighten-2"
                 max-width="250"
                 max-height="150"
+                contain
             >
                 <template v-slot:placeholder>
                     <v-row
@@ -28,8 +29,10 @@
             </v-img>
         </v-row>
 
-        <v-card-title>Cafe Badilico</v-card-title>
-        <v-card-subtitle>44 products</v-card-subtitle>
+        <v-row justify="center" class="pb-0 pt-0 mt-0 mb-0">
+            <v-card-title class="subtitle-1">{{ item.name }}</v-card-title>
+        </v-row>
+            <v-card-subtitle class="mt-n5">44 products</v-card-subtitle>
         <v-divider class="mx-4"></v-divider>
         <v-card-actions>
             <v-row justify="center">
@@ -37,7 +40,7 @@
                     color="secondary"
                     text
                     router
-                    :to="{name: 'SubCategoryDetail', params: {subCategoryId: 'Hello'} }"
+                    :to="{name: 'SubCategoryDetail', params: {subCategoryId: item.id} }"
                 >
                     View
                 </v-btn>
@@ -50,6 +53,7 @@
 export default {
     data: () => ({
         selection: 1
-    })
+    }),
+    props: ['item']
 };
 </script>

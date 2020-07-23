@@ -136,8 +136,8 @@ export default {
     },
     computed: {
         trimmedName() {
-            if (this.item.name.length > 28) {
-                return `${this.item.name.slice(0, 28)}...`
+            if (this.item.name.length > 24) {
+                return `${this.item.name.slice(0, 24)}...`
             } else {
                 return this.item.name
             }

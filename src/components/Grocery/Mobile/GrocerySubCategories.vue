@@ -15,10 +15,10 @@
                             cols="6"
                             md="3"
                             lg="3"
-                            v-for="(item, index) in 8"
+                            v-for="(item, index) in items"
                             :key="index"
                         >
-                            <GrocerySubCategoryCard />
+                            <GrocerySubCategoryCard :item="item" />
                         </v-col>
                     </v-row>
                 </v-card>
@@ -28,12 +28,32 @@
 </template>
 
 <script>
+import axios from 'axios'
 import GrocerySubCategoryCard from "@/components/Common/Mobile/SmallGrocerySubCategoryCard";
 
 export default {
     components: {
         GrocerySubCategoryCard
-    }
+    },
+    data() {
+        return {
+            items: JSON.parse(localStorage.getItem('grocerySubCategories')) || [],
+        }
+    },
+
+    created() {
+        axios({
+            url: `https://www.easyeats.co.in/api/v1/groceries/sub-categories/?active=true`,
+            method: 'GET'
+        })
+        .then(response => {
+            this.items = response.data.results
+            localStorage.setItem('grocerySubCategories', JSON.stringify(response.data.results))
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    },
 };
 </script>
 
