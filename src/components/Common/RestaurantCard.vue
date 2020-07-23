@@ -28,7 +28,7 @@
             </v-img>
         </v-row>
 
-        <v-card-title>Cafe Badilico</v-card-title>
+        <v-card-title>{{ item.name }} Restaurant</v-card-title>
 
         <v-card-text>
             <v-row
@@ -55,7 +55,7 @@
                     color="secondary"
                     text
                     router
-                    :to="{name: 'RestaurantDetail', params: {restaurantId: 'Hello'}}"
+                    :to="{name: 'RestaurantDetail', params: {restaurantId: item.id, restaurant: item }}"
                 >
                     View More
                 </v-btn>

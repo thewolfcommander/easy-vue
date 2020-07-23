@@ -1,6 +1,5 @@
 <template>
     <v-card
-        :loading="loading"
         class="mx-auto my-12"
     >
 
@@ -98,7 +97,8 @@ export default {
         loading: false,
         selection: 1,
         sheet: false,
-        quantity: 1
+        quantity: 1,
+        wishlistColor: "grey",
     }),
 
     components: {
@@ -109,11 +109,13 @@ export default {
     methods: {
         addToWishlist() {
             var data = {
-                id: this.item.itemId,
+                id: this.item.id,
                 name: this.item.name,
-                rating: this.item.rating,
+                rating: 4.5,
                 price: this.item.discount_price
             };
+
+            console.log(data)
 
             this.$store
                 .dispatch("addToWishlist", data)

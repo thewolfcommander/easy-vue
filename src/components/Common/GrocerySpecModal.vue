@@ -159,7 +159,7 @@ export default {
                 this.$store
                     .dispatch("addToCart", data)
                     .then(() => {
-                        this.snack.text = `You have successfully added ${this.item.itemName} in your cart`;
+                        this.snack.text = `You have successfully added ${this.item.name} in your cart`;
                         this.snack.color = "success";
                         this.snackbar = true;
                         this.loading = false;

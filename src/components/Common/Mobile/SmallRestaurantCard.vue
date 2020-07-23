@@ -33,7 +33,7 @@
                     color="primary"
                     text
                     router
-                    :to="{name: 'RestaurantDetail', params: {restaurantId: item.id}}"
+                    :to="{name: 'RestaurantDetail', params: {restaurantId: item.id, restaurant: item}}"
                     small
                 >
                     View

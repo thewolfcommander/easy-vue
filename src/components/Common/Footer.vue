@@ -201,6 +201,7 @@
                             <v-row justify="start">
                                 <p class="title ml-5">Newsletter</p>
                             </v-row>
+                            <NewsletterForm />
                         </v-col>
                     </v-row>
                 </v-container>
@@ -220,9 +221,15 @@
 </template>
 
 <script>
+import NewsletterForm from '@/components/Common/NewsletterForm'
+
 export default {
     data: () => ({
         icons: ["mdi-facebook", "mdi-twitter", "mdi-linkedin", "mdi-instagram"]
-    })
+    }),
+
+    components: {
+        NewsletterForm
+    }
 };
 </script>

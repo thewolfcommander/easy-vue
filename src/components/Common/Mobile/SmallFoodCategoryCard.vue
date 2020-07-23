@@ -1,6 +1,5 @@
 <template>
     <v-card
-        :loading="loading"
         class="mx-auto my-2"
         height="215"
     >

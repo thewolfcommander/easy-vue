@@ -1,6 +1,5 @@
 <template>
     <v-card
-        :loading="loading"
         rounded="lg"
         class="mx-auto my-12"
     >
@@ -10,9 +9,8 @@
                 src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
                 lazy-src="https://fitmirchi.com/admin/assets/images/image_not_available.png"
                 aspect-ratio="1"
-                class="grey lighten-2"
-                max-width="250"
-                max-height="150"
+                max-height="120"
+                contain
             >
                 <template v-slot:placeholder>
                     <v-row
@@ -29,7 +27,7 @@
             </v-img>
         </v-row>
 
-        <v-card-title>{{ item.name }}</v-card-title>
+        <v-card-title class="subtitle-1">{{ item.name }}</v-card-title>
         <v-card-subtitle>{{ item.restaurant.name }}</v-card-subtitle>
         <v-divider class="mx-4"></v-divider>
         <v-card-actions>
@@ -51,6 +49,8 @@
 export default {
     data: () => ({
         selection: 1
-    })
+    }),
+
+    props: ['item'],
 };
 </script>

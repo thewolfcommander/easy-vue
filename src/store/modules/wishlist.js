@@ -1,26 +1,33 @@
-const state= {
+const state = {
     wishlist: Array(localStorage.getItem('wishlist')) || [],
     wishlistItems: +localStorage.getItem('wishlistItems') || 0
 };
-const getters= {
+const getters = {
     getWishlistItemsCount: state => state.wishlistItems,
-    getWishlist: state => JSON.parse(state.wishlist)
+    getWishlist: state => state.wishlist
 };
-const actions= {
-    addToWishlist({commit}, data) {
+const actions = {
+    addToWishlist({
+        commit
+    }, data) {
         commit('ADD_TO_WISHLIST', JSON.stringify(data))
     },
 
-    removeFromWishlist({commit}, id) {
+    removeFromWishlist({
+        commit
+    }, id) {
         commit('REMOVE_FROM_WISHLIST', id)
     }
 };
-const mutations= {
+const mutations = {
     ADD_TO_WISHLIST(state, data) {
-        if (state.wishlist.some(item => {
-            item.id === data.id
-        })) {
-            alert('already in wishlist')
+        console.log(state.wishlist.length)
+        if (state.wishlist.length > 1) {
+            if (state.wishlist.some(item => {
+                    item.id === data.id
+                })) {
+                alert('already in wishlist')
+            }
         }
         state.wishlist.push(data)
         state.wishlistItems += 1
