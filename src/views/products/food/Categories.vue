@@ -23,10 +23,10 @@
                                 cols="6"
                                 md="3"
                                 lg="3"
-                                v-for="(item, index) in 8"
+                                v-for="(item, index) in categories"
                                 :key="index"
                             >
-                                <CategoryCard />
+                                <CategoryCard :item="item" />
                             </v-col>
                         </v-row>
                     </v-card>
@@ -49,7 +49,7 @@
                                 v-for="(item, index) in categories"
                                 :key="index"
                             >
-                                <MobileCategoryCard />
+                                <MobileCategoryCard :item="item" />
                             </v-col>
                         </v-row>
                     </v-card>
@@ -67,6 +67,29 @@
                     @click="loadMore"
                 >Load more</v-btn>
             </v-row>
+            <v-dialog
+                v-model="dialog"
+                hide-overlay
+                persistent
+                width="300"
+                class="pt-4 pb-3"
+            >
+                <v-card
+                    color="white"
+                    dark
+                >
+                    <v-card-text>
+                        <span class="subtitle-2 primary--text">
+                            Loading...
+                        </span>
+                        <v-progress-linear
+                            indeterminate
+                            color="primary"
+                            class="mb-0"
+                        ></v-progress-linear>
+                    </v-card-text>
+                </v-card>
+            </v-dialog>
         </v-container>
     </v-container>
 </template>
@@ -85,17 +108,22 @@ export default {
 
     data() {
         return {
-            categories: JSON.parse(localStorage.getItem("categories")) || []
+            categories: JSON.parse(localStorage.getItem("categories")) || [],
+            dialog: false
         };
     },
     created() {
+        this.dialog = true;
         axios({
             url: `https://www.easyeats.co.in/api/v1/products/categories/?active=True`,
             method: "GET"
         })
             .then(response => {
                 this.categories = response.data.results;
-                localStorage.setItem("categories", JSON.stringify(response.data));
+                localStorage.setItem(
+                    "categories",
+                    JSON.stringify(response.data)
+                );
                 console.log(response.data);
                 if (response.data.links.next) {
                     this.morePage = true;
@@ -103,13 +131,16 @@ export default {
                 } else {
                     (this.morePage = false), (this.nextLink = null);
                 }
+                this.dialog = false;
             })
             .catch(err => {
                 console.log(err);
+                this.dialog = false;
             });
     },
     methods: {
         loadMore() {
+            this.dialog = true;
             axios({
                 url: `https${this.nextLink}`,
                 method: "GET"
@@ -119,7 +150,10 @@ export default {
                         this.categories.push(item);
                     });
 
-                    localStorage.setItem("categories", JSON.stringify(this.categories));
+                    localStorage.setItem(
+                        "categories",
+                        JSON.stringify(this.categories)
+                    );
                     console.log(this.categories.length);
                     if (response.data.links.next) {
                         this.morePage = true;
@@ -127,9 +161,11 @@ export default {
                     } else {
                         (this.morePage = false), (this.nextLink = null);
                     }
+                    this.dialog = false;
                 })
                 .catch(err => {
                     console.log(err);
+                    this.dialog = false;
                 });
         }
     }

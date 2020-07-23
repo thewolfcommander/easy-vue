@@ -47,6 +47,29 @@
                     @click="loadMore"
                 >Load more</v-btn>
             </v-row>
+            <v-dialog
+                v-model="dialog"
+                hide-overlay
+                persistent
+                width="300"
+                class="pt-4 pb-3"
+            >
+                <v-card
+                    color="white"
+                    dark
+                >
+                    <v-card-text>
+                        <span class="subtitle-2 primary--text">
+                            Loading...
+                        </span>
+                        <v-progress-linear
+                            indeterminate
+                            color="primary"
+                            class="mb-0"
+                        ></v-progress-linear>
+                    </v-card-text>
+                </v-card>
+            </v-dialog>
         </v-container>
     </v-container>
 </template>
@@ -65,11 +88,13 @@ export default {
         return {
             foods: JSON.parse(localStorage.getItem("foods")) || [],
             morePage: false,
-            nextLink: null
+            nextLink: null,
+            dialog: false
         };
     },
 
     created() {
+        this.dialog = true;
         axios({
             url: `https://www.easyeats.co.in/api/v1/products/foods/`,
             method: "GET"
@@ -84,14 +109,17 @@ export default {
                 } else {
                     (this.morePage = false), (this.nextLink = null);
                 }
+                this.dialog = false;
             })
             .catch(err => {
                 console.log(err);
+                this.dialog = false;
             });
     },
 
     methods: {
         loadMore() {
+            this.dialog = true;
             axios({
                 url: `https${this.nextLink}`,
                 method: "GET"
@@ -109,9 +137,12 @@ export default {
                     } else {
                         (this.morePage = false), (this.nextLink = null);
                     }
+
+                    this.dialog = false;
                 })
                 .catch(err => {
                     console.log(err);
+                    this.dialog = false;
                 });
         }
     }

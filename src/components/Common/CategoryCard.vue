@@ -29,8 +29,8 @@
             </v-img>
         </v-row>
 
-        <v-card-title>Cafe Badilico</v-card-title>
-        <v-card-subtitle>44 products</v-card-subtitle>
+        <v-card-title>{{ item.name }}</v-card-title>
+        <v-card-subtitle>{{ item.restaurant.name }}</v-card-subtitle>
         <v-divider class="mx-4"></v-divider>
         <v-card-actions>
             <v-row justify="center">
@@ -38,7 +38,7 @@
                     color="secondary"
                     text
                     router
-                    :to="{name: 'CategoryDetail', params: {categoryId: 'Hello'} }"
+                    :to="{name: 'CategoryDetail', params: {categoryId: 'Hello',} }"
                 >
                     View
                 </v-btn>

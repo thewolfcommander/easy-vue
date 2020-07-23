@@ -2,49 +2,47 @@
     <v-card
         :loading="loading"
         class="mx-auto my-2"
+        height="215"
     >
 
         <v-row justify="center">
-            <router-link
-                :to="{path: `/menu/${quantity}`}"
-                class="text-decoration-none black--text"
+            <v-img
+                src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+                lazy-src="https://fitmirchi.com/admin/assets/images/image_not_available.png"
+                max-height="90"
+                contain
             >
-                <v-img
-                    src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-                    lazy-src="https://fitmirchi.com/admin/assets/images/image_not_available.png"
-                    max-height="90"
-                    contain
-                >
-                    <template v-slot:placeholder>
-                        <v-row
-                            class="fill-height ma-0"
-                            align="center"
-                            justify="center"
-                        >
-                            <v-progress-circular
-                                indeterminate
-                                color="grey lighten-5"
-                            ></v-progress-circular>
-                        </v-row>
-                    </template>
-                </v-img>
-            </router-link>
+                <template v-slot:placeholder>
+                    <v-row
+                        class="fill-height ma-0"
+                        align="center"
+                        justify="center"
+                    >
+                        <v-progress-circular
+                            indeterminate
+                            color="grey lighten-5"
+                        ></v-progress-circular>
+                    </v-row>
+                </template>
+            </v-img>
         </v-row>
 
         <v-card-subtitle class="text-center">
-            Category
+            {{ item.name }}
         </v-card-subtitle>
-        <p class="caption grey--text text-center mt-n4">44 Products</p>
+        <p class="caption grey--text text-center mt-n4">{{ item.restaurant.name }}</p>
 
         <v-card-actions class="mt-n4 text-center">
             <v-row justify="center">
                 <v-btn
-                color="primary"
-                text
-                small
-            >
-                View
-            </v-btn>
+                    color="primary"
+                    text
+                    small
+                    router
+                    :to="{name: 'CategoryDetail', params:{categoryId: item.id, item: item}}"
+                >
+                    View
+                </v-btn>
             </v-row>
         </v-card-actions>
     </v-card>
@@ -58,16 +56,17 @@ export default {
         quantity: 1
     }),
 
-    methods: {
-    }
+    props: ['item'],
+
+    methods: {}
 };
 </script>
 
 <style scoped>
-.small-card-buttons{
-    margin-top: 0px!important;
-    margin-bottom: 0px!important;
-    padding-top: 0px!important;
-    padding-bottom: 0px!important;
+.small-card-buttons {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
 }
 </style>

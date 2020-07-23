@@ -37,8 +37,8 @@
 import Navbar from "@/components/Common/Navbar";
 import Footer from "@/components/Common/Footer";
 
-import BottomNavigation from '@/components/Common/Mobile/BottomNavigation'
-import UpperNavigation from '@/components/Common/Mobile/UpperNavigation'
+import BottomNavigation from "@/components/Common/Mobile/BottomNavigation";
+import UpperNavigation from "@/components/Common/Mobile/UpperNavigation";
 
 export default {
     name: "App",
@@ -47,11 +47,12 @@ export default {
         Navbar,
         Footer,
         BottomNavigation,
-        UpperNavigation,
+        UpperNavigation
     },
 
     data: () => ({
-        scrollpx: 0
+        scrollpx: 0,
+        windowWidth: window.innerWidth
         //
     }),
     methods: {
@@ -68,13 +69,16 @@ export default {
     },
     mounted() {
         window.addEventListener("scroll", this.handleScroll);
+        window.addEventListener("resize", () => {
+            this.windowWidth = window.innerWidth;
+        });
     },
     destroyed() {
         window.removeEventListener("scroll", this.handleScroll);
     },
     computed: {
         loading() {
-            return this.$store.getters.loading
+            return this.$store.getters.loading;
         }
     }
 };

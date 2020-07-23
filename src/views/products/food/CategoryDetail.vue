@@ -6,7 +6,7 @@
                     cols="12"
                     class="text-center"
                 >
-                    <h2 class="text-h4 grey--text">Category Name</h2>
+                    <h2 class="text-h4 grey--text">{{ item.name }}</h2>
                 </v-col>
             </v-row>
             <v-row justify="center">
@@ -35,12 +35,12 @@
                     </v-row>
                 </v-col>
                 <v-col cols="12" md="8" class="text-center">
-                    <p class="grey--text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit deleniti, modi recusandae dolorum exercitationem consequatur! Odio assumenda incidunt dolorum fugit, recusandae nam illum vero consequuntur consectetur temporibus sit expedita rem quos unde saepe, consequatur alias similique suscipit dicta inventore magnam nostrum quas ipsum ipsa? Consequuntur nostrum iste hic vel doloribus?</p>
+                    
                 </v-col>
             </v-row>
             <v-row wrap>
-                <v-col cols="6" sm="4" md="2" v-for="(item, index) in 16" :key="index">
-                    <FoodCard />
+                <v-col cols="6" sm="4" md="2" v-for="(item, index) in foods" :key="index">
+                    <FoodCard :item="item" />
                 </v-col>
             </v-row>
         </v-container>
@@ -48,11 +48,33 @@
 </template>
 
 <script>
+import axios from 'axios'
 import FoodCard from '@/components/Common/Mobile/FoodCard'
 
 export default {
     components: {
         FoodCard
+    },
+    data() {
+        return {
+            foods: JSON.parse(localStorage.getItem('foods')) || [],
+        }
+    },
+
+    props: ['item'],
+
+    mounted() {
+        axios({
+            url: `https://www.easyeats.co.in/api/v1/products/foods/?restaurant=${this.item.restaurant.id}`,
+            method: 'GET'
+        })
+        .then(response => {
+            this.foods = response.data.results
+            localStorage.setItem('foods', JSON.stringify(response.data.results))
+        })
+        .catch(err => {
+            console.log(err)
+        })
     }
 };
 </script>
