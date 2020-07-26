@@ -7,6 +7,7 @@ import EssentialRoutes from './essential'
 import AccountsRoutes from './accounts'
 import FoodRoutes from './foods'
 import GroceryRoutes from './grocery'
+import OrdersRoutes from './orders'
 
 Vue.use(VueRouter)
 var allRoutes = []
@@ -16,6 +17,7 @@ allRoutes = allRoutes.concat(
   ...AccountsRoutes,
   ...FoodRoutes,
   ...GroceryRoutes,
+  ...OrdersRoutes,
 )
 
 const routes = allRoutes

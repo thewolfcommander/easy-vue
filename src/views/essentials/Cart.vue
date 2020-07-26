@@ -9,13 +9,32 @@
                     <h2 class="text-h4 grey--text">My Shopping Cart</h2>
                 </v-col>
             </v-row>
+            <v-row justify="center" v-if="authenticated">
+                <v-btn
+                    color="primary"
+                    dark
+                    @click="syncCart"
+                >
+                    <v-icon left>mdi-sync</v-icon>
+                    <span>Sync Cart</span>
+                </v-btn>
+                <v-btn
+                    color="grey"
+                    @click="tool = !tool"
+                    icon
+                >
+                    <v-icon center>
+                        mdi-information
+                    </v-icon>
+                </v-btn>
+            </v-row>
             <v-row justify="center">
                 <v-col cols="12">
                     <v-card
                         flat
                         class="px-md-5 px-lg-5"
                     >
-                        <v-card-text>
+                        <v-card-text v-if="cartItems !== 0">
                             <v-row wrap>
                                 <v-col
                                     cols="4"
@@ -47,34 +66,156 @@
                             </v-row>
                             <v-divider></v-divider>
                             <v-row wrap>
-                                <v-col cols="12" v-for="(item, index) in 4" :key="index">
-                                    <ItemCard />
+                                <v-col
+                                    cols="12"
+                                    v-for="(item, index) in foodCartItems"
+                                    :key="index"
+                                >
+                                    <ItemCard :item="item" />
                                 </v-col>
                             </v-row>
-
-                            <v-divider></v-divider>
-                            <TotalPart />
-                            <PromotionPart />
                         </v-card-text>
+                        <v-row v-if="cartItems===0" justify="center">
+                            <p class="subtitle-1">Oops! Your cart is empty</p>
+                        </v-row>
+                        <v-divider></v-divider>
+                            <TotalPart :authenticated="authenticated" />
+                            <PromotionPart :authenticated="authenticated" :syncCart="syncCart" />
                     </v-card>
                 </v-col>
             </v-row>
         </v-container>
+
+        <v-dialog
+            v-model="tool"
+            width="500"
+        >
+
+            <v-card>
+                <v-card-title class="headline grey lighten-4 primary--text">
+                    Why Sync is important?
+                </v-card-title>
+
+                <v-card-text class="mt-4">
+                    Sync helps to maintain a balance between the items in your cart and our servers.
+                </v-card-text>
+
+                <v-divider></v-divider>
+
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        color="primary"
+                        text
+                        @click="tool = false"
+                    >
+                        Close
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+        <v-dialog
+            v-model="dialog"
+            hide-overlay
+            persistent
+            width="300"
+            class="pt-4 pb-3"
+        >
+            <v-card
+                color="white"
+                dark
+            >
+                <v-card-text>
+                    <span class="subtitle-2 primary--text">
+                        Loading...
+                    </span>
+                    <v-progress-linear
+                        indeterminate
+                        color="primary"
+                        class="mb-0"
+                    ></v-progress-linear>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
     </v-container>
 </template>
 
 <script>
-import ItemCard from '@/components/Cart/ItemCard'
-import TotalPart from '@/components/Cart/TotalPart'
-import PromotionPart from '@/components/Cart/PromotionPart'
+import axios from 'axios'
+import ItemCard from "@/components/Cart/ItemCard";
+import TotalPart from "@/components/Cart/TotalPart";
+import PromotionPart from "@/components/Cart/PromotionPart";
 
 export default {
     components: {
         ItemCard,
         TotalPart,
-        PromotionPart
+        PromotionPart,
+    },
+    data() {
+        return {
+            tool: false,
+            dialog: false
+        };
+    },
+    computed: {
+        parseFoodCart() {
+            return JSON.parse(this.$store.getters.getFoodCart)
+        },
+        foodCartItems() {
+            return this.parseFoodCart.map(item => JSON.parse(item))
+        },
+        prepareForServerCart() {
+            let foods = []
+            this.foodCartItems.forEach(item => {
+                let food = {}
+                food.food = item.food.id,
+                food.quantity = item.quantity
+                foods.push(food)
+            })
+            return foods
+        },
+        authenticated() {
+            return this.$store.getters.isLoggedIn || false
+        },
+        cartItems() {
+            return this.$store.getters.getCartItems
+        }
+    },
+    created() {
+        this.dialog = true
+        setTimeout(() => {
+            this.dialog = false
+        }, 2000)
+    },
+    methods: {
+        syncCart() {
+            this.dialog = true
+            let data = {
+                user: this.$store.getters.getUser.id,
+                foods: this.prepareForServerCart,
+                groceries: []
+            }
+            axios({
+                url: `https://easyeats.co.in/api/v1/cart/create/`,
+                method: `POST`,
+                headers: {
+                    Authorization: `Token ${this.$store.getters.getToken}`,
+                },
+                data: data
+            })
+            .then(response => {
+                console.log(response)
+                this.$store.dispatch('cartFromServer', JSON.stringify(response.data))
+            this.dialog = false
+            })
+            .catch(err => {
+                console.log(err)
+            this.dialog = false
+            })
+        }
     }
-}
+};
 </script>
 
 <style scoped>

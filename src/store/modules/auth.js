@@ -9,7 +9,8 @@ const state = {
 
 const getters = {
     isLoggedIn: state => !!state.status,
-    getUser: state => JSON.parse(state.user)
+    getUser: state => JSON.parse(state.user),
+    getToken: state => state.token
 };
 
 const actions = {

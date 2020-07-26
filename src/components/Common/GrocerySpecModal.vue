@@ -95,7 +95,7 @@
                         </v-row>
                     </v-card-text>
 
-                    <v-card-actions>
+                    <v-card-actions class="mt-n5">
                         <v-btn
                             block
                             class="white--text"
@@ -157,7 +157,7 @@ export default {
                 };
 
                 this.$store
-                    .dispatch("addToCart", data)
+                    .dispatch("addToGroceryCart", data)
                     .then(() => {
                         this.snack.text = `You have successfully added ${this.item.name} in your cart`;
                         this.snack.color = "success";

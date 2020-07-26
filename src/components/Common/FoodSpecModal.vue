@@ -152,14 +152,19 @@ export default {
             this.loading = true;
             if (this.quantity > 0) {
                 let data = {
-                    food: this.item.id,
+                    food: {
+                        id: this.item.id,
+                        name: this.item.name,
+                        price: this.item.discount_price,
+                        restaurant: this.item.restaurant.name
+                    },
                     quantity: this.quantity
                 };
 
                 this.$store
-                    .dispatch("addToCart", data)
+                    .dispatch("addToFoodCart", data)
                     .then(() => {
-                        this.snack.text = `You have successfully added ${this.item.itemName} in your cart`;
+                        this.snack.text = `You have successfully added ${this.item.name} in your cart`;
                         this.snack.color = "success";
                         this.snackbar = true;
                         this.loading = false;

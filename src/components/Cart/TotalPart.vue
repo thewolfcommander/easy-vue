@@ -14,7 +14,7 @@
                     <v-col
                         cols="6"
                         class="text-right"
-                    >Rs. 122</v-col>
+                    >Rs. 0.00</v-col>
                 </v-row>
             </v-card>
         </v-col>
@@ -32,7 +32,7 @@
                     <v-col
                         cols="6"
                         class="text-right"
-                    >Rs. 122</v-col>
+                    >Rs. {{ cost.shipping || 0.00 }}</v-col>
                 </v-row>
             </v-card>
         </v-col>
@@ -50,7 +50,7 @@
                     <v-col
                         cols="6"
                         class="text-right"
-                    >Rs. 122</v-col>
+                    >Rs. {{ cost.sub_total || 0.00 }}</v-col>
                 </v-row>
             </v-card>
         </v-col>
@@ -68,9 +68,21 @@
                     <v-col
                         cols="6"
                         class="text-right"
-                    >Rs. 122</v-col>
+                    >Rs. {{ cost.total || 0.00 }}</v-col>
                 </v-row>
             </v-card>
         </v-col>
     </v-row>
 </template>
+
+
+<script>
+export default {
+    props: ['authenticated'],
+    computed: {
+        cost() {
+            return this.$store.getters.getCartFromServer
+        }
+    }
+}
+</script>
