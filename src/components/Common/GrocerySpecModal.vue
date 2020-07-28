@@ -152,7 +152,11 @@ export default {
             this.loading = true;
             if (this.quantity > 0) {
                 let data = {
-                    grocery: this.item.id,
+                    grocery: {
+                        id: this.item.id,
+                        name: this.item.name,
+                        price: this.item.discount_price,
+                    },
                     quantity: this.quantity
                 };
 
@@ -163,14 +167,14 @@ export default {
                         this.snack.color = "success";
                         this.snackbar = true;
                         this.loading = false;
-                        this.sheet = false;
+                        this.sheet = false
                     })
                     .catch(() => {
                         this.snack.text = "Some Error occured";
                         this.snack.color = "error";
                         this.snackbar = true;
                         this.loading = false;
-                        this.sheet = false;
+                        this.sheet = false
                     });
             } else {
                 this.snack.text = "Quantity can never be less than 1";

@@ -36,8 +36,12 @@ const actions= {
         commit('ADD_TO_GROCERY_CART', JSON.stringify(data))
     },
 
-    removeFromCart({commit}, id) {
-        commit('REMOVE_FROM_CART', id)
+    removeFromFoodCart({commit}, id) {
+        commit('REMOVE_FROM_FOOD_CART', id)
+    },
+
+    removeFromGroceryCart({commit}, id) {
+        commit('REMOVE_FROM_GROCERY_CART', id)
     },
 
     billingAddressForOrder({commit}, id) {
@@ -62,20 +66,34 @@ const mutations= {
     },
 
     ADD_TO_GROCERY_CART(state, data) {
-        state.groceryCart.push(data)
+        let groceries = JSON.parse(localStorage.getItem('groceryCart'));
+        groceries = groceries ? groceries : [];
+        groceries.push(data)
+        state.groceryCart = JSON.stringify(groceries)
         state.cartItems += 1
-        localStorage.setItem('groceryCart', state.groceryCart)
+        localStorage.setItem('groceryCart', JSON.stringify(groceries))
         localStorage.setItem('cartItems', state.cartItems)
     },
 
-    REMOVE_FROM_CART(state, id) {
-        state.cart.filter(item => {
-            return item.id != id
-        })
+    REMOVE_FROM_FOOD_CART(state, id) {
+        const index = JSON.parse(state.foodCart).findIndex(item => JSON.parse(item).food.id === id)
+        let newCart = JSON.parse(state.foodCart)
+        newCart.splice(index, 1)
+        state.foodCart = JSON.stringify(newCart)
+        console.log(state.foodCart)
         state.cartItems -= 1
-        localStorage.removeItem('cart')
-        localStorage.removeItem('cartItems')
-        localStorage.setItem('cart', state.cart)
+        localStorage.setItem('foodCart', state.foodCart)
+        localStorage.setItem('cartItems', state.cartItems)
+    },
+
+    REMOVE_FROM_GROCERY_CART(state, id) {
+        const index = JSON.parse(state.groceryCart).findIndex(item => JSON.parse(item).grocery.id === id)
+        let newCart = JSON.parse(state.groceryCart)
+        newCart.splice(index, 1)
+        state.groceryCart = JSON.stringify(newCart)
+        console.log(state.groceryCart)
+        state.cartItems -= 1
+        localStorage.setItem('groceryCart', state.groceryCart)
         localStorage.setItem('cartItems', state.cartItems)
     },
 

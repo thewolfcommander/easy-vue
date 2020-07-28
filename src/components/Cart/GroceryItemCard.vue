@@ -35,8 +35,7 @@
                     cols="12"
                     md="9"
                 >
-                    <p class="subtitle-1">{{ item.food.name }}</p>
-                    <p class="subtitle-2 mt-n5 grey--text text--lighten-1">By {{ item.food.restaurant }}</p>
+                    <p class="subtitle-1">{{ item.grocery.name }}</p>
                 </v-col>
             </v-row>
         </v-col>
@@ -89,33 +88,9 @@
             md="2"
             class="text-center"
         >
-            <p class="subtitle-1 black--text mt-4">{{ item.food.price }} x {{ item.quantity }} = {{ itemCost }}</p>
+            <p class="subtitle-1 black--text mt-4">{{ item.grocery.price }} x {{ item.quantity }} = {{ itemCost }}</p>
         </v-col>
-        <v-dialog
-            v-model="dialog"
-            hide-overlay
-            persistent
-            width="300"
-            class="pt-4 pb-3"
-        >
-            <v-card
-                color="white"
-                dark
-            >
-                <v-card-text>
-                    <span class="subtitle-2 primary--text">
-                        Loading...
-                    </span>
-                    <v-progress-linear
-                        indeterminate
-                        color="primary"
-                        class="mb-0"
-                    ></v-progress-linear>
-                </v-card-text>
-            </v-card>
-        </v-dialog>
     </v-row>
-    
 </template>
 <script>
 // import NProgress from 'nprogress'
@@ -124,7 +99,6 @@ export default {
     data() {
         return {
             quantity: 1,
-            dialog: false,
         };
     },
     props: ["item"],
@@ -132,9 +106,10 @@ export default {
         changeQuantity(val) {
             this.item.quantity += val;
         },
+
         removeItem() {
             this.dialog = true
-            this.$store.dispatch('removeFromFoodCart', this.item.food.id)
+            this.$store.dispatch('removeFromGroceryCart', this.item.grocery.id)
             .then(() => {
                 this.dialog = false
             })
@@ -144,9 +119,12 @@ export default {
             })
         }
     },
+    created() {
+        console.log(this.item)
+    },
     computed: {
         itemCost() {
-            return this.item.food.price * this.item.quantity;
+            return this.item.grocery.price * this.item.quantity;
         },
     }
 };

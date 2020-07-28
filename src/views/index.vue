@@ -17,6 +17,7 @@
         <MobileFoods class="d-flex d-md-none" />
         <MobileGroceries class="d-flex d-md-none" />
         <RestaurantForm />
+        <Loading :dialog="dialog" />
     </v-container>
 </template>
 
@@ -37,8 +38,22 @@ import MobileGroceries from "@/components/Home/Mobile/Groceries";
 
 import RestaurantForm from "@/components/Home/RestaurantForm";
 
+import Loading from '@/components/Common/Loading'
+
 export default {
+    data() {
+        return {
+            dialog: false,
+        }
+    },
+    created() {
+        this.dialog = true;
+        setTimeout(() => {
+            this.dialog = false
+        }, 2000)
+    },
     components: {
+        Loading,
         Header,
         FeaturedProducts,
         TopRestaurants,
