@@ -30,10 +30,12 @@
                 </v-btn>
             </v-fab-transition>
         </v-row>
+        <PreLoader />
     </v-app>
 </template>
 
 <script>
+import PreLoader from "@/components/PreLoader";
 import Navbar from "@/components/Common/Navbar";
 import Footer from "@/components/Common/Footer";
 
@@ -47,12 +49,13 @@ export default {
         Navbar,
         Footer,
         BottomNavigation,
-        UpperNavigation
+        UpperNavigation,
+        PreLoader
     },
 
     data: () => ({
         scrollpx: 0,
-        windowWidth: window.innerWidth
+        windowWidth: window.innerWidth,
         //
     }),
     methods: {
@@ -91,7 +94,7 @@ export default {
         loading() {
             return this.$store.getters.loading;
         }
-    }
+    },
 };
 </script>
 

@@ -12,6 +12,28 @@ Vue.use(Vuex)
 
 
 export default new Vuex.Store({
+  state: {
+    overlay: false,
+  },
+  getters: {
+    getOverlay: state => !!state.overlay
+  },
+  actions: {
+    startLoading({commit}) {
+      commit('START_LOADING')
+    },
+    stopLoading({commit}) {
+      commit('STOP_LOADING')
+    },
+  },
+  mutations: {
+    START_LOADING(state) {
+      state.overlay = true
+    },
+    STOP_LOADING(state) {
+      state.overlay = false
+    }
+  },
   modules: {
     auth,
     cart,

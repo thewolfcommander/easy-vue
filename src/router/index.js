@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import NProgress from 'nprogress'
+// import NProgress from 'nprogress'
 import store from '@/store'
 
 import EssentialRoutes from './essential'
@@ -29,19 +29,21 @@ const router = new VueRouter({
 })
 
 
-
 router.beforeResolve((to, from, next) => {
   // If this isn't an initial page load.
-  NProgress.start()
+  if (to.name) {
+    // Start the route progress bar.
+    store.commit('START_LOADING')
+    console.log(from)
+  }
   next()
-  console.log(to, from)
 })
 
 router.afterEach((to, from) => {
   // Complete the animation of the route progress bar.
-  
-  NProgress.done()
-  console.log(to, from)
+  store.commit('STOP_LOADING')
+  console.log(to)
+  console.log(from)
 })
 
 
