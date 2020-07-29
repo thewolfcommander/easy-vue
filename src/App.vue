@@ -67,6 +67,17 @@ export default {
             });
         }
     },
+    created() {
+        let foods = localStorage.getItem('foodCart')
+        let groceries = localStorage.getItem('groceryCart')
+
+        if (!foods) {
+            localStorage.getItem('foodCart', [])
+        }
+        if (!groceries) {
+            localStorage.getItem('groceryCart', [])
+        }
+    },
     mounted() {
         window.addEventListener("scroll", this.handleScroll);
         window.addEventListener("resize", () => {

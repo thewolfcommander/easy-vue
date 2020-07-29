@@ -73,6 +73,7 @@ const routes = [
             title: 'My Order Detail - EasyEats | Order food online',
             requiresAuth: true
         },
+        props: true,
     },
 
     // Delivery Boy Accounts

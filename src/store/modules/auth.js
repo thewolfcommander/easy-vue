@@ -113,6 +113,12 @@ const mutations = {
     LOGOUT_USER(state) {
         state.user = {};
         state.status = false;
+        state.foodCart = [];
+        state.groceryCart = [];
+        state.cartItems = 0;
+        state.cartTotal = 0.00;
+        state.addressForCurrentOrder = {};
+        state.cartFromServer = {};
     }
 };
 

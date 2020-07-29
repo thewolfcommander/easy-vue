@@ -84,7 +84,8 @@
 export default {
     data() {
         return {
-            toggle_exclusive: undefined
+            toggle_exclusive: undefined,
+            show: false,
         };
     }
 };

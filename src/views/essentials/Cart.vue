@@ -259,8 +259,6 @@ export default {
     },
     created() {
         this.dialog = true;
-        console.log(this.isFoods);
-        console.log(this.isGroceries);
         setTimeout(() => {
             this.dialog = false;
         }, 2000);

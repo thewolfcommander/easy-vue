@@ -48,6 +48,15 @@ export default {
     },
     created() {
         this.dialog = true;
+        let foods = localStorage.getItem('foodCart')
+        let groceries = localStorage.getItem('groceryCart')
+
+        if (!foods) {
+            localStorage.getItem('foodCart', [])
+        }
+        if (!groceries) {
+            localStorage.getItem('groceryCart', [])
+        }
         setTimeout(() => {
             this.dialog = false
         }, 2000)

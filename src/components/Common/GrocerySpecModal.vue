@@ -68,7 +68,7 @@
 
                     <v-card-text>
                         <span class="subheading">Select Quantity</span>
-                        <v-row justify="space-around mt-4 ml-1 mr-1">
+                        <v-row justify="space-around" class="mt-4 ml-1 mr-1">
                             <v-btn
                                 fab
                                 x-small

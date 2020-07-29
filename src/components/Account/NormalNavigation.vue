@@ -1,6 +1,7 @@
 <template>
     <v-card
         class="mx-auto"
+        style="z-index: 2"
         tile
         flat
         min-width="300"

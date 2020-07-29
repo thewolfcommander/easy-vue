@@ -17,31 +17,34 @@
                 sm="12"
             >
                 <v-row justify="center">
-                    <v-avatar size="128">
-                        <img
-                            src="https://cdn.vuetifyjs.com/images/john.jpg"
-                            alt="John"
-                        >
-                    </v-avatar>
-                </v-row>
-                <v-row
-                    justify="center"
-                    class="mt-3"
-                >
-                    <h2 class="subtitle-1">Manoj Tyagi</h2>
+                    <v-img
+                        src="https://img.icons8.com/pastel-glyph/2x/purchase-order.png"
+                        lazy-src="https://img.icons8.com/pastel-glyph/2x/purchase-order.png"
+                        max-height="90"
+                        contain
+                    >
+                        <template v-slot:placeholder>
+                            <v-row
+                                class="fill-height ma-0"
+                                align="center"
+                                justify="center"
+                            >
+                                <v-progress-circular
+                                    indeterminate
+                                    color="grey lighten-5"
+                                ></v-progress-circular>
+                            </v-row>
+                        </template>
+                    </v-img>
                 </v-row>
                 <v-row justify="center">
-                    <h2 class="subtitle-1">manojtyagi@gmail.com | +91-7253919169</h2>
+                    <h3 class="text-h5 grey--text">Order - {{ order.order_id.toUpperCase() }}</h3>
                 </v-row>
-                <v-row
-                    justify="center"
-                    class="mt-3"
-                >
-                    <v-btn
-                        small
-                        rounded
-                        color="primary"
-                    >Edit Profile</v-btn>
+                <v-row justify="start" class="mt-5">
+                    <v-expansion-panels style="z-index: 1" elevation="8">
+                        <OrderInfoExpansionPanels item="Product Details" :info="order.cart" />
+                        <OrderAddressInfo item="Delivery Details" :info="order.address" />
+                    </v-expansion-panels>
                 </v-row>
             </v-col>
         </v-row>
@@ -55,23 +58,72 @@
             <v-icon center>mdi-menu</v-icon>
         </v-btn>
         <BottomSheet :sheet="sheet" />
+        <v-dialog
+            v-model="dialog"
+            hide-overlay
+            persistent
+            width="300"
+            class="pt-4 pb-3"
+        >
+            <v-card
+                color="white"
+                dark
+            >
+                <v-card-text>
+                    <span class="subtitle-2 primary--text">
+                        Loading...
+                    </span>
+                    <v-progress-linear
+                        indeterminate
+                        color="primary"
+                        class="mb-0"
+                    ></v-progress-linear>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
     </v-container>
 </template>
 
 <script>
+import axios from 'axios'
 import NormalNavigation from "@/components/Account/NormalNavigation";
 import BottomSheet from "@/components/Account/Mobile/BottomSheet";
+import OrderInfoExpansionPanels from "@/components/Account/Orders/OrderInfoExpansionPanels";
+import OrderAddressInfo from "@/components/Account/Orders/OrderAddressInfo";
 
 export default {
     data() {
         return {
             sheet: false,
+            dialog: false,
+            order: {}
         };
     },
     components: {
+        BottomSheet,
         NormalNavigation,
-        BottomSheet
-    }
+        OrderInfoExpansionPanels,
+        OrderAddressInfo
+    },
+    created() {
+        this.dialog = true;
+        axios({
+            url: `https://www.easyeats.co.in/api/v1/orders/detail/${this.$route.params.orderId}/`,
+            method: `GET`,
+            headers: {
+                Authorization: `Token ${this.$store.getters.getToken}`,
+            },
+        })
+            .then((response) => {
+                this.dialog = false;
+                this.order = response.data;
+                console.log(this.order)
+            })
+            .catch((err) => {
+                this.dialog = false;
+                console.log(err);
+            });
+    },
 };
 </script>
 
@@ -80,6 +132,7 @@ export default {
 .fab-button {
     position: fixed !important;
     bottom: 70px !important;
+    z-index: 1000;
     right: 25px !important;
 }
 </style>

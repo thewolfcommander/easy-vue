@@ -73,7 +73,7 @@
                     <v-btn
                         class="ml-n4 mt-n1"
                         icon
-                        :color="wishlistColor"
+                        color="grey"
                         @click="addToWishlist"
                     >
                         <v-icon center>mdi-heart</v-icon>
