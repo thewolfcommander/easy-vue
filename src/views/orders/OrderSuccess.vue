@@ -103,7 +103,7 @@
                         class="text-start"
                         x-large
                         router
-                        :to="{name: 'Home'}"
+                        :to="{name: 'Orders'}"
                         width="100%"
                     >Track Orders</v-btn>
                 </v-col>

@@ -74,8 +74,8 @@
                         <v-card-text v-if="cartItems !== 0">
                             <v-row wrap>
                                 <v-col
-                                    cols="4"
-                                    md="6"
+                                    cols="6"
+                                    md="7"
                                     class="text-center"
                                 >
                                     <p class="subtitle-2 black--text">Description</p>
@@ -88,27 +88,36 @@
                                     <p class="subtitle-2 black--text">Quantity</p>
                                 </v-col>
                                 <v-col
-                                    cols="2"
-                                    class="text-center"
-                                >
-                                    <p class="subtitle-2 black--text">Remove</p>
-                                </v-col>
-                                <v-col
                                     cols="3"
-                                    md="2"
+                                    md="3"
                                     class="text-center"
                                 >
                                     <p class="subtitle-2 black--text">Price</p>
                                 </v-col>
                             </v-row>
                             <v-divider></v-divider>
-                            <v-row wrap>
+                            <v-row
+                                wrap
+                                v-if="isFoods > 0"
+                            >
                                 <v-col
                                     cols="12"
                                     v-for="(item, index) in foodCartItems"
                                     :key="index"
                                 >
                                     <ItemCard :item="item" />
+                                </v-col>
+                            </v-row>
+                            <v-row
+                                wrap
+                                v-if="isGroceries > 0"
+                            >
+                                <v-col
+                                    cols="12"
+                                    v-for="(item, index) in groceryCartItems"
+                                    :key="index"
+                                >
+                                    <GroceryItemCard :item="item" />
                                 </v-col>
                             </v-row>
                         </v-card-text>
@@ -172,13 +181,15 @@
 
 <script>
 import axios from "axios";
-import ItemCard from "@/components/Cart/ItemCard";
+import ItemCard from "@/components/Orders/ItemCard";
+import GroceryItemCard from "@/components/Orders/GroceryItemCard";
 import TotalPart from "@/components/Cart/TotalPart";
 import CheckoutAddressCard from "@/components/Orders/CheckoutAddressCard";
 
 export default {
     components: {
         ItemCard,
+        GroceryItemCard,
         TotalPart,
         CheckoutAddressCard,
     },
@@ -189,17 +200,29 @@ export default {
         };
     },
     computed: {
+        isFoods() {
+            return JSON.parse(this.$store.getters.getFoodCart).length || 0;
+        },
+        isGroceries() {
+            return JSON.parse(this.$store.getters.getGroceryCart).length || 0;
+        },
         parseFoodCart() {
-            return JSON.parse(this.$store.getters.getFoodCart);
+            return JSON.parse(this.$store.getters.getFoodCart) || [];
         },
         foodCartItems() {
-            return this.parseFoodCart.map((item) => JSON.parse(item));
+            return this.parseFoodCart.map((item) => JSON.parse(item)) || [];
+        },
+        parseGroceryCart() {
+            return JSON.parse(this.$store.getters.getGroceryCart) || [];
+        },
+        groceryCartItems() {
+            return this.parseGroceryCart.map((item) => JSON.parse(item)) || [];
         },
         authenticated() {
             return this.$store.getters.isLoggedIn || false;
         },
         cartItems() {
-            return this.$store.getters.getCartItems;
+            return this.isFoods + this.isGroceries;
         },
     },
     created() {
@@ -229,7 +252,10 @@ export default {
                     this.$store
                         .dispatch("clearCart")
                         .then(() => {
-                            localStorage.setItem('recentOrder', JSON.stringify(response.data))
+                            localStorage.setItem(
+                                "recentOrder",
+                                JSON.stringify(response.data)
+                            );
                             this.dialog = false;
                             this.$router.push({ name: "OrderSuccess" });
                         })

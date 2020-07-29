@@ -259,6 +259,15 @@ export default {
     },
     created() {
         this.dialog = true;
+        console.log(this.$store.getters.getFoodCart)
+        if (this.$store.getters.getFoodCart.length === 1) {
+            const emp = new Array()
+            localStorage.setItem('foodCart', JSON.stringify(emp))
+        }
+        if (this.$store.getters.getGroceryCart.length === 1) {
+            const emp = new Array()
+            localStorage.setItem('groceryCart', JSON.stringify(emp))
+        }
         setTimeout(() => {
             this.dialog = false;
         }, 2000);
