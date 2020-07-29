@@ -31,19 +31,22 @@ const router = new VueRouter({
 
 router.beforeResolve((to, from, next) => {
   // If this isn't an initial page load.
-  if (to.name) {
-    // Start the route progress bar.
-    store.commit('START_LOADING')
-    console.log(from)
-  }
-  next()
+  store.dispatch('startLoading')
+    .then(() => {
+      setTimeout(() => {
+
+        next()
+        console.log(to, from)
+      }, 1000)
+    })
 })
 
 router.afterEach((to, from) => {
   // Complete the animation of the route progress bar.
-  store.commit('STOP_LOADING')
-  console.log(to)
-  console.log(from)
+  setTimeout(() => {
+    store.dispatch('stopLoading')
+    console.log(to, from)
+  }, 3000)
 })
 
 

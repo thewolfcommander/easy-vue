@@ -30,7 +30,7 @@
                 </v-btn>
             </v-fab-transition>
         </v-row>
-        <PreLoader />
+        <PreLoader v-if="this.$store.getters.getOverlay" />
     </v-app>
 </template>
 
