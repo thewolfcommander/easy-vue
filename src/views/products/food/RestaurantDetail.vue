@@ -2,6 +2,9 @@
     <v-container fluid>
         <v-container>
             <v-row justify="center">
+                <v-btn color="grey" rounded outlined @click="$router.go(-1)">Go Back</v-btn>
+            </v-row>
+            <v-row justify="center">
                 <v-col
                     cols="12"
                     class="text-center"
@@ -38,40 +41,95 @@
                     <p class="grey--text">{{ restaurant.city }}, {{ restaurant.state }}, {{ restaurant.country }} - {{ restaurant.pincode }}</p>
                 </v-col>
             </v-row>
-            <v-row wrap>
+            <v-row justify="center" v-if="foods !== []">
+                <p class="title">Foods Available</p>
+            </v-row>
+            <v-row wrap v-if="foods !== []" class="mt-5">
                 <v-col cols="6" sm="4" md="2" v-for="item in foods" :key="item.id">
-                    <FoodCard />
+                    <FoodCard :item="item" />
                 </v-col>
+            </v-row>
+            <v-row
+                justify="center"
+                v-if="morePage"
+            >
+                <v-btn
+                    color="secondary"
+                    class="mt-5"
+                    depressed
+                    @click="loadMore"
+                >Load more</v-btn>
             </v-row>
         </v-container>
     </v-container>
 </template>
 
 <script>
+import axios from 'axios'
 import FoodCard from '@/components/Common/Mobile/FoodCard'
 
 export default {
     data() {
         return {
-            restaurant: {
-                name: "Loading...",
-                city: "Loading...",
-                state: "Loading...",
-                country: "Loading...",
-                pincode: "Loading...",
-            },
             foods: [],
+            morePage: false,
+            nextLink: null,
         }
     },
     components: {
         FoodCard
     },
+    props: ['restaurant'],
     created() {
-        let restaurantId = this.$route.params.restaurantId
-        this.$store.dispatch('getRestaurantDetailFromServer', restaurantId)
-        this.restaurant = this.$store.getters.getRestaurantDetail
-        this.foods = this.$store.getters.getFoods
-        console.log(this.foods)
+        this.$store.dispatch('startLoading')
+        axios({
+            url: `https://www.easyeats.co.in/api/v1/products/foods?restaurant=${this.restaurant.id}`,
+            method: 'GET',
+        })
+        .then(response => {
+                this.foods = response.data.results;
+                localStorage.setItem("foods", JSON.stringify(response.data));
+                console.log(response.data);
+                if (response.data.links.next) {
+                    this.morePage = true;
+                    this.nextLink = response.data.links.next.slice(4);
+                } else {
+                    (this.morePage = false), (this.nextLink = null);
+                }
+                this.$store.dispatch('stopLoading')
+            })
+            .catch(err => {
+                console.log(err);
+                this.$store.dispatch('stopLoading')
+            });
+    },
+     methods: {
+        loadMore() {
+            this.$store.dispatch('startLoading')
+            axios({
+                url: `https${this.nextLink}`,
+                method: "GET"
+            })
+                .then(response => {
+                    response.data.results.forEach(item => {
+                        this.foods.push(item);
+                    });
+
+                    localStorage.setItem("foods", JSON.stringify(this.foods));
+                    console.log(this.foods.length);
+                    if (response.data.links.next) {
+                        this.morePage = true;
+                        this.nextLink = response.data.links.next.slice(4);
+                    } else {
+                        (this.morePage = false), (this.nextLink = null);
+                    }
+                    this.$store.dispatch('stopLoading')
+                })
+                .catch(err => {
+                    console.log(err);
+                    this.$store.dispatch('stopLoading')
+                });
+        }
     }
 };
 </script>

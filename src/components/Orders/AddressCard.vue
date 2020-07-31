@@ -2,17 +2,14 @@
     <v-card
         class="mx-auto"
         light
+        height="280"
     >
         <v-card-title>
             <v-icon left>
                 mdi-cellphone
             </v-icon>
-            <span class="subtitle-1 font-weight-bold">{{ `Phone - ${address.mobile_number}` || "Home" }}</span>
+            <span class="subtitle-1 font-weight-bold">{{ address.name || "Home" }}</span>
         </v-card-title>
-
-        <v-card-text class="subtitle-2">
-            {{ address.address1 }}, {{ address.address2 }}, {{ address.city }}, {{ address.state }}, {{ address.country }} - {{ address.pincode }}
-        </v-card-text>
 
         <v-card-actions>
             <v-list-item class="grow">
@@ -43,6 +40,11 @@
                 </v-row>
             </v-list-item>
         </v-card-actions>
+
+        <v-card-text class="subtitle-2">
+            {{ address.address1 }}, {{ address.address2 }}, {{ address.city }}, {{ address.state }}, {{ address.country }} - {{ address.pincode }} <br> {{ address.mobile_number }}
+        </v-card-text>
+
         <v-dialog
             v-model="dialog"
             hide-overlay

@@ -1,6 +1,7 @@
 <template>
     <v-container
         fluid
+        v-if="this.$store.getters.getVersion"
         class="grey lighten-5"
     >
         <v-container class="py-5">

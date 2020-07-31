@@ -8,7 +8,7 @@
                 cols="12"
                 class="d-flex d-md-none my-0 py-0"
             >
-                <v-row wrap justify="space-around" class="my-0 py-0">
+                <v-row wrap justify="space-around" class="my-0 py-0" v-if="this.$store.getters.getVersion">
                     <v-col cols="6">
                         <v-btn
                             color="primary"

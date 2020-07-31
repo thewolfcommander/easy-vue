@@ -31,11 +31,13 @@
             </v-fab-transition>
         </v-row>
         <PreLoader v-if="this.$store.getters.getOverlay" />
+        <VersionUpdate v-if="!this.$store.getters.getAcceptedVersion" />
     </v-app>
 </template>
 
 <script>
 import PreLoader from "@/components/PreLoader";
+import VersionUpdate from "@/components/VersionUpdate";
 import Navbar from "@/components/Common/Navbar";
 import Footer from "@/components/Common/Footer";
 
@@ -50,7 +52,8 @@ export default {
         Footer,
         BottomNavigation,
         UpperNavigation,
-        PreLoader
+        PreLoader,
+        VersionUpdate
     },
 
     data: () => ({

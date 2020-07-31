@@ -62,15 +62,15 @@ export default {
         items: [
             { text: "Profile", icon: "mdi-face-profile", routeName: 'Profile'},
             { text: "Orders", icon: "mdi-clock" , routeName: 'Orders'},
-            { text: "Settings", icon: "mdi-shield-half-full", routeName: 'Settings' },
+            // { text: "Settings", icon: "mdi-shield-half-full", routeName: 'Settings' },
         ],
         useful: [
-            { text: "Delivery Profile", icon: "mdi-truck-delivery", routeName: 'DBProfile' },
-            { text: "New Orders", icon: "mdi-cart-plus", routeName: 'DBOrders' },
-            { text: "Shipped Orders", icon: "mdi-cart-outline", routeName: 'DBShippedOrders' },
-            { text: "Completed Orders", icon: "mdi-cart", routeName: 'DBCompletedOrders' },
-            { text: "Cancelled Orders", icon: "mdi-cart-off", routeName: 'DBCancelledOrders' },
-            { text: "DB Settings", icon: "mdi-caravan", routeName: 'DBSettings' },
+            // { text: "Delivery Profile", icon: "mdi-truck-delivery", routeName: 'DBProfile' },
+            // { text: "New Orders", icon: "mdi-cart-plus", routeName: 'DBOrders' },
+            // { text: "Shipped Orders", icon: "mdi-cart-outline", routeName: 'DBShippedOrders' },
+            // { text: "Completed Orders", icon: "mdi-cart", routeName: 'DBCompletedOrders' },
+            // { text: "Cancelled Orders", icon: "mdi-cart-off", routeName: 'DBCancelledOrders' },
+            // { text: "DB Settings", icon: "mdi-caravan", routeName: 'DBSettings' },
         ]
     }),
     props: ["sheet"],

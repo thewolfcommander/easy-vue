@@ -15,7 +15,6 @@
                 </v-col>
                 <v-col
                     cols="12"
-                    class="mt-n5"
                 >
                     <v-row
                         wrap

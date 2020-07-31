@@ -6,12 +6,18 @@
             color="white"
             elevate-on-scroll
         >
-
-            <v-btn icon>
+            <v-btn
+                icon
+                color="primary"
+                @click="refresh()"
+            >
+                <v-icon>mdi-reload</v-icon>
+            </v-btn>
+            <v-btn icon v-if="this.$store.getters.getVersion">
                 <v-icon>mdi-magnify</v-icon>
             </v-btn>
             <v-spacer></v-spacer>
-            <v-toolbar-title class="mr-n5 ml-5">
+            <v-toolbar-title class="mr-n5">
                 <router-link :to="{name:  'Home'}">
                     <v-img
                         src="@/assets/brand/logo.png"
@@ -25,6 +31,7 @@
                 router
                 :to="{name:  'Wishlist'}"
                 icon
+                v-if="this.$store.getters.getVersion"
             >
                 <v-badge
                     :content="wishlistItems"
@@ -63,34 +70,40 @@ export default {
             items: [
                 { title: "Food Categories", routeName: "Categories" },
                 { title: "Grocery Menu", routeName: "GroceryMenu" },
-                { title: "Grocery Categories", routeName: "GroceryCategories" },
+                // { title: "Grocery Categories", routeName: "GroceryCategories" },
                 { title: "Grocery Sub Categories", routeName: "SubCategories" },
                 { title: "Contact Us", routeName: "Contact" },
                 { title: "About Us", routeName: "About" },
-                { title: "Report Issue", routeName: "Report" }
-            ]
+                { title: "Report Issue", routeName: "Report" },
+            ],
         };
+    },
+    methods: {
+
+        refresh() {
+            this.$router.go()
+        }
     },
     computed: {
         authenticated() {
-            return this.$store.getters.isLoggedIn
+            return this.$store.getters.isLoggedIn;
         },
 
         cartItems() {
             if (this.$store.getters.getCartItemsCount) {
-                return String(this.$store.getters.getCartItemsCount)
+                return String(this.$store.getters.getCartItemsCount);
             } else {
-                return "0"
+                return "0";
             }
         },
 
         wishlistItems() {
             if (this.$store.getters.getWishlistItemsCount) {
-                return String(this.$store.getters.getWishlistItemsCount)
+                return String(this.$store.getters.getWishlistItemsCount);
             } else {
-                return "0"
+                return "0";
             }
-        }
-    }
+        },
+    },
 };
 </script>

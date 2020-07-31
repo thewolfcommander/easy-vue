@@ -75,7 +75,7 @@
                     md="3"
                     lg="3"
                 >
-                   <v-btn large color="grey lighten-4" tile light>Add new Address</v-btn>
+                   <v-btn large color="grey lighten-4" tile light @click="show = !show">Add new Address</v-btn>
                 </v-col>
             </v-row>
         </v-container>
@@ -102,21 +102,25 @@
                 </v-card-text>
             </v-card>
         </v-dialog>
+        <AddNewAddress :show="show" />
     </v-container>
 </template>
 
 <script>
 import axios from "axios";
 import AddressCard from "@/components/Orders/AddressCard";
+import AddNewAddress from "@/components/Orders/AddNewAddress";
 
 export default {
     components: {
         AddressCard,
+        AddNewAddress
     },
     data() {
         return {
             addresses: [],
             dialog: false,
+            show: false,
         };
     },
     computed: {

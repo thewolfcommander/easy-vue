@@ -108,6 +108,7 @@ const mutations= {
 
     CART_FROM_SERVER(state, data) {
         state.cartFromServer = data
+        console.log(data)
         localStorage.setItem('cartFromServer', data)
     },
     CLEAR_CART(state) {

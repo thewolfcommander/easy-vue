@@ -210,6 +210,8 @@ export default {
         return {
             tool: false,
             dialog: false,
+            foodsPresent: false,
+            groceriesPresent: false,
         };
     },
     computed: {
@@ -258,19 +260,16 @@ export default {
         },
     },
     created() {
-        this.dialog = true;
-        console.log(this.$store.getters.getFoodCart)
-        if (this.$store.getters.getFoodCart.length === 1) {
+        let fd = JSON.parse(localStorage.getItem('foodCart')) || null
+        let gr = JSON.parse(localStorage.getItem('groceryCart')) || null
+        if (fd === null) {
             const emp = new Array()
             localStorage.setItem('foodCart', JSON.stringify(emp))
         }
-        if (this.$store.getters.getGroceryCart.length === 1) {
+        if (gr === null) {
             const emp = new Array()
             localStorage.setItem('groceryCart', JSON.stringify(emp))
         }
-        setTimeout(() => {
-            this.dialog = false;
-        }, 2000);
     },
     methods: {
         syncCart() {

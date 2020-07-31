@@ -2,6 +2,9 @@
     <v-container fluid>
         <v-container>
             <v-row justify="center">
+                <v-btn color="grey" rounded outlined @click="$router.go(-1)">Go Back</v-btn>
+            </v-row>
+            <v-row justify="center">
                 <v-col
                     cols="12"
                     class="text-center"

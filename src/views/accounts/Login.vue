@@ -98,7 +98,9 @@ export default {
     },
     methods: {
         sendMessage() {
+            
             if (this.username && this.password) {
+                this.$store.dispatch('startLoading')
                 let data = {
                     username: this.username,
                     password: this.password
@@ -109,11 +111,13 @@ export default {
                     this.snack.text = "Successfully Logged In";
                     this.snack.color = "success"
                     this.$router.go(-3)
+            this.$store.dispatch('stopLoading')
                 })
                 .catch(err => {
                     this.snackbar = true
                     this.snack.text = err;
                     console.log(err)
+            this.$store.dispatch('stopLoading')
                 });
             } else {
                 this.snackbar = true;

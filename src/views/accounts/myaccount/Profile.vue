@@ -63,11 +63,11 @@
 </template>
 
 <script>
-import firebase from "firebase/app";
-import "firebase/app";
-import "firebase/messaging";
+// import firebase from "firebase/app";
+// import "firebase/app";
+// import "firebase/messaging";
 
-import db from "@/firebase/init";
+// import db from "@/firebase/init";
 
 import NormalNavigation from "@/components/Account/NormalNavigation";
 import UsefulLinks from "@/components/Account/Profile/UsefulLinks";
@@ -86,22 +86,22 @@ export default {
         UsefulLinks,
     },
     methods: {
-        saveNotificationToken(token) {
-            const ref = db.collection("notificationTokens");
-            const payload = {
-                registration_id: token,
-                type: "web",
-                user: this.user,
-            };
-            ref.add(payload)
-                .then((response) => {
-                    console.log("Successfully saved notification token!");
-                    console.log(response.data);
-                })
-                .catch((err) => {
-                    console.log("Error: Could not save token");
-                    console.log(err);
-                });
+        // saveNotificationToken(token) {
+        //     const ref = db.collection("notificationTokens");
+        //     const payload = {
+        //         registration_id: token,
+        //         type: "web",
+        //         user: this.user,
+        //     };
+        //     ref.add(payload)
+        //         .then((response) => {
+        //             console.log("Successfully saved notification token!");
+        //             console.log(response.data);
+        //         })
+        //         .catch((err) => {
+        //             console.log("Error: Could not save token");
+        //             console.log(err);
+        //         });
             // axios
             //     .post(registerNotifTokenURL, payload)
             //     .then((response) => {
@@ -130,53 +130,53 @@ export default {
             //             console.log(error.message);
             //         }
             //     });
-        },
+        // },
     },
     mounted() {
         // this.user = JSON.parse(localStorage.getItem('user'))
         this.user = this.$store.getters.getUser;
 
-        var config = {
-            apiKey: "AIzaSyB-KKKqNXe6Mj3wlewKxiAvpUCtvrRC3oY",
-            authDomain: "easyeats-co-in.firebaseapp.com",
-            databaseURL: "https://easyeats-co-in.firebaseio.com",
-            projectId: "easyeats-co-in",
-            storageBucket: "easyeats-co-in.appspot.com",
-            messagingSenderId: "732042584479",
-            appId: "1:732042584479:web:6412d2759be1f4dc315daa",
-            measurementId: "G-KNPLGGSEBN",
-        };
-        firebase.initializeApp(config);
+        // var config = {
+        //     apiKey: "AIzaSyB-KKKqNXe6Mj3wlewKxiAvpUCtvrRC3oY",
+        //     authDomain: "easyeats-co-in.firebaseapp.com",
+        //     databaseURL: "https://easyeats-co-in.firebaseio.com",
+        //     projectId: "easyeats-co-in",
+        //     storageBucket: "easyeats-co-in.appspot.com",
+        //     messagingSenderId: "732042584479",
+        //     appId: "1:732042584479:web:6412d2759be1f4dc315daa",
+        //     measurementId: "G-KNPLGGSEBN",
+        // };
+        // firebase.initializeApp(config);
 
-        const messaging = firebase.messaging();
+        // const messaging = firebase.messaging();
 
-        messaging.usePublicVapidKey("BCHbPZQtRHWPYkPXE5tNMe1imbgsgpJJkWgtEBgq6hncDrP9kbgRMULA1NoW_1MRuwU7yvFcGEJhzq2CXxnkUts");
+        // messaging.usePublicVapidKey("BCHbPZQtRHWPYkPXE5tNMe1imbgsgpJJkWgtEBgq6hncDrP9kbgRMULA1NoW_1MRuwU7yvFcGEJhzq2CXxnkUts");
 
-        messaging
-            .requestPermission()
-            .then(() => {
-                console.log("Notification permission granted.");
-                messaging.getToken().then((token) => {
-                    console.log("New token created: ", token);
-                    this.saveNotificationToken(token);
-                });
-            })
-            .catch((err) => {
-                console.log("Unable to get permission to notify.", err);
-            });
+        // messaging
+        //     .requestPermission()
+        //     .then(() => {
+        //         console.log("Notification permission granted.");
+        //         messaging.getToken().then((token) => {
+        //             console.log("New token created: ", token);
+        //             this.saveNotificationToken(token);
+        //         });
+        //     })
+        //     .catch((err) => {
+        //         console.log("Unable to get permission to notify.", err);
+        //     });
 
-        messaging.onTokenRefresh(function () {
-            messaging
-                .getToken()
-                .then(function (newToken) {
-                    console.log("Token refreshed: ", newToken);
-                    this.saveNotificationToken(newToken);
-                })
-                .catch(function (err) {
-                    console.log("Unable to retrieve refreshed token ", err);
-                });
-        });
-    },
+        // messaging.onTokenRefresh(function () {
+        //     messaging
+        //         .getToken()
+        //         .then(function (newToken) {
+        //             console.log("Token refreshed: ", newToken);
+        //             this.saveNotificationToken(newToken);
+        //         })
+        //         .catch(function (err) {
+        //             console.log("Unable to retrieve refreshed token ", err);
+        //         });
+        // });
+    }
 };
 </script>
 

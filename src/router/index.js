@@ -37,7 +37,7 @@ router.beforeResolve((to, from, next) => {
 
         next()
         console.log(to, from)
-      }, 1000)
+      }, 200)
     })
 })
 

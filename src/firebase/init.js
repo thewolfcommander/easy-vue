@@ -1,5 +1,5 @@
 import firebase from 'firebase'
-import firestore from 'firebase/firestore'
+// import firestore from 'firebase/firestore'
 
 
 // Your web app's Firebase configuration
@@ -17,20 +17,20 @@ const firebaseConfig = {
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
-const messaging = firebase.usePublicVapidKey("BCHbPZQtRHWPYkPXE5tNMe1imbgsgpJJkWgtEBgq6hncDrP9kbgRMULA1NoW_1MRuwU7yvFcGEJhzq2CXxnkUts");
+// const messaging = firebase.usePublicVapidKey("BCHbPZQtRHWPYkPXE5tNMe1imbgsgpJJkWgtEBgq6hncDrP9kbgRMULA1NoW_1MRuwU7yvFcGEJhzq2CXxnkUts");
 
 
 // Request permission for messaging
-messaging.requestPermission().then(() => {
-    console.log('Notification permission granted.');
+// messaging.requestPermission().then(() => {
+//     console.log('Notification permission granted.');
 
-    // Get Token
-    messaging.getToken().then(token => {
-        console.log(token)
-    })
-}).catch((err) => {
-    console.log('Unable to get permission to notify.', err);
-});
+//     // Get Token
+//     messaging.getToken().then(token => {
+//         console.log(token)
+//     })
+// }).catch((err) => {
+//     console.log('Unable to get permission to notify.', err);
+// });
 
 
 firebaseApp.firestore().settings({

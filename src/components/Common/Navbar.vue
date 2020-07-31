@@ -19,10 +19,15 @@
             </v-toolbar-title>
             <v-spacer></v-spacer>
 
+            <v-btn icon color="primary" @click="refresh()">
+                <v-icon>mdi-reload</v-icon>
+            </v-btn>
+
             <v-btn
                 router
                 :to="{name:  'Wishlist'}"
                 icon
+                v-if="this.$store.getters.getVersion"
             >
                 
                 <v-badge
@@ -34,7 +39,8 @@
                     <v-icon>mdi-heart</v-icon>
                 </v-badge>
             </v-btn>
-            <v-btn icon>
+
+            <v-btn icon v-if="this.$store.getters.getVersion">
                 <v-icon>mdi-magnify</v-icon>
             </v-btn>
             <v-btn
@@ -130,7 +136,7 @@ export default {
         items: [
             { title: "Food Menu", routeName: "Menu" },
             { title: "Restaurants", routeName: "Restaurants" },
-            { title: "Food Categories", routeName: "Categories" },
+            // { title: "Food Categories", routeName: "Categories" },
             { title: "Grocery Menu", routeName: "GroceryMenu" },
             { title: "Grocery Categories", routeName: "GroceryCategories" },
             { title: "Grocery Sub Categories", routeName: "SubCategories" }
@@ -147,6 +153,9 @@ export default {
                 .catch(err => {
                     console.log(err.message);
                 });
+        },
+        refresh() {
+            this.$router.go()
         }
     },
 

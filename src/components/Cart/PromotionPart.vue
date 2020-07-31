@@ -1,6 +1,7 @@
 <template>
-    <v-row wrap>
+    <v-row wrap >
         <v-col
+        v-if="$store.getters.getVersion"
             cols="12"
             class="text-start"
         >
@@ -17,7 +18,7 @@
             cols="12"
             md="9"
             class="inline"
-            v-if="authenticated"
+            v-if="authenticated && $store.getters.getVersion"
         >
             <v-text-field
                 v-model="promo"
@@ -53,8 +54,7 @@
                         depressed
                         class="text-start"
                         x-large
-                        router
-                        :to="{name: 'Addresses'}"
+                        @click="createCart()"
                         width="100%"
                     >Checkout</v-btn>
                 </v-col>
@@ -148,14 +148,9 @@ export default {
         createCart() {
             this.dialog = true
             this.syncCart()
-            .then(() => {
-                this.$router.push({name: 'Addresses'})
+
                 this.dialog = false
-            })
-            .catch(err => {
-                console.log(err)
-                this.dialog = false
-            })
+            this.$router.push({name: 'Addresses'})
         }
     }
 };

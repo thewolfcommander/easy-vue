@@ -9,7 +9,10 @@
                     <h2 class="text-h4 grey--text">Register Here</h2>
                 </v-col>
             </v-row>
-            <v-row justify="center" v-if="!getAuthStatus">
+            <v-row
+                justify="center"
+                v-if="!getAuthStatus"
+            >
                 <v-col
                     cols="12"
                     md="7"
@@ -97,9 +100,22 @@
                     </v-card>
                 </v-col>
             </v-row>
-            <v-row v-else justify="center">
-                <v-col cols="12" class="text-center"><p class="subtitle-2">You are already logged in</p></v-col>
-                <v-btn rounded color="primary" router :to="{name: 'Profile'}">Go to Profile</v-btn>
+            <v-row
+                v-else
+                justify="center"
+            >
+                <v-col
+                    cols="12"
+                    class="text-center"
+                >
+                    <p class="subtitle-2">You are already logged in</p>
+                </v-col>
+                <v-btn
+                    rounded
+                    color="primary"
+                    router
+                    :to="{name: 'Profile'}"
+                >Go to Profile</v-btn>
             </v-row>
             <v-snackbar
                 v-model="snackbar"
@@ -135,18 +151,20 @@ export default {
             snackbar: false,
             snack: {
                 text: "Error: All Fields should be entered.",
-                color: "secondary"
-            }
+                color: "secondary",
+            },
         };
     },
     methods: {
         sendMessage() {
+            
             if (this.username && this.email && this.fullName && this.password) {
+                this.$store.dispatch("startLoading");
                 let data = {
                     user_id: this.username,
                     password: this.password,
                     full_name: this.fullName,
-                    email: this.email
+                    email: this.email,
                 };
                 this.$store
                     .dispatch("registerUser", data)
@@ -156,7 +174,7 @@ export default {
                         this.snack.color = "success";
                         let user = {
                             username: this.username,
-                            password: this.password
+                            password: this.password,
                         };
                         this.$store
                             .dispatch("loginUser", user)
@@ -164,29 +182,33 @@ export default {
                                 this.snackbar = true;
                                 this.snack.text = "Successfully Logged In";
                                 this.snack.color = "success";
+
+                                this.$store.dispatch("stopLoading");
                                 this.$router.go(-1);
                             })
-                            .catch(err => {
+                            .catch((err) => {
                                 this.snackbar = true;
                                 this.snack.text = err;
                                 console.log(err);
+                                this.$store.dispatch("stopLoading");
                             });
                     })
-                    .catch(err => {
+                    .catch((err) => {
                         this.snackbar = true;
                         this.snack.text = err;
                         console.log(err);
+                        this.$store.dispatch("stopLoading");
                     });
             } else {
                 this.snackbar = true;
             }
-        }
+        },
     },
     computed: {
         getAuthStatus() {
-            return localStorage.getItem('status') || false
-        }
-    }
+            return localStorage.getItem("status") || false;
+        },
+    },
 };
 </script>
 

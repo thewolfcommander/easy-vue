@@ -14,9 +14,15 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     overlay: false,
+    version2: false,
+    appVersion: "1.0.0",
+    acceptedVersion: localStorage.getItem('acceptedVersion') || false,
   },
   getters: {
-    getOverlay: state => !!state.overlay
+    getOverlay: state => !!state.overlay,
+    getVersion: state => !!state.version2,
+    getAppVersion: state => state.appVersion,
+    getAcceptedVersion: state => !!state.acceptedVersion
   },
   actions: {
     startLoading({commit}) {
@@ -25,6 +31,9 @@ export default new Vuex.Store({
     stopLoading({commit}) {
       commit('STOP_LOADING')
     },
+    acceptNewUpdate({commit}) {
+      commit('ACCEPT_NEW_UPDATE')
+    }
   },
   mutations: {
     START_LOADING(state) {
@@ -32,6 +41,10 @@ export default new Vuex.Store({
     },
     STOP_LOADING(state) {
       state.overlay = false
+    },
+    ACCEPT_NEW_UPDATE(state) {
+      state.acceptedVersion = true
+      localStorage.setItem('acceptedVersion', true)
     }
   },
   modules: {
