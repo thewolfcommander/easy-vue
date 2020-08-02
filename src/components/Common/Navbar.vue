@@ -40,7 +40,7 @@
                 </v-badge>
             </v-btn>
 
-            <v-btn icon v-if="this.$store.getters.getVersion">
+            <v-btn icon router :to="{name: 'Search'}">
                 <v-icon>mdi-magnify</v-icon>
             </v-btn>
             <v-btn
