@@ -46,7 +46,7 @@ router.afterEach((to, from) => {
   setTimeout(() => {
     store.dispatch('stopLoading')
     console.log(to, from)
-  }, 3000)
+  }, 200)
 })
 
 

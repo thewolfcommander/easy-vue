@@ -9,40 +9,16 @@
         >
             <NormalSmallOrderCard :item="item" />
         </v-col>
-        <v-dialog
-            v-model="dialog"
-            hide-overlay
-            persistent
-            width="300"
-            class="pt-4 pb-3"
-        >
-            <v-card
-                color="white"
-                dark
-            >
-                <v-card-text>
-                    <span class="subtitle-2 primary--text">
-                        Loading...
-                    </span>
-                    <v-progress-linear
-                        indeterminate
-                        color="primary"
-                        class="mb-0"
-                    ></v-progress-linear>
-                </v-card-text>
-            </v-card>
-        </v-dialog>
     </v-row>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 import NormalSmallOrderCard from "@/components/Account/Orders/NormalSmallOrderCard";
 
 export default {
     data() {
         return {
-            dialog: false,
             orders: [],
         };
     },
@@ -51,7 +27,7 @@ export default {
     },
 
     created() {
-        this.dialog = true;
+        this.$store.dispatch("startLoading");
         axios({
             url: `https://www.easyeats.co.in/api/v1/orders/all/?user=${this.$store.getters.getUser.id}`,
             method: `GET`,
@@ -60,11 +36,11 @@ export default {
             },
         })
             .then((response) => {
-                this.dialog = false;
+                this.$store.dispatch("stopLoading");
                 this.orders = response.data;
             })
             .catch((err) => {
-                this.dialog = false;
+                this.$store.dispatch("stopLoading");
                 console.log(err);
             });
     },

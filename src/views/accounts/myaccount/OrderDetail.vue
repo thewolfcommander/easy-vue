@@ -58,29 +58,7 @@
             <v-icon center>mdi-menu</v-icon>
         </v-btn>
         <BottomSheet :sheet="sheet" />
-        <v-dialog
-            v-model="dialog"
-            hide-overlay
-            persistent
-            width="300"
-            class="pt-4 pb-3"
-        >
-            <v-card
-                color="white"
-                dark
-            >
-                <v-card-text>
-                    <span class="subtitle-2 primary--text">
-                        Loading...
-                    </span>
-                    <v-progress-linear
-                        indeterminate
-                        color="primary"
-                        class="mb-0"
-                    ></v-progress-linear>
-                </v-card-text>
-            </v-card>
-        </v-dialog>
+        
     </v-container>
 </template>
 
@@ -95,7 +73,6 @@ export default {
     data() {
         return {
             sheet: false,
-            dialog: false,
             order: {}
         };
     },
@@ -106,7 +83,7 @@ export default {
         OrderAddressInfo
     },
     created() {
-        this.dialog = true;
+        this.$store.dispatch("startLoading");
         axios({
             url: `https://www.easyeats.co.in/api/v1/orders/detail/${this.$route.params.orderId}/`,
             method: `GET`,
@@ -115,12 +92,12 @@ export default {
             },
         })
             .then((response) => {
-                this.dialog = false;
+        this.$store.dispatch("stopLoading");
                 this.order = response.data;
                 console.log(this.order)
             })
             .catch((err) => {
-                this.dialog = false;
+        this.$store.dispatch("stopLoading");
                 console.log(err);
             });
     },
