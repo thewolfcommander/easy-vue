@@ -64,7 +64,6 @@
             </v-row>
         </v-card-actions>
     </v-card>
-
 </template>
 
 <script>
@@ -80,7 +79,7 @@ export default {
         shipOrder() {
             this.$store.dispatch("startLoading");
             axios({
-                url: `https://www.easyeats.co.in/api/v1/orders/update/${this.item.id}/`,
+                url: `${this.$store.state.apiUrl}orders/update/${this.item.id}/`,
                 method: `PATCH`,
                 headers: {
                     Authorization: `Token ${this.$store.getters.getToken}`,
@@ -101,7 +100,7 @@ export default {
         cancelOrder() {
             this.$store.dispatch("startLoading");
             axios({
-                url: `https://www.easyeats.co.in/api/v1/orders/update/${this.item.id}/`,
+                url: `${this.$store.state.apiUrl}orders/update/${this.item.id}/`,
                 method: `PATCH`,
                 headers: {
                     Authorization: `Token ${this.$store.getters.getToken}`,

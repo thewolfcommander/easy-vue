@@ -29,7 +29,7 @@ export default {
     created() {
         this.$store.dispatch("startLoading");
         axios({
-            url: `https://www.easyeats.co.in/api/v1/orders/all/?user=${this.$store.getters.getUser.id}`,
+            url: `${this.$store.state.apiUrl}orders/all/?user=${this.$store.getters.getUser.id}`,
             method: `GET`,
             headers: {
                 Authorization: `Token ${this.$store.getters.getToken}`,

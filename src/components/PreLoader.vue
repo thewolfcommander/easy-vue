@@ -24,8 +24,24 @@
                         justify="center"
                         class="mt-4 primary--text"
                     >Loading</v-row>
+                    <v-row
+                        justify="center"
+                        class="mt-4 primary--text"
+                    >
+                        <v-btn color="secondary" @click="cancel()">Cancel</v-btn>
+                    </v-row>
                 </v-card>
             </v-overlay>
         </div>
     </div>
 </template>
+
+<script>
+export default {
+    methods: {
+        cancel() {
+            this.$store.dispatch('stopLoading')
+        }
+    }
+}
+</script>

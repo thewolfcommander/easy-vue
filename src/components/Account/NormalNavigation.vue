@@ -92,8 +92,9 @@ export default {
     },
     computed: {
 
+        
         isDeliveryBoyVerified() {
-            return !this.$store.getters.getIsDboyVerified
+            return this.$store.getters.getUser.is_delivery
         },
     }
 };

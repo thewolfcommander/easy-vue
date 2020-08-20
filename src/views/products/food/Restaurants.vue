@@ -80,7 +80,7 @@ export default {
     },
     mounted() {
         axios({
-            url: `https://www.easyeats.co.in/api/v1/products/restaurants/?active`,
+            url: `${this.$store.state.apiUrl}products/restaurants/?active`,
             method: "GET"
         })
             .then(response => {

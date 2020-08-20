@@ -115,7 +115,7 @@ export default {
     created() {
         this.dialog = true;
         axios({
-            url: `https://www.easyeats.co.in/api/v1/products/categories/?active=True`,
+            url: `${this.$store.state.apiUrl}products/categories/?active=True`,
             method: "GET"
         })
             .then(response => {

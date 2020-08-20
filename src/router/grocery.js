@@ -12,7 +12,8 @@ const routes = [
         name: 'GroceryHome',
         component: GroceryHome,
         meta: {
-            title: "Groceries Home - EasyEats | Order Food Online"
+            title: "Groceries Home - EasyEats | Order Food Online",
+            requiresAuth: true
         }
     },
     {
@@ -20,7 +21,8 @@ const routes = [
         name: 'GroceryMenu',
         component: GroceryMenu,
         meta: {
-            title: "Groceries Items - EasyEats | Order Food Online"
+            title: "Groceries Items - EasyEats | Order Food Online",
+            requiresAuth: true
         }
     },
     {
@@ -28,7 +30,8 @@ const routes = [
         name: 'SubCategories',
         component: SubCategories,
         meta: {
-            title: "Grocery SubCategories - EasyEats | Order Food Online"
+            title: "Grocery SubCategories - EasyEats | Order Food Online",
+            requiresAuth: true
         },
     },
     {
@@ -36,7 +39,8 @@ const routes = [
         name: 'SubCategoryDetail',
         component: SubCategoryDetail,
         meta: {
-            title: "Sub Category Detail - EasyEats | Order Food Online"
+            title: "Sub Category Detail - EasyEats | Order Food Online",
+            requiresAuth: true
         },
         props: true,
     },
@@ -45,7 +49,8 @@ const routes = [
         name: 'GroceryCategories',
         component: Categories,
         meta: {
-            title: "Amazing Grocery Categories - EasyEats | Order Food Online"
+            title: "Amazing Grocery Categories - EasyEats | Order Food Online",
+            requiresAuth: true
         }
     },
     {
@@ -53,7 +58,8 @@ const routes = [
         name: 'GroceryCategoryDetail',
         component: CategoryDetail,
         meta: {
-            title: "Category Detail - EasyEats | Order Food Online"
+            title: "Category Detail - EasyEats | Order Food Online",
+            requiresAuth: true
         },
         props: true,
     }

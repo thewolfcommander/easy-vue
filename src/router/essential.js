@@ -30,7 +30,8 @@ const routes = [
                     property: 'og:description',
                     content: 'Home - EasyEats | Order food online'
                 }
-            ]
+            ],
+            requiresAuth: true
         }
     },
 
@@ -49,7 +50,8 @@ const routes = [
                     property: 'og:description',
                     content: 'Your cart - EasyEats | Order food online'
                 }
-            ]
+            ],
+            requiresAuth: true
         }
     },
     {
@@ -66,7 +68,7 @@ const routes = [
                     property: 'og:description',
                     content: 'About Us - EasyEats | Order food online'
                 }
-            ]
+            ],
         }
     },
     {
@@ -101,7 +103,7 @@ const routes = [
                     property: 'og:description',
                     content: 'Join as Delivery Boy - EasyEats | Order food online'
                 }
-            ]
+            ],
         }
     },
     {
@@ -119,7 +121,7 @@ const routes = [
                     property: 'og:description',
                     content: 'Join as Vendor - EasyEats | Order food online'
                 }
-            ]
+            ],
         }
     },
     {
@@ -187,7 +189,8 @@ const routes = [
                     property: 'og:description',
                     content: 'Search the Awesome food here - EasyEats | Order food online'
                 }
-            ]
+            ],
+            requiresAuth: true
         }
     },
 ]

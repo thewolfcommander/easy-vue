@@ -49,7 +49,7 @@ export default {
     created() {
         this.$store.dispatch("startLoading");
         axios({
-            url: `https://www.easyeats.co.in/api/v1/orders/all/?status=${this.status}`,
+            url: `${this.$store.state.apiUrl}orders/all/?status=${this.status}`,
             method: `GET`,
             headers: {
                 Authorization: `Token ${this.$store.getters.getToken}`,
@@ -69,7 +69,7 @@ export default {
         reload() {
             this.$store.dispatch("startLoading");
             axios({
-                url: `https://www.easyeats.co.in/api/v1/orders/all/?status=${this.status}`,
+                url: `${this.$store.state.apiUrl}orders/all/?status=${this.status}`,
                 method: `GET`,
                 headers: {
                     Authorization: `Token ${this.$store.getters.getToken}`,

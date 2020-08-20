@@ -200,7 +200,7 @@
                         <p class="caption">You have already submitted your request. Wait for our team's approval</p>
                     </v-row>
                 </v-card-text>
-                <v-card-text v-if="isDeliveryBoy && isDeliveryBoyVerified">
+                <v-card-text v-if="isDeliveryBoyVerified">
                     <v-row
                         justify="center"
                         class="my-5"
@@ -268,7 +268,19 @@ export default {
             this.$store.dispatch('startLoading')
             if (this.business_phone && this.business_email && this.pincode) {
                 console.log("Submitted DBoy Form");
-                this.$store.dispatch('makeDBoy')
+                const data = {
+                    user: this.$store.getters.getUser.id,
+                    business_phone: this.business_phone,
+                    business_email: this.business_email,
+                    address1: this.address1,
+                    address2: this.address2,
+                    city: this.city,
+                    state: this.state,
+                    landmark: this.landmark,
+                    pincode: this.pincode,
+                    country: this.country,
+                }
+                this.$store.dispatch('makeDBoy', data)
                 this.snackbar = false;
                 this.$store.dispatch('stopLoading')
             } else {
@@ -283,7 +295,7 @@ export default {
             return this.$store.getters.getIsDboy
         },
         isDeliveryBoyVerified() {
-            return this.$store.getters.getIsDboyVerified
+            return this.$store.getters.getUser.is_delivery
         },
     }
 };

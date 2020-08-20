@@ -83,7 +83,7 @@ export default {
     created() {
         this.$store.dispatch('startLoading')
         axios({
-            url: `https://www.easyeats.co.in/api/v1/products/foods?restaurant=${this.restaurant.id}`,
+            url: `${this.$store.state.apiUrl}products/foods?restaurant=${this.restaurant.id}`,
             method: 'GET',
         })
         .then(response => {

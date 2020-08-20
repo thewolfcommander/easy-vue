@@ -88,7 +88,7 @@ export default {
     created() {
         this.$store.dispatch("startLoading");
         axios({
-            url: `https://www.easyeats.co.in/api/v1/orders/detail/${this.$route.params.orderId}/`,
+            url: `${this.$store.state.apiUrl}orders/detail/${this.$route.params.orderId}/`,
             method: `GET`,
             headers: {
                 Authorization: `Token ${this.$store.getters.getToken}`,
