@@ -280,7 +280,7 @@ export default {
                 groceries: this.prepareForServerGroceryCart,
             };
             axios({
-                url: `https://easyeats.co.in/api/v1/cart/create/`,
+                url: `${this.$store.state.apiUrl}cart/create/`,
                 method: `POST`,
                 headers: {
                     Authorization: `Token ${this.$store.getters.getToken}`,

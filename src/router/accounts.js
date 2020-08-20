@@ -83,7 +83,8 @@ const routes = [
         component: DBSettings,
         meta: {
             title: 'My Delivery Boy Profile Settings - EasyEats | Order food online',
-            requiresAuth: true
+            requiresAuth: true,
+            requiresDboy: true,
         },
     },
 
@@ -93,7 +94,8 @@ const routes = [
         component: DBProfile,
         meta: {
             title: 'My Delivery Boy Profile - EasyEats | Order food online',
-            requiresAuth: true
+            requiresAuth: true,
+            requiresDboy: true,
         },
     },
     {
@@ -102,7 +104,8 @@ const routes = [
         component: DBOrders,
         meta: {
             title: 'New Orders - EasyEats | Order food online',
-            requiresAuth: true
+            requiresAuth: true,
+            requiresDboy: true,
         },
     },
     {
@@ -111,7 +114,8 @@ const routes = [
         component: DBOrderDetail,
         meta: {
             title: 'Order Detail - EasyEats | Order food online',
-            requiresAuth: true
+            requiresAuth: true,
+            requiresDboy: true,
         },
     },
     {
@@ -120,7 +124,8 @@ const routes = [
         component: DBCancelledOrders,
         meta: {
             title: 'Cancelled Orders - EasyEats | Order food online',
-            requiresAuth: true
+            requiresAuth: true,
+            requiresDboy: true,
         },
     },
     {
@@ -129,7 +134,8 @@ const routes = [
         component: DBCompletedOrders,
         meta: {
             title: 'Completed Orders - EasyEats | Order food online',
-            requiresAuth: true
+            requiresAuth: true,
+            requiresDboy: true,
         },
     },
     {
@@ -138,7 +144,8 @@ const routes = [
         component: DBShippedOrders,
         meta: {
             title: 'Shipped Orders - EasyEats | Order food online',
-            requiresAuth: true
+            requiresAuth: true,
+            requiresDboy: true,
         },
     },
 

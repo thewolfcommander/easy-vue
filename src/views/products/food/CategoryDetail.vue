@@ -98,7 +98,7 @@ export default {
 
     mounted() {
         axios({
-            url: `https://www.easyeats.co.in/api/v1/products/foods/?restaurant=${this.item.restaurant.id}`,
+            url: `${this.$store.state.apiUrl}products/foods/?restaurant=${this.item.restaurant.id}`,
             method: 'GET'
         })
         .then(response => {

@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 // Modules
 import auth from '@/store/modules/auth'
 import cart from '@/store/modules/cart'
+import dboy from '@/store/modules/dboy'
 import foodMenu from '@/store/modules/foodMenu'
 import grocery from '@/store/modules/grocery'
 import wishlist from '@/store/modules/wishlist'
@@ -13,6 +14,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    apiUrl: "https://easyeats-api-v1.herokuapp.com/api/v1/",
     overlay: false,
     version2: false,
     appVersion: "1.0.0",
@@ -50,6 +52,7 @@ export default new Vuex.Store({
   modules: {
     auth,
     cart,
+    dboy,
     foodMenu,
     grocery,
     wishlist,

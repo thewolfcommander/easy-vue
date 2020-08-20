@@ -1,5 +1,6 @@
 import Home from '../views/index.vue'
 import Cart from '@/views/essentials/Cart'
+import Search from '@/views/essentials/Search'
 import About from '@/views/essentials/About'
 import Contact from '@/views/essentials/Contact'
 import JoinAsDeliveryBoy from '@/views/essentials/JoinAsDeliveryBoy'
@@ -29,7 +30,8 @@ const routes = [
                     property: 'og:description',
                     content: 'Home - EasyEats | Order food online'
                 }
-            ]
+            ],
+            requiresAuth: true
         }
     },
 
@@ -48,7 +50,8 @@ const routes = [
                     property: 'og:description',
                     content: 'Your cart - EasyEats | Order food online'
                 }
-            ]
+            ],
+            requiresAuth: true
         }
     },
     {
@@ -65,7 +68,7 @@ const routes = [
                     property: 'og:description',
                     content: 'About Us - EasyEats | Order food online'
                 }
-            ]
+            ],
         }
     },
     {
@@ -100,7 +103,7 @@ const routes = [
                     property: 'og:description',
                     content: 'Join as Delivery Boy - EasyEats | Order food online'
                 }
-            ]
+            ],
         }
     },
     {
@@ -118,7 +121,7 @@ const routes = [
                     property: 'og:description',
                     content: 'Join as Vendor - EasyEats | Order food online'
                 }
-            ]
+            ],
         }
     },
     {
@@ -170,7 +173,26 @@ const routes = [
             title: 'Your Wishlist - EasyEats | Order food online',
             requiresAuth: true
         }
-    }
+    },
+
+    {
+        path: '/search',
+        name: 'Search',
+        component: Search,
+        meta: {
+            title: 'Search the Awesome food here - EasyEats | Order food online',
+            metaTags: [{
+                    name: 'description',
+                    content: 'Search the Awesome food here - EasyEats | Order food online'
+                },
+                {
+                    property: 'og:description',
+                    content: 'Search the Awesome food here - EasyEats | Order food online'
+                }
+            ],
+            requiresAuth: true
+        }
+    },
 ]
 
 export default routes

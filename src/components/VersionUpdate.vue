@@ -62,7 +62,7 @@
 export default {
     data() {
         return {
-            dialog: true,
+            dialog: false,
             items: [
                 "Improved UI",
                 "If not see anything on any page, Use the Reload button on top.",

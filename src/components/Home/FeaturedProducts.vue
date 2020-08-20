@@ -52,7 +52,7 @@ export default {
 
     created() {
         axios({
-            url: `https://www.easyeats.co.in/api/v1/products/foods/?featured=true`,
+            url: `${this.$store.state.apiUrl}products/foods/?featured=true`,
             method: 'GET'
         })
         .then(response => {

@@ -21,7 +21,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             console.log(data)
             axios({
-                    url: `https://www.easyeats.co.in/api/v1/accounts/login/`,
+                    url: `${this.state.apiUrl}accounts/login/`,
                     data: data,
                     method: 'POST'
                 })
@@ -31,7 +31,7 @@ const actions = {
                     commit('LOGIN_USER', response.data.token);
 
                     axios({
-                            url: `https://easyeats.co.in/api/v1/accounts/users/${data.username}/`,
+                            url: `${this.state.apiUrl}accounts/users/${data.username}/`,
                             method: 'GET',
                             headers: {
                                 'Authorization': `Token ${response.data.token}`
@@ -76,7 +76,7 @@ const actions = {
 
         return new Promise((resolve, reject) => {
             axios({
-                url: `https://www.easyeats.co.in/api/v1/accounts/register/`,
+                url: `${this.state.apiUrl}accounts/register/`,
                 data: data,
                 method: 'POST'
             })
@@ -88,6 +88,38 @@ const actions = {
                 console.log(err)
                 reject(err)
             })
+        })
+    },
+
+    syncProfile({commit}, username) {
+        axios({
+            url: `${this.state.apiUrl}accounts/users/${username}/`,
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${this.getters.getToken}`
+            }
+        })
+        .then(resp => {
+            let user = {
+                username: resp.data.user_id,
+                email: resp.data.email,
+                full_name: resp.data.full_name,
+                gender: resp.data.gender,
+                id: resp.data.id,
+                is_admin: resp.data.is_admin,
+                is_client: resp.data.is_client,
+                is_delivery: resp.data.is_delivery,
+                is_newsletter: resp.data.is_newsletter,
+                is_vendor: resp.data.is_vendor,
+                mobile_number: resp.data.mobile_number,
+                order_count: resp.data.order_count,
+                password: resp.data.password
+            }
+            localStorage.setItem('user', JSON.stringify(user))
+            commit('SET_USER', JSON.stringify(user))
+        })
+        .catch(err => {
+            console.log(err)
         })
     },
 

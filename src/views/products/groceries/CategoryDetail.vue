@@ -64,7 +64,7 @@ export default {
 
     created() {
         axios({
-            url: `https://www.easyeats.co.in/api/v1/groceries/sub-categories/?active=true&category=${this.categoryId}`,
+            url: `${this.$store.state.apiUrl}grocery/sub-categories/?active=true&category=${this.categoryId}`,
             method: 'GET'
         })
         .then(response => {
