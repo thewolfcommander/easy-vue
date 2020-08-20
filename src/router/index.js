@@ -105,6 +105,18 @@ router.beforeEach((to, from, next) => {
   }
 })
 
+// Handling Dboy Requests
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some(record => record.meta.requiresDboy)) {
+//     if (store.getters.getisDboyVerified) {
+//       next()
+//       return
+//     }
+//     next({name: 'Profile'})
+//   } else {
+//     next()
+//   }
+// })
 
 
 export default router

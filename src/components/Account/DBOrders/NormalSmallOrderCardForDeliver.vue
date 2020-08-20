@@ -1,17 +1,14 @@
 <template>
     <v-card
+        :loading="loading"
         class="mx-auto my-2"
-        height="220"
     >
 
         <v-row justify="center">
             <v-img
-                :src="item.image"
-                lazy-src="https://fitmirchi.com/admin/assets/images/image_not_available.png"
-                max-height="100"
-                max-width="140"
-                aspect-ratio="1"
-                class="white lighten-4"
+                src="https://img.icons8.com/pastel-glyph/2x/purchase-order.png"
+                lazy-src="https://img.icons8.com/pastel-glyph/2x/purchase-order.png"
+                max-height="90"
                 contain
             >
                 <template v-slot:placeholder>
@@ -30,21 +27,28 @@
         </v-row>
 
         <v-card-subtitle class="text-center">
-            {{ item.name }}
+            Order - {{ item.order_id.toUpperCase() }}
         </v-card-subtitle>
+        <p class="caption grey--text text-center mt-n4">{{ item.status.toUpperCase() }} ~ Rs. {{ item.total }}</p>
 
         <v-card-actions class="mt-n4 text-center">
-            <v-row justify="center">
+            <v-row
+                justify="center"
+                wrap
+            >
                 <v-btn
                     color="primary"
                     text
                     small
+                    router
+                    :to="{name: 'DBOrderDetail', params: {orderId: item.id}}"
                 >
                     View
                 </v-btn>
             </v-row>
         </v-card-actions>
     </v-card>
+
 </template>
 
 <script>
@@ -54,8 +58,7 @@ export default {
         selection: 1,
         quantity: 1,
     }),
-    props: ["item"],
-
+    props: ["item", "status"],
     methods: {},
 };
 </script>

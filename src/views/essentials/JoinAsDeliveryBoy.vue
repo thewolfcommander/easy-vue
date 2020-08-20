@@ -28,7 +28,7 @@
                 </v-toolbar>
                 <v-divider></v-divider>
 
-                <v-card-text style="min-height: 200px;">
+                <v-card-text style="min-height: 200px;" v-if="!isDeliveryBoy && !isDeliveryBoyVerified">
                     <v-row
                         justify="center"
                         class="mx-2 my-5"
@@ -191,6 +191,34 @@
                         </template>
                     </v-snackbar>
                 </v-card-text>
+
+                <v-card-text v-if="isDeliveryBoy && !isDeliveryBoyVerified">
+                    <v-row
+                        justify="center"
+                        class="my-5"
+                    >
+                        <p class="caption">You have already submitted your request. Wait for our team's approval</p>
+                    </v-row>
+                </v-card-text>
+                <v-card-text v-if="isDeliveryBoy && isDeliveryBoyVerified">
+                    <v-row
+                        justify="center"
+                        class="my-5"
+                    >
+                        <p class="caption">Your request have been successfully verified. Kindly click below to go to your dashboard.</p>
+                    </v-row>
+                    <v-row
+                        justify="center"
+                        class="my-5"
+                    >
+                        <v-btn
+                            color="primary"
+                            rounded
+                            router
+                            :to="{name: 'DBProfile'}"
+                        >DBoy Profile</v-btn>
+                    </v-row>
+                </v-card-text>
                 <v-divider></v-divider>
 
                 <v-card-text>
@@ -237,13 +265,26 @@ export default {
 
     methods: {
         sendMessage() {
+            this.$store.dispatch('startLoading')
             if (this.business_phone && this.business_email && this.pincode) {
-                console.log("Submitted COntact Form");
+                console.log("Submitted DBoy Form");
+                this.$store.dispatch('makeDBoy')
                 this.snackbar = false;
+                this.$store.dispatch('stopLoading')
             } else {
                 this.snackbar = true;
+                this.$store.dispatch('stopLoading')
             }
         },
     },
+
+    computed: {
+        isDeliveryBoy() {
+            return this.$store.getters.getIsDboy
+        },
+        isDeliveryBoyVerified() {
+            return this.$store.getters.getIsDboyVerified
+        },
+    }
 };
 </script>

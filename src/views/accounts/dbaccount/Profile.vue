@@ -40,8 +40,10 @@
                     <v-btn
                         small
                         rounded
+                        router
+                        :to="{name: 'DBSettings'}"
                         color="primary"
-                    >Edit Profile</v-btn>
+                    >Edit Delivery Profile</v-btn>
                 </v-row>
             </v-col>
         </v-row>

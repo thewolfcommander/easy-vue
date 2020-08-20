@@ -32,7 +32,6 @@
         <v-row justify="center" class="pb-0 pt-0 mt-0 mb-0">
             <v-card-title class="subtitle-1">{{ item.name }}</v-card-title>
         </v-row>
-            <v-card-subtitle class="mt-n5">44 products</v-card-subtitle>
         <v-divider class="mx-4"></v-divider>
         <v-card-actions>
             <v-row justify="center">

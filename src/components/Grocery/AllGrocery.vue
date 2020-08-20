@@ -92,7 +92,7 @@ export default {
     created() {
         this.dialog = true;
         axios({
-            url: `https://www.easyeats.co.in/api/v1/groceries/items/`,
+            url: `${this.$store.state.apiUrl}grocery/items/`,
             method: "GET",
         })
             .then((response) => {
