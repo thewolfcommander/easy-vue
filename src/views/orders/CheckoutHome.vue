@@ -233,7 +233,7 @@ export default {
     },
     methods: {
         createOrder() {
-            this.$store.dispatch('startLoading')
+            this.$store.dispatch("startLoading");
             let data = {
                 user: this.$store.getters.getUser.id,
                 cart: this.$store.getters.getCartFromServer.id,
@@ -249,7 +249,6 @@ export default {
                 data: data,
             })
                 .then((response) => {
-
                     this.$store
                         .dispatch("clearCart")
                         .then(() => {
@@ -257,19 +256,28 @@ export default {
                                 "recentOrder",
                                 JSON.stringify(response.data)
                             );
-                            this.$store.dispatch('stopLoading')
+                            this.$store.dispatch("clearCart");
+                            this.$store.dispatch("stopLoading");
+                            const emp = new Array();
+                            localStorage.setItem(
+                                "groceryCart",
+                                JSON.stringify(emp)
+                            );
+                            localStorage.setItem(
+                                "foodCart",
+                                JSON.stringify(emp)
+                            );
                             this.$router.push({ name: "OrderSuccess" });
-
                         })
-                        .catch(err => {
-                            console.log(err)
-                            this.$store.dispatch('stopLoading')
+                        .catch((err) => {
+                            console.log(err);
+                            this.$store.dispatch("stopLoading");
                             this.$router.push({ name: "OrderFailed" });
                         });
                 })
-                .catch(err => {
-                    console.log(err)
-                    this.$store.dispatch('stopLoading')
+                .catch((err) => {
+                    console.log(err);
+                    this.$store.dispatch("stopLoading");
                     this.$router.push({ name: "OrderFailed" });
                 });
         },

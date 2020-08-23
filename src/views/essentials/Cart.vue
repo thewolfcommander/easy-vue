@@ -216,40 +216,44 @@ export default {
     },
     computed: {
         isFoods() {
-            return JSON.parse(this.$store.getters.getFoodCart).length || 0
+            return JSON.parse(this.$store.getters.getFoodCart).length || 0;
         },
         isGroceries() {
-            return JSON.parse(this.$store.getters.getGroceryCart).length || 0
+            return JSON.parse(this.$store.getters.getGroceryCart).length || 0;
         },
         parseFoodCart() {
-            return JSON.parse(this.$store.getters.getFoodCart) || []
+            return JSON.parse(this.$store.getters.getFoodCart) || [];
         },
         foodCartItems() {
-            return this.parseFoodCart.map((item) => JSON.parse(item)) || []
+            return this.parseFoodCart.map((item) => JSON.parse(item)) || [];
         },
         prepareForServerCart() {
             let foods = [];
-            this.foodCartItems.forEach((item) => {
-                let food = {};
-                (food.food = item.food.id), (food.quantity = item.quantity);
-                foods.push(food);
-            });
+            if (this.foodCartItems.length > 0) {
+                this.foodCartItems.forEach((item) => {
+                    let food = {};
+                    (food.food = item.food.id), (food.quantity = item.quantity);
+                    foods.push(food);
+                });
+            }
             return foods;
         },
         parseGroceryCart() {
-            return JSON.parse(this.$store.getters.getGroceryCart) || []
+            return JSON.parse(this.$store.getters.getGroceryCart) || [];
         },
         groceryCartItems() {
-            return this.parseGroceryCart.map((item) => JSON.parse(item)) || []
+            return this.parseGroceryCart.map((item) => JSON.parse(item)) || [];
         },
         prepareForServerGroceryCart() {
             let groceries = [];
-            this.groceryCartItems.forEach((item) => {
-                let grocery = {};
-                (grocery.grocery = item.grocery.id),
-                    (grocery.quantity = item.quantity);
-                groceries.push(grocery);
-            });
+            if (this.groceryCartItems.length > 0) {
+                this.groceryCartItems.forEach((item) => {
+                    let grocery = {};
+                    (grocery.grocery = item.grocery.id),
+                        (grocery.quantity = item.quantity);
+                    groceries.push(grocery);
+                });
+            }
             return groceries;
         },
         authenticated() {
@@ -260,20 +264,22 @@ export default {
         },
     },
     created() {
-        let fd = JSON.parse(localStorage.getItem('foodCart')) || null
-        let gr = JSON.parse(localStorage.getItem('groceryCart')) || null
+        let fd = JSON.parse(localStorage.getItem("foodCart")) || null;
+        let gr = JSON.parse(localStorage.getItem("groceryCart")) || null;
         if (fd === null) {
-            const emp = new Array()
-            localStorage.setItem('foodCart', JSON.stringify(emp))
+            const emp = new Array();
+            localStorage.setItem("foodCart", JSON.stringify(emp));
         }
         if (gr === null) {
-            const emp = new Array()
-            localStorage.setItem('groceryCart', JSON.stringify(emp))
+            const emp = new Array();
+            localStorage.setItem("groceryCart", JSON.stringify(emp));
         }
+
+        this.syncCart();
     },
     methods: {
         syncCart() {
-            this.dialog = true;
+            this.$store.dispatch("startLoading");
             let data = {
                 user: this.$store.getters.getUser.id,
                 foods: this.prepareForServerCart,
@@ -293,11 +299,11 @@ export default {
                         "cartFromServer",
                         JSON.stringify(response.data)
                     );
-                    this.dialog = false;
+                    this.$store.dispatch("stopLoading");
                 })
                 .catch((err) => {
                     console.log(err);
-                    this.dialog = false;
+                    this.$store.dispatch("stopLoading");
                 });
         },
     },

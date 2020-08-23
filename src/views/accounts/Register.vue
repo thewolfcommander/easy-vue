@@ -157,7 +157,6 @@ export default {
     },
     methods: {
         sendMessage() {
-            
             if (this.username && this.email && this.fullName && this.password) {
                 this.$store.dispatch("startLoading");
                 let data = {
@@ -184,7 +183,7 @@ export default {
                                 this.snack.color = "success";
 
                                 this.$store.dispatch("stopLoading");
-                                this.$router.go(-1);
+                                this.$router.push({ name: "Home" });
                             })
                             .catch((err) => {
                                 this.snackbar = true;

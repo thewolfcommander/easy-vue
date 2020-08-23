@@ -7,28 +7,7 @@
         >
             <v-sheet class="text-center">
                 <v-row class="transparent" justify="center" @click="sheet = false"><v-btn depressed fab color="white"><v-icon center color="black">mdi-window-close</v-icon></v-btn></v-row>
-                <v-row justify="center" class="mb-4">
-                    <v-img
-                        src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-                        lazy-src="https://fitmirchi.com/admin/assets/images/image_not_available.png"
-                        class="transparent"
-                        max-height="240"
-                        contain
-                    >
-                        <template v-slot:placeholder>
-                            <v-row
-                                class="fill-height ma-0"
-                                align="center"
-                                justify="center"
-                            >
-                                <v-progress-circular
-                                    indeterminate
-                                    color="grey lighten-5"
-                                ></v-progress-circular>
-                            </v-row>
-                        </template>
-                    </v-img>
-                </v-row>
+                
                 <v-card
                     :loading="loading"
                     class="mx-auto"
