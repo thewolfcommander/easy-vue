@@ -16,8 +16,15 @@
                 lg="9"
                 sm="12"
             >
-                <v-row justify="center"><h3 class="text-h5 grey--text">My Orders</h3></v-row>
-                <v-row justify="center" class="d-none d-md-flex"><OrderFilter class="mt-3" /></v-row>
+                <v-row justify="center">
+                    <h3 class="text-h5 grey--text">My Orders</h3>
+                </v-row>
+                <v-row
+                    justify="center"
+                    class="d-none d-md-flex"
+                >
+                    <OrderFilter class="mt-3" />
+                </v-row>
                 <Orders />
             </v-col>
         </v-row>
@@ -31,7 +38,7 @@
             <v-icon center>mdi-menu</v-icon>
         </v-btn>
         <BottomSheet :sheet="sheet" />
-        
+
     </v-container>
 </template>
 
@@ -47,11 +54,13 @@ export default {
             sheet: false,
         };
     },
+    created() {
+    },
     components: {
         NormalNavigation,
         BottomSheet,
         Orders,
-        OrderFilter
+        OrderFilter,
     },
 };
 </script>

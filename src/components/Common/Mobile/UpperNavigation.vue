@@ -44,8 +44,7 @@
             <v-btn
                 icon
                 class="mr-md-5 mr-lg-5"
-                router
-                :to="{name: 'Cart' }"
+                @click="goToCart()"
             >
                 <v-badge
                     :content="cartItems"
@@ -81,6 +80,10 @@ export default {
 
         refresh() {
             this.$router.go()
+        },
+        goToCart() {
+            this.$router.go()
+            this.$router.push({name: 'Cart'})
         }
     },
     computed: {

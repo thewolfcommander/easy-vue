@@ -63,17 +63,40 @@
                 </v-btn>
             </v-row>
         </v-card-actions>
+        <v-snackbar
+            v-model="snackbar"
+            bottom
+            color="white"
+            left
+            multi-line
+            :timeout="6000"
+        >
+            <span class="white--text">{{ snackText }}</span>
+
+            <template v-slot:action="{ attrs }">
+                <v-btn
+                    dark
+                    text
+                    v-bind="attrs"
+                    @click="snackbar = false"
+                >
+                    Close
+                </v-btn>
+            </template>
+        </v-snackbar>
     </v-card>
 
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 export default {
     data: () => ({
         loading: false,
         selection: 1,
         quantity: 1,
+        snackText: null,
+        snackbar: false
     }),
     props: ["item", "status"],
     methods: {
@@ -86,13 +109,15 @@ export default {
                     Authorization: `Token ${this.$store.getters.getToken}`,
                 },
                 data: {
-                    status: "delivered"
-                }
+                    status: "delivered",
+                },
             })
                 .then(() => {
-                    this.$emit('reRender');
+                    this.$emit("reRender");
                     this.$store.dispatch("stopLoading");
-                    console.log("New Order Delivered")
+                    this.snackbar = true;
+                    this.snack.text = "New Order Delivered Successfully"
+                    console.log("New Order Delivered");
                 })
                 .catch((err) => {
                     this.$store.dispatch("stopLoading");
@@ -108,19 +133,22 @@ export default {
                     Authorization: `Token ${this.$store.getters.getToken}`,
                 },
                 data: {
-                    status: "cancelled"
-                }
+                    status: "cancelled",
+                },
             })
                 .then(() => {
+                    this.$emit("reRender");
                     this.$store.dispatch("stopLoading");
-                    console.log("New Order Cancelled")
+                    this.snackbar = true;
+                    this.snack.text = "New Order Cancelled Successfully"
+                    console.log("New Order Cancelled");
                 })
                 .catch((err) => {
                     this.$store.dispatch("stopLoading");
                     console.log(err);
                 });
         },
-    }
+    },
 };
 </script>
 

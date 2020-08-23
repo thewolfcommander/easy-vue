@@ -63,6 +63,27 @@
                 </v-btn>
             </v-row>
         </v-card-actions>
+        <v-snackbar
+            v-model="snackbar"
+            bottom
+            color="white"
+            left
+            multi-line
+            :timeout="6000"
+        >
+            {{ snackText }}
+
+            <template v-slot:action="{ attrs }">
+                <v-btn
+                    dark
+                    text
+                    v-bind="attrs"
+                    @click="snackbar = false"
+                >
+                    Close
+                </v-btn>
+            </template>
+        </v-snackbar>
     </v-card>
 </template>
 
@@ -73,6 +94,8 @@ export default {
         loading: false,
         selection: 1,
         quantity: 1,
+        snackText: null,
+        snackbar: false,
     }),
     props: ["item", "status"],
     methods: {
@@ -85,12 +108,15 @@ export default {
                     Authorization: `Token ${this.$store.getters.getToken}`,
                 },
                 data: {
-                    status: "shipped"
-                }
+                    status: "shipped",
+                },
             })
                 .then(() => {
+                    this.$emit("reRender");
                     this.$store.dispatch("stopLoading");
-                    console.log("New Order Shipped")
+                    this.snackbar = true;
+                    this.snack.text = "New Order Shipped Successfully";
+                    console.log("New Order Shipped");
                 })
                 .catch((err) => {
                     this.$store.dispatch("stopLoading");
@@ -106,12 +132,15 @@ export default {
                     Authorization: `Token ${this.$store.getters.getToken}`,
                 },
                 data: {
-                    status: "cancelled"
-                }
+                    status: "cancelled",
+                },
             })
                 .then(() => {
+                    this.$emit("reRender");
                     this.$store.dispatch("stopLoading");
-                    console.log("New Order Cancelled")
+                    this.snackbar = true;
+                    this.snack.text = "New Order Cancelled Successfully"
+                    console.log("New Order Cancelled");
                 })
                 .catch((err) => {
                     this.$store.dispatch("stopLoading");

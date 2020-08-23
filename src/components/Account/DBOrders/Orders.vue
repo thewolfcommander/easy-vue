@@ -11,6 +11,7 @@
                 :item="item"
                 :status="status"
                 v-if="status === 'created' "
+                @reRender="reload"
             />
             <NormalSmallOrderCardForShip
                 :item="item"
@@ -22,6 +23,7 @@
                 :item="item"
                 :status="status"
                 v-if="status === 'delivered' || status === 'cancelled' "
+                @reRender="reload"
             />
         </v-col>
     </v-row>
