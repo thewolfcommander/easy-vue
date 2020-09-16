@@ -5,7 +5,7 @@
 
         <v-row justify="center">
             <v-img
-                src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+                :src="item.image ? item.image : `https://cdn.vuetifyjs.com/images/cards/cooking.png`"
                 lazy-src="https://fitmirchi.com/admin/assets/images/image_not_available.png"
                 aspect-ratio="1"
                 class="grey lighten-2"
