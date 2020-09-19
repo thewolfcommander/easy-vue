@@ -13,8 +13,11 @@
                         <h4 class="text-h4 text-xs-h5 primary--text">Delicious Menu</h4>
                     </v-row>
                 </v-col>
+                <v-col cols="3">
+                    <FilterSection class="d-none d-md-flex" @sort-foods-by-name="sortBy('name')" @sort-foods-by-price="sortBy('discount_price')" />
+                </v-col>
                 <v-col
-                    cols="12"
+                    cols="9"
                     class="mt-n5"
                 >
                     <v-row
@@ -23,11 +26,11 @@
                     >
                         <v-col
                             cols="6"
-                            md="4"
-                            lg="4"
+                            md="3"
+                            lg="3"
                             v-for="(item, index) in foods"
                             :key="index"
-                            class="my-n5"
+                            class=""
                         >
                             <SingleSmallCard :item="item" />
                         </v-col>
@@ -78,11 +81,13 @@
 <script>
 import axios from "axios";
 
-import SingleSmallCard from "@/components/Common/SingleSmallCard";
+import SingleSmallCard from "@/components/Common/Mobile/FoodCard";
+import FilterSection from "@/components/Menu/FilterSection";
 
 export default {
     components: {
-        SingleSmallCard
+        SingleSmallCard,
+        FilterSection
     },
 
     data() {
@@ -106,7 +111,7 @@ export default {
                 console.log(response.data);
                 if (response.data.links.next) {
                     this.morePage = true;
-                    this.nextLink = response.data.links.next.slice(4);
+                    this.nextLink = response.data.links.next.slice(5);
                 } else {
                     (this.morePage = false), (this.nextLink = null);
                 }
@@ -134,7 +139,7 @@ export default {
                     console.log(this.foods.length);
                     if (response.data.links.next) {
                         this.morePage = true;
-                        this.nextLink = response.data.links.next.slice(4);
+                        this.nextLink = response.data.links.next.slice(5);
                     } else {
                         (this.morePage = false), (this.nextLink = null);
                     }
@@ -144,7 +149,10 @@ export default {
                     console.log(err);
                     this.dialog = false;
                 });
-        }
+        },
+        sortBy(prop) {
+            this.foods.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
+        },
     }
 };
 </script>
