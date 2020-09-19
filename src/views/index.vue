@@ -23,22 +23,11 @@
 
 <script>
 import Header from "@/components/Home/Header";
-import FeaturedProducts from "@/components/Home/FeaturedProducts";
-import TopRestaurants from "@/components/Home/TopRestaurants";
-import Categories from "@/components/Home/Categories";
-import Foods from "@/components/Home/Foods";
-import Groceries from "@/components/Home/Groceries";
-
 import MobileHeader from "@/components/Home/Mobile/Header";
-import MobileFeaturedProducts from "@/components/Home/Mobile/FeaturedProducts";
-import MobileTopRestaurants from "@/components/Home/Mobile/TopRestaurants";
-import MobileCategories from "@/components/Home/Mobile/Categories";
-import MobileFoods from "@/components/Home/Mobile/Foods";
-import MobileGroceries from "@/components/Home/Mobile/Groceries";
-
-import RestaurantForm from "@/components/Home/RestaurantForm";
+import lazyLoadComponent from '@/utils/lazy-load-component';
 
 import Loading from '@/components/Common/Loading'
+import SkeletonLoader from '@/components/SkeletonLoader'
 
 export default {
     data() {
@@ -55,18 +44,51 @@ export default {
     components: {
         Loading,
         Header,
-        FeaturedProducts,
-        TopRestaurants,
-        Categories,
-        Foods,
-        Groceries,
-        RestaurantForm,
+        FeaturedProducts: lazyLoadComponent({
+            componentFactory: () => import('@/components/Home/FeaturedProducts'),
+            loading: SkeletonLoader,
+        }),
+        TopRestaurants: lazyLoadComponent({
+            componentFactory: () => import('@/components/Home/TopRestaurants'),
+            loading: SkeletonLoader,
+        }),
+        Categories: lazyLoadComponent({
+            componentFactory: () => import('@/components/Home/Categories'),
+            loading: SkeletonLoader,
+        }),
+        Foods: lazyLoadComponent({
+            componentFactory: () => import('@/components/Home/Foods'),
+            loading: SkeletonLoader,
+        }),
+        Groceries: lazyLoadComponent({
+            componentFactory: () => import('@/components/Home/Groceries'),
+            loading: SkeletonLoader,
+        }),
+        RestaurantForm: lazyLoadComponent({
+            componentFactory: () => import('@/components/Home/RestaurantForm'),
+            loading: SkeletonLoader,
+        }),
         MobileHeader,
-        MobileFeaturedProducts,
-        MobileTopRestaurants,
-        MobileCategories,
-        MobileFoods,
-        MobileGroceries,
+        MobileFeaturedProducts: lazyLoadComponent({
+            componentFactory: () => import('@/components/Home/Mobile/FeaturedProducts'),
+            loading: SkeletonLoader,
+        }),
+        MobileTopRestaurants: lazyLoadComponent({
+            componentFactory: () => import('@/components/Home/Mobile/TopRestaurants'),
+            loading: SkeletonLoader,
+        }),
+        MobileCategories: lazyLoadComponent({
+            componentFactory: () => import('@/components/Home/Mobile/Categories'),
+            loading: SkeletonLoader,
+        }),
+        MobileFoods: lazyLoadComponent({
+            componentFactory: () => import('@/components/Home/Mobile/Foods'),
+            loading: SkeletonLoader,
+        }),
+        MobileGroceries: lazyLoadComponent({
+            componentFactory: () => import('@/components/Home/Mobile/Groceries'),
+            loading: SkeletonLoader,
+        }),
     }
 };
 </script>

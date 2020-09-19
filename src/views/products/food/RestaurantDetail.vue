@@ -2,7 +2,12 @@
     <v-container fluid>
         <v-container>
             <v-row justify="center">
-                <v-btn color="grey" rounded outlined @click="$router.go(-1)">Go Back</v-btn>
+                <v-btn
+                    color="grey"
+                    rounded
+                    outlined
+                    @click="$router.go(-1)"
+                >Go Back</v-btn>
             </v-row>
             <v-row justify="center">
                 <v-col
@@ -16,7 +21,7 @@
                 <v-col cols="12">
                     <v-row justify="center">
                         <v-img
-                            src="https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                            :src="restaurant.image ? restaurant.image : `https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940`"
                             lazy-src="https://fitmirchi.com/admin/assets/images/image_not_available.png"
                             aspect-ratio="1"
                             class="grey lighten-2"
@@ -37,15 +42,74 @@
                         </v-img>
                     </v-row>
                 </v-col>
-                <v-col cols="12" md="8" class="text-center">
+                <v-col
+                    cols="12"
+                    md="8"
+                    class="text-center"
+                >
                     <p class="grey--text">{{ restaurant.city }}, {{ restaurant.state }}, {{ restaurant.country }} - {{ restaurant.pincode }}</p>
                 </v-col>
             </v-row>
-            <v-row justify="center" v-if="foods !== []">
-                <p class="title">Foods Available</p>
+            <v-row justify="center">
+                <v-col cols="12" class="text-center">
+                    <p class="title">Popular Categories</p>
+                </v-col>
+                <v-col cols="12" class="text-center">
+                    <v-chip
+                        class="ma-2"
+                        color="primary"
+                        v-for="(cat,index) in categories"
+                        :key="index"
+                        router
+                        :to="{name: 'CategoryDetail', params: {categoryId: cat.id,} }"
+                    >
+                        {{ cat.name }}
+                    </v-chip>
+                </v-col>
             </v-row>
-            <v-row wrap v-if="foods !== []" class="mt-5">
-                <v-col cols="6" sm="4" md="2" v-for="item in foods" :key="item.id">
+            <v-divider></v-divider>
+            <v-row
+            class="mt-3"
+                justify="center"
+                v-if="foods !== []"
+            >
+                <p class="title">Available Foods</p>
+            </v-row>
+            <v-row
+            class="mt-3"
+                justify="center"
+                v-if="foods !== []"
+            >
+                <v-col
+                    cols="12"
+                    class="text-center"
+                >
+                    <v-text-field
+                        solo-inverted
+                        light
+                        flat
+                        v-model="query"
+                        hide-details
+                        class="white--text"
+                        label="Start typing to search"
+                        prepend-inner-icon="mdi-magnify"
+                    ></v-text-field>
+                    <p class="caption primary--text mt-4 mb-0">Showing {{ itemsCount }} items <v-btn v-if="morePage" text x-small @click="loadMore()">Load more</v-btn></p>
+                    <p class="caption secondary--text mt-4 mb-0">Tip: Click load more if you cannot find your desired item.</p>
+                </v-col>
+            </v-row>
+            <v-row
+                wrap
+                v-if="foods !== []"
+                class="mt-5"
+            >
+                <v-col
+                    cols="6"
+                    sm="4"
+                    md="2"
+                    v-for="item in itemsSearched"
+                    :key="item.id"
+                >
                     <FoodCard :item="item" />
                 </v-col>
             </v-row>
@@ -65,53 +129,68 @@
 </template>
 
 <script>
-import axios from 'axios'
-import FoodCard from '@/components/Common/Mobile/FoodCard'
+import axios from "axios";
+import FoodCard from "@/components/Common/Mobile/FoodCard";
 
 export default {
     data() {
         return {
             foods: [],
+            categories: [],
             morePage: false,
+            query:"",
             nextLink: null,
-        }
+        };
     },
     components: {
-        FoodCard
+        FoodCard,
     },
-    props: ['restaurant'],
+    props: ["restaurant"],
     created() {
-        this.$store.dispatch('startLoading')
+        this.$store.dispatch("startLoading");
         axios({
             url: `${this.$store.state.apiUrl}products/foods?restaurant=${this.restaurant.id}`,
-            method: 'GET',
+            method: "GET",
         })
-        .then(response => {
+            .then((response) => {
                 this.foods = response.data.results;
                 localStorage.setItem("foods", JSON.stringify(response.data));
-                console.log(response.data);
                 if (response.data.links.next) {
                     this.morePage = true;
-                    this.nextLink = response.data.links.next.slice(4);
+                    this.nextLink = response.data.links.next.slice(5);
                 } else {
                     (this.morePage = false), (this.nextLink = null);
                 }
-                this.$store.dispatch('stopLoading')
+                this.$store.dispatch("stopLoading");
             })
-            .catch(err => {
+            .catch((err) => {
                 console.log(err);
-                this.$store.dispatch('stopLoading')
+                this.$store.dispatch("stopLoading");
             });
     },
-     methods: {
+    mounted() {
+        axios({
+            url: `${this.$store.state.apiUrl}products/categories?restaurant=${this.restaurant.id}`,
+            method: "GET",
+        })
+            .then((response) => {
+                this.categories = response.data.results;
+                localStorage.setItem("categories", JSON.stringify(response.data))
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    },
+    methods: {
         loadMore() {
-            this.$store.dispatch('startLoading')
+            this.$store.dispatch("startLoading");
+            console.log(this.nextLink)
             axios({
                 url: `https${this.nextLink}`,
-                method: "GET"
+                method: "GET",
             })
-                .then(response => {
-                    response.data.results.forEach(item => {
+                .then((response) => {
+                    response.data.results.forEach((item) => {
                         this.foods.push(item);
                     });
 
@@ -119,18 +198,32 @@ export default {
                     console.log(this.foods.length);
                     if (response.data.links.next) {
                         this.morePage = true;
-                        this.nextLink = response.data.links.next.slice(4);
+                        this.nextLink = response.data.links.next.slice(5);
                     } else {
                         (this.morePage = false), (this.nextLink = null);
                     }
-                    this.$store.dispatch('stopLoading')
+                    this.$store.dispatch("stopLoading");
                 })
-                .catch(err => {
+                .catch((err) => {
                     console.log(err);
-                    this.$store.dispatch('stopLoading')
+                    this.$store.dispatch("stopLoading");
                 });
-        }
-    }
+        },
+    },
+    computed: {
+        itemsSearched: function () {
+            var self = this;
+            if (this.query == "") {
+                return this.foods;
+            }
+            return this.foods.filter(function (item) {
+                return item.name.toUpperCase().indexOf(self.query.toUpperCase()) >= 0;
+            });
+        },
+        itemsCount() {
+            return this.itemsSearched.length;
+        },
+    },
 };
 </script>
 

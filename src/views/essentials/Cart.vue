@@ -264,17 +264,6 @@ export default {
         },
     },
     created() {
-        let fd = JSON.parse(localStorage.getItem("foodCart")) || null;
-        let gr = JSON.parse(localStorage.getItem("groceryCart")) || null;
-        if (fd === null) {
-            const emp = new Array();
-            localStorage.setItem("foodCart", JSON.stringify(emp));
-        }
-        if (gr === null) {
-            const emp = new Array();
-            localStorage.setItem("groceryCart", JSON.stringify(emp));
-        }
-
         this.syncCart();
     },
     methods: {
