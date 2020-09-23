@@ -66,12 +66,10 @@
         <v-snackbar
             v-model="snackbar"
             bottom
-            color="white"
             left
-            multi-line
             :timeout="6000"
         >
-            <span class="white--text">{{ snackText }}</span>
+            <p class="caption white--text">{{ snackText }}</p>
 
             <template v-slot:action="{ attrs }">
                 <v-btn
@@ -116,7 +114,7 @@ export default {
                     this.$emit("reRender");
                     this.$store.dispatch("stopLoading");
                     this.snackbar = true;
-                    this.snack.text = "New Order Delivered Successfully"
+                    this.snackText = "New Order Delivered Successfully"
                     console.log("New Order Delivered");
                 })
                 .catch((err) => {
@@ -140,7 +138,7 @@ export default {
                     this.$emit("reRender");
                     this.$store.dispatch("stopLoading");
                     this.snackbar = true;
-                    this.snack.text = "New Order Cancelled Successfully"
+                    this.snackText = "New Order Cancelled Successfully"
                     console.log("New Order Cancelled");
                 })
                 .catch((err) => {

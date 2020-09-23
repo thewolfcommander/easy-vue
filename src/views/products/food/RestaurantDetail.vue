@@ -51,10 +51,16 @@
                 </v-col>
             </v-row>
             <v-row justify="center">
-                <v-col cols="12" class="text-center">
+                <v-col
+                    cols="12"
+                    class="text-center"
+                >
                     <p class="title">Popular Categories</p>
                 </v-col>
-                <v-col cols="12" class="text-center">
+                <v-col
+                    cols="12"
+                    class="text-center"
+                >
                     <v-chip
                         class="ma-2"
                         color="primary"
@@ -69,14 +75,14 @@
             </v-row>
             <v-divider></v-divider>
             <v-row
-            class="mt-3"
+                class="mt-3"
                 justify="center"
                 v-if="foods !== []"
             >
                 <p class="title">Available Foods</p>
             </v-row>
             <v-row
-            class="mt-3"
+                class="mt-3"
                 justify="center"
                 v-if="foods !== []"
             >
@@ -94,7 +100,13 @@
                         label="Start typing to search"
                         prepend-inner-icon="mdi-magnify"
                     ></v-text-field>
-                    <p class="caption primary--text mt-4 mb-0">Showing {{ itemsCount }} items <v-btn v-if="morePage" text x-small @click="loadMore()">Load more</v-btn></p>
+                    <p class="caption primary--text mt-4 mb-0">Showing {{ itemsCount }} items <v-btn
+                            v-if="morePage"
+                            text
+                            x-small
+                            @click="loadMore()"
+                        >Load more</v-btn>
+                    </p>
                     <p class="caption secondary--text mt-4 mb-0">Tip: Click load more if you cannot find your desired item.</p>
                 </v-col>
             </v-row>
@@ -138,16 +150,34 @@ export default {
             foods: [],
             categories: [],
             morePage: false,
-            query:"",
+            query: "",
             nextLink: null,
+            restaurant: {
+                id: this.$route.params.restaurantId,
+                name: "loading...",
+                city: "Srinagar Garhwal",
+                state: "Uttarakhand",
+                country: "India",
+                pincode: "246174",
+            },
         };
     },
     components: {
         FoodCard,
     },
-    props: ["restaurant"],
     created() {
-        this.$store.dispatch("startLoading");
+        axios({
+            url: `${this.$store.state.apiUrl}products/restaurants/${this.restaurant.id}/`,
+            method: "GET",
+        })
+            .then((response) => {
+                this.restaurant = response.data;
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    },
+    mounted() {
         axios({
             url: `${this.$store.state.apiUrl}products/foods?restaurant=${this.restaurant.id}`,
             method: "GET",
@@ -162,29 +192,30 @@ export default {
                     (this.morePage = false), (this.nextLink = null);
                 }
                 this.$store.dispatch("stopLoading");
+                axios({
+                    url: `${this.$store.state.apiUrl}products/categories?restaurant=${this.restaurant.id}`,
+                    method: "GET",
+                })
+                    .then((response) => {
+                        this.categories = response.data.results;
+                        localStorage.setItem(
+                            "categories",
+                            JSON.stringify(response.data)
+                        );
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
             })
             .catch((err) => {
                 console.log(err);
                 this.$store.dispatch("stopLoading");
             });
     },
-    mounted() {
-        axios({
-            url: `${this.$store.state.apiUrl}products/categories?restaurant=${this.restaurant.id}`,
-            method: "GET",
-        })
-            .then((response) => {
-                this.categories = response.data.results;
-                localStorage.setItem("categories", JSON.stringify(response.data))
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    },
     methods: {
         loadMore() {
             this.$store.dispatch("startLoading");
-            console.log(this.nextLink)
+            console.log(this.nextLink);
             axios({
                 url: `https${this.nextLink}`,
                 method: "GET",
@@ -217,7 +248,10 @@ export default {
                 return this.foods;
             }
             return this.foods.filter(function (item) {
-                return item.name.toUpperCase().indexOf(self.query.toUpperCase()) >= 0;
+                return (
+                    item.name.toUpperCase().indexOf(self.query.toUpperCase()) >=
+                    0
+                );
             });
         },
         itemsCount() {

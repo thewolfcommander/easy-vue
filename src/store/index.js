@@ -19,12 +19,14 @@ export default new Vuex.Store({
     version2: false,
     appVersion: "1.0.0",
     acceptedVersion: localStorage.getItem('acceptedVersion') || false,
+    cartReloaded: localStorage.getItem('cartReloaded') || false,
   },
   getters: {
     getOverlay: state => !!state.overlay,
     getVersion: state => !!state.version2,
     getAppVersion: state => state.appVersion,
-    getAcceptedVersion: state => !!state.acceptedVersion
+    getAcceptedVersion: state => !!state.acceptedVersion,
+    getCartReloaded: state => !!state.cartReloaded
   },
   actions: {
     startLoading({commit}) {
@@ -35,6 +37,12 @@ export default new Vuex.Store({
     },
     acceptNewUpdate({commit}) {
       commit('ACCEPT_NEW_UPDATE')
+    },
+    setCartReloaded({commit}) {
+      commit('SET_CART_RELOADED')
+    },
+    setCartUnloaded({commit}) {
+      commit('SET_CART_UNLOADED')
     }
   },
   mutations: {
@@ -47,6 +55,15 @@ export default new Vuex.Store({
     ACCEPT_NEW_UPDATE(state) {
       state.acceptedVersion = true
       localStorage.setItem('acceptedVersion', true)
+    },
+    SET_CART_RELOADED(state) {
+      state.cartReloaded = true
+      localStorage.setItem('cartReloaded', true)
+    },
+
+    SET_CART_UNLOADED(state) {
+      state.cartReloaded = false
+      localStorage.setItem('cartReloaded', false)
     }
   },
   modules: {

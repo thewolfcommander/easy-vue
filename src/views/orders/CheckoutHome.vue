@@ -258,15 +258,13 @@ export default {
                             );
                             this.$store.dispatch("clearCart");
                             this.$store.dispatch("stopLoading");
-                            const emp = new Array();
-                            localStorage.setItem(
-                                "groceryCart",
-                                JSON.stringify(emp)
-                            );
-                            localStorage.setItem(
-                                "foodCart",
-                                JSON.stringify(emp)
-                            );
+                            this.$store.dispatch('createFreshCart');
+                            var loaded = this.$store.getters.getCartReloaded
+                            if (loaded) {
+                                this.$store.dispatch('setCartUnloaded')
+                            } else {
+                                this.$store.dispatch('setCartReloaded')
+                            }
                             this.$router.push({ name: "OrderSuccess" });
                         })
                         .catch((err) => {

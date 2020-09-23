@@ -13,11 +13,11 @@
                         <h4 class="text-h4 text-xs-h5 primary--text">Delicious Menu</h4>
                     </v-row>
                 </v-col>
-                <v-col cols="3">
+                <v-col cols="3" v-if="false">
                     <FilterSection class="d-none d-md-flex" @sort-foods-by-name="sortBy('name')" @sort-foods-by-price="sortBy('discount_price')" />
                 </v-col>
                 <v-col
-                    cols="9"
+                    cols="12"
                     class="mt-n5"
                 >
                     <v-row
@@ -26,8 +26,8 @@
                     >
                         <v-col
                             cols="6"
-                            md="3"
-                            lg="3"
+                            md="2"
+                            lg="2"
                             v-for="(item, index) in foods"
                             :key="index"
                             class=""

@@ -264,6 +264,11 @@ export default {
         },
     },
     created() {
+        var loaded = this.$store.getters.getCartReloaded
+        if (!loaded) {
+            this.$router.go()
+            this.$store.dispatch('setCartReloaded')
+        }
         this.syncCart();
     },
     methods: {

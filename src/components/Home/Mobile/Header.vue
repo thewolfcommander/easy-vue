@@ -1,27 +1,13 @@
 <template>
   <v-carousel
     cycle
-    height="400"
-    hide-delimiter-background
-    show-arrows-on-hover
+    height="450"
   >
     <v-carousel-item
       v-for="(slide, i) in slides"
       :key="i"
+      :src="slide.src"
     >
-      <v-sheet
-        :color="colors[i]"
-        height="100%"
-        min-width="100vw"
-      >
-        <v-row
-          class="fill-height"
-          align="center"
-          justify="center"
-        >
-          <div class="text-h5">{{ slide }}</div>
-        </v-row>
-      </v-sheet>
     </v-carousel-item>
   </v-carousel>
 </template>
@@ -38,11 +24,16 @@
           'deep-purple accent-4',
         ],
         slides: [
-          'Advertisement',
-          'Advertisement',
-          'Advertisement',
-          'Advertisement',
-          'Advertisement'
+          {
+            src: "https://www.crushpixel.com/static13/preview2/fast-food-restaurant-poster-design-1121379.jpg",
+            title: "Advertisement",
+            link: "Home"
+          },
+          {
+            src: "https://comps.canstockphoto.com/fast-food-chain-menu-poster-eps-vectors_csp30609832.jpg",
+            title: "Advertisement",
+            link: "Home"
+          }
         ],
       }
     },
