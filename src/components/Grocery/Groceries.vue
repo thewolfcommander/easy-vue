@@ -13,6 +13,9 @@
                         <h4 class="text-h4 text-xs-h5 primary--text">Your daily needs</h4>
                     </v-row>
                 </v-col>
+                <v-col cols="3" v-if="false">
+                    <FilterSection class="d-none d-md-flex" @sort-foods-by-name="sortBy('name')" @sort-foods-by-price="sortBy('discount_price')" />
+                </v-col>
                 <v-col
                     cols="12"
                     class="mt-n5"
@@ -23,19 +26,22 @@
                     >
                         <v-col
                             cols="6"
-                            md="4"
-                            lg="4"
+                            md="2"
+                            lg="2"
                             v-for="(item, index) in groceries"
                             :key="index"
-                            class="my-n5"
+                            class=""
                         >
-                            <SingleGroceryCard :item="item" />
+                            <SingleSmallCard :item="item" />
                         </v-col>
                     </v-row>
                 </v-col>
             </v-row>
+
+            <v-divider></v-divider>
             <v-row
                 justify="center"
+                v-if="morePage"
             >
                 <v-btn
                     color="secondary"
@@ -44,85 +50,109 @@
                     @click="loadMore"
                 >Load more</v-btn>
             </v-row>
+            <v-dialog
+                v-model="dialog"
+                hide-overlay
+                persistent
+                width="300"
+                class="pt-4 pb-3"
+            >
+                <v-card
+                    color="white"
+                    dark
+                >
+                    <v-card-text>
+                        <span class="subtitle-2 primary--text">
+                            Loading...
+                        </span>
+                        <v-progress-linear
+                            indeterminate
+                            color="primary"
+                            class="mb-0"
+                        ></v-progress-linear>
+                    </v-card-text>
+                </v-card>
+            </v-dialog>
         </v-container>
+
     </v-container>
 </template>
 
 <script>
 import axios from "axios";
-import SingleGroceryCard from "@/components/Common/SingleGroceryCard";
+
+import SingleSmallCard from "@/components/Common/Mobile/GroceryCard";
+import FilterSection from "@/components/Menu/FilterSection";
 
 export default {
     components: {
-        SingleGroceryCard,
+        SingleSmallCard,
+        FilterSection
     },
+
     data() {
         return {
-            groceries: new Array(),
+            groceries: JSON.parse(localStorage.getItem("groceries")) || [],
             morePage: false,
             nextLink: null,
+            dialog: false
         };
     },
+
     created() {
-        this.$store.dispatch("startLoading");
-        console.log("Step 1")
+        this.dialog = true;
         axios({
             url: `${this.$store.state.apiUrl}grocery/items/`,
-            method: "GET",
+            method: "GET"
         })
-            .then((response) => {
+            .then(response => {
                 this.groceries = response.data.results;
-                localStorage.setItem(
-                    "groceries",
-                    JSON.stringify(response.data)
-                );
+                localStorage.setItem("groceries", JSON.stringify(response.data));
                 console.log(response.data);
                 if (response.data.links.next) {
                     this.morePage = true;
-                    this.nextLink = response.data.links.next.slice(4);
+                    this.nextLink = response.data.links.next.slice(5);
                 } else {
                     (this.morePage = false), (this.nextLink = null);
                 }
-
-                this.$store.dispatch("stopLoading");
+                this.dialog = false;
             })
-            .catch((err) => {
+            .catch(err => {
                 console.log(err);
-                this.$store.dispatch("stopLoading");
+                this.dialog = false;
             });
-        console.log(this.groceries);
     },
 
     methods: {
         loadMore() {
-            this.$store.dispatch("startLoading");
+            this.dialog = true;
             axios({
                 url: `https${this.nextLink}`,
-                method: "GET",
+                method: "GET"
             })
-                .then((response) => {
-                    response.data.results.forEach((item) => {
+                .then(response => {
+                    response.data.results.forEach(item => {
                         this.groceries.push(item);
                     });
 
-                    localStorage.setItem(
-                        "groceries",
-                        JSON.stringify(this.groceries)
-                    );
+                    localStorage.setItem("groceries", JSON.stringify(this.groceries));
                     console.log(this.groceries.length);
                     if (response.data.links.next) {
                         this.morePage = true;
-                        this.nextLink = response.data.links.next.slice(4);
+                        this.nextLink = response.data.links.next.slice(5);
                     } else {
                         (this.morePage = false), (this.nextLink = null);
                     }
-
-                    this.$store.dispatch("stopLoading");
+                    this.dialog = false;
                 })
-                .catch((err) => {
+                .catch(err => {
                     console.log(err);
-                    this.$store.dispatch("stopLoading");
+                    this.dialog = false;
                 });
         },
-    },
+        sortBy(prop) {
+            this.groceries.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
+        },
+    }
 };
+</script>

@@ -156,7 +156,7 @@ export default {
             } else {
                 this.snackbar = true;
             }
-        },
+        }
     },
     computed: {
         getAuthStatus() {

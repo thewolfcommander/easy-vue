@@ -39,6 +39,8 @@
                 >
                     <v-btn
                         small
+                        router
+                        :to="{name: 'Settings'}"
                         rounded
                         color="primary"
                     >Edit Profile</v-btn>

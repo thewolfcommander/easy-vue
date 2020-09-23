@@ -39,6 +39,8 @@
                     color="primary"
                     text
                     small
+                    router
+                    :to="{name: 'SubCategoryDetail', params: {subCategoryId: item.id} }"
                 >
                     View
                 </v-btn>

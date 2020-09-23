@@ -16,32 +16,13 @@
                 lg="9"
                 sm="12"
             >
-                <v-row justify="center">
-                    <v-avatar size="128">
-                        <img
-                            src="https://cdn.vuetifyjs.com/images/john.jpg"
-                            alt="John"
-                        >
-                    </v-avatar>
-                </v-row>
-                <v-row
-                    justify="center"
-                    class="mt-3"
-                >
-                    <h2 class="subtitle-1">Manoj Tyagi</h2>
-                </v-row>
-                <v-row justify="center">
-                    <h2 class="subtitle-1">manojtyagi@gmail.com | +91-7253919169</h2>
-                </v-row>
-                <v-row
-                    justify="center"
-                    class="mt-3"
-                >
-                    <v-btn
-                        small
-                        rounded
-                        color="primary"
-                    >Edit Profile</v-btn>
+                <v-row justify="start">
+                    <v-col cols="12" md="6">
+                       <ChangePassword />
+                    </v-col>
+                    <v-col cols="12" md="6">
+                        <EditProfile />
+                    </v-col>
                 </v-row>
             </v-col>
         </v-row>
@@ -59,6 +40,8 @@
 </template>
 
 <script>
+import EditProfile from "@/components/Account/Profile/EditProfile";
+import ChangePassword from "@/components/Account/Profile/ChangePassword";
 import NormalNavigation from "@/components/Account/NormalNavigation";
 import BottomSheet from "@/components/Account/Mobile/BottomSheet";
 
@@ -70,8 +53,10 @@ export default {
     },
     components: {
         NormalNavigation,
-        BottomSheet
-    }
+        BottomSheet,
+        ChangePassword,
+        EditProfile,
+    },
 };
 </script>
 

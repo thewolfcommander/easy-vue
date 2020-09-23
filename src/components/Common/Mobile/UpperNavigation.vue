@@ -44,7 +44,8 @@
             <v-btn
                 icon
                 class="mr-md-5 mr-lg-5"
-                @click="goToCart()"
+                router
+                :to="{name: 'Cart'}"
             >
                 <v-badge
                     :content="cartItems"

@@ -55,6 +55,22 @@ const actions = {
                             }
                             localStorage.setItem('user', JSON.stringify(user))
                             commit('SET_USER', JSON.stringify(user))
+                            axios({
+                                url: `${this.state.apiUrl}cart/create/`,
+                                method: 'POST',
+                                headers: {
+                                    'Authorization': `Token ${response.data.token}`
+                                },
+                                data: {
+                                    user: resp.data.id
+                                }
+                            })
+                            .then(res => {
+                                localStorage.setItem('foodCart', JSON.stringify(Array()))
+                                localStorage.setItem('groceryCart', JSON.stringify(Array()))
+                                commit('CART_FROM_SERVER', JSON.stringify(res.data))
+                            })
+                            .catch(err => console.log(err))
                         })
                         .catch(err => {
                             console.log(err)

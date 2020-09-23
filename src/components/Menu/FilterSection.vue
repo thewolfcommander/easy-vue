@@ -10,21 +10,23 @@
                 <v-btn
                     text
                     rounded
-                    :disabled="!$store.getters.getVersion"
+                    @click="sortByName()"
+                    :disabled="false"
                     color="primary"
                     class="text-capitalize"
                 >By Name</v-btn>
                 <v-btn
                     text
                     rounded
-                    :disabled="!$store.getters.getVersion"
+                    @click="sortByPrice()"
+                    :disabled="false"
                     color="primary"
                     class="text-capitalize"
                 >By Price</v-btn>
                 <v-btn
                     text
                     rounded
-                    :disabled="!$store.getters.getVersion"
+                    :disabled="false"
                     color="primary"
                     class="text-capitalize"
                 >By Restaurant</v-btn>
@@ -36,28 +38,28 @@
                 <v-btn
                     text
                     rounded
-                    :disabled="!$store.getters.getVersion"
+                    :disabled="false"
                     color="primary"
                     class="text-capitalize"
                 >Vatika Srinagar</v-btn>
                 <v-btn
                     text
                     rounded
-                    :disabled="!$store.getters.getVersion"
+                    :disabled="false"
                     color="primary"
                     class="text-capitalize"
                 >Zayaka Srinagar</v-btn>
                 <v-btn
                     text
                     rounded
-                    :disabled="!$store.getters.getVersion"
+                    :disabled="false"
                     color="primary"
                     class="text-capitalize"
                 >Retro Rolls</v-btn>
                 <v-btn
                     text
                     rounded
-                    :disabled="!$store.getters.getVersion"
+                    :disabled="false"
                     color="primary"
                     class="text-capitalize"
                 >The Hill Cafe</v-btn>
@@ -65,7 +67,7 @@
                     <v-btn
                         text
                         color="indigo"
-                    :disabled="!$store.getters.getVersion"
+                    :disabled="false"
                         class="text-capitalize"
                     >View More</v-btn>
                 </v-col>
@@ -78,35 +80,35 @@
                     text
                     rounded
                     color="primary"
-                    :disabled="!$store.getters.getVersion"
+                    :disabled="false"
                     class="text-capitalize"
                 >Non-Veg</v-btn>
                 <v-btn
                     text
                     rounded
                     color="primary"
-                    :disabled="!$store.getters.getVersion"
+                    :disabled="false"
                     class="text-capitalize"
                 >Pure Veg</v-btn>
                 <v-btn
                     text
                     rounded
                     color="primary"
-                    :disabled="!$store.getters.getVersion"
+                    :disabled="false"
                     class="text-capitalize"
                 >Snacks</v-btn>
                 <v-btn
                     text
                     rounded
                     color="primary"
-                    :disabled="!$store.getters.getVersion"
+                    :disabled="false"
                     class="text-capitalize"
                 >Hot Beverages</v-btn>
                 <v-col class="text-center">
                     <v-btn
                         text
                         color="indigo"
-                    :disabled="!$store.getters.getVersion"
+                    :disabled="false"
                         class="text-capitalize"
                     >View More</v-btn>
                 </v-col>
@@ -117,7 +119,7 @@
                 <p class="subtitle-2 ml-4 grey lighten-2 pa-2">Ratings</p>
                 <v-col class="text-start">
                     <v-btn text 
-                    :disabled="!$store.getters.getVersion">
+                    :disabled="false">
                         <v-rating
                             :value="5"
                             color="secondary"
@@ -126,7 +128,7 @@
                         ></v-rating>
                     </v-btn>
                     <v-btn text 
-                    :disabled="!$store.getters.getVersion">
+                    :disabled="false">
                         <v-rating
                             :value="4"
                             color="secondary"
@@ -135,7 +137,7 @@
                         ></v-rating>
                     </v-btn>
                     <v-btn text 
-                    :disabled="!$store.getters.getVersion">
+                    :disabled="false">
                         <v-rating
                             :value="3"
                             color="secondary"
@@ -144,7 +146,7 @@
                         ></v-rating>
                     </v-btn>
                     <v-btn text 
-                    :disabled="!$store.getters.getVersion">
+                    :disabled="false">
                         <v-rating
                             :value="2"
                             color="secondary"
@@ -153,7 +155,7 @@
                         ></v-rating>
                     </v-btn>
                     <v-btn text 
-                    :disabled="!$store.getters.getVersion">
+                    :disabled="false">
                         <v-rating
                             :value="1"
                             color="secondary"
@@ -182,5 +184,13 @@ export default {
     components: {
         PriceRangeSlider,
     },
+    methods: {
+        sortByName(){
+            this.$emit('sort-foods-by-name')
+        },
+        sortByPrice(){
+            this.$emit('sort-foods-by-price')
+        }
+    }
 };
 </script>

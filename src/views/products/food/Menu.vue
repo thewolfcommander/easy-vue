@@ -35,7 +35,6 @@
                 md="3"
                 lg="3"
             >
-                <FilterSection class="d-none d-md-flex" />
                 <MobileFilterSection
                     class="d-flex d-md-none"
                     :dialog="dialog"
@@ -43,8 +42,8 @@
             </v-col>
             <v-col
                 cols="12"
-                md="9"
-                lg="9"
+                md="12"
+                lg="12"
             >
                 <AllProducts class="d-none d-md-flex" />
                 <MobileAllProducts class="d-flex d-md-none" />
@@ -55,7 +54,6 @@
 
 <script>
 import AllProducts from "@/components/Menu/AllProducts";
-import FilterSection from "@/components/Menu/FilterSection";
 
 import MobileAllProducts from "@/components/Menu/Mobile/AllProducts";
 import MobileFilterSection from "@/components/Menu/Mobile/FilterDrawer";
@@ -63,7 +61,6 @@ import MobileFilterSection from "@/components/Menu/Mobile/FilterDrawer";
 export default {
     components: {
         AllProducts,
-        FilterSection,
         MobileAllProducts,
         MobileFilterSection
     },
