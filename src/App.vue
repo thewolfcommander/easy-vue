@@ -1,13 +1,24 @@
 <template>
     <v-app>
-        <Navbar class="d-none d-md-flex"/>
+        <Navbar class="d-none d-md-flex" />
         <UpperNavigation class="d-flex d-md-none" />
 
         <v-row class="mt-5 mb-5 pt-5 pb-5 d-none d-md-flex"></v-row>
         <div class="mt-5 mb-5 pt-5 pb-5 d-flex d-md-none"></div>
-        <v-content>
+        <v-content v-if="!isNight">
             <router-view></router-view>
         </v-content>
+        <v-container v-else>
+            <v-row justify="center">
+                <v-img
+                    src="https://cdni.iconscout.com/illustration/premium/thumb/connection-lost-2161434-1815076.png"
+                    max-width="450"
+                ></v-img>
+            </v-row>
+            <v-row justify="center">
+                Oops! We are not serviceable at the moment because Restaurants doesn't offer night service. Sorry for your inconvenience.
+            </v-row>
+        </v-container>
         <v-row class="mt-5 mb-5 pt-5 pb-5 d-flex d-md-none"></v-row>
         <BottomNavigation class="d-flex d-md-none" />
         <Footer class="d-none d-md-flex" />
@@ -54,7 +65,7 @@ export default {
         BottomNavigation,
         UpperNavigation,
         PreLoader,
-        VersionUpdate
+        VersionUpdate,
     },
 
     data: () => ({
@@ -70,19 +81,19 @@ export default {
             window.scrollTo({
                 top: 0,
                 left: 0,
-                behavior: "smooth"
+                behavior: "smooth",
             });
-        }
+        },
     },
     created() {
-        let foods = localStorage.getItem('foodCart')
-        let groceries = localStorage.getItem('groceryCart')
+        let foods = localStorage.getItem("foodCart");
+        let groceries = localStorage.getItem("groceryCart");
 
         if (!foods) {
-            localStorage.getItem('foodCart', [])
+            localStorage.getItem("foodCart", []);
         }
         if (!groceries) {
-            localStorage.getItem('groceryCart', [])
+            localStorage.getItem("groceryCart", []);
         }
     },
     mounted() {
@@ -97,7 +108,11 @@ export default {
     computed: {
         loading() {
             return this.$store.getters.loading;
-        }
+        },
+        isNight() {
+            var date = new Date();
+            return date.getHours() > 22 || date.getHours() < 10;
+        },
     },
 };
 </script>
