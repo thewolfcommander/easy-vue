@@ -2,7 +2,6 @@
     <nav class="mobile-nav">
         <v-app-bar
             fixed
-            height="65"
             color="white"
             elevate-on-scroll
         >
@@ -13,7 +12,7 @@
             >
                 <v-icon>mdi-reload</v-icon>
             </v-btn>
-            <v-btn icon v-if="this.$store.getters.getVersion">
+            <v-btn icon router :to="{name: 'Search'}">
                 <v-icon>mdi-magnify</v-icon>
             </v-btn>
             <v-spacer></v-spacer>
@@ -46,7 +45,7 @@
                 icon
                 class="mr-md-5 mr-lg-5"
                 router
-                :to="{name: 'Cart' }"
+                :to="{name: 'Cart'}"
             >
                 <v-badge
                     :content="cartItems"
@@ -82,6 +81,10 @@ export default {
 
         refresh() {
             this.$router.go()
+        },
+        goToCart() {
+            this.$router.go()
+            this.$router.push({name: 'Cart'})
         }
     },
     computed: {

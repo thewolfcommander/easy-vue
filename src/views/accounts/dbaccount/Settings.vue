@@ -16,32 +16,45 @@
                 lg="9"
                 sm="12"
             >
-                <v-row justify="center">
-                    <v-avatar size="128">
-                        <img
-                            src="https://cdn.vuetifyjs.com/images/john.jpg"
-                            alt="John"
+                <v-row
+                    justify="center"
+                    class="mt-3"
+                >
+                    <v-col
+                        cols="12"
+                        md="6"
+                    >
+                        <v-row justify="center">
+                            <v-avatar size="128">
+                                <img
+                                    src="https://cdn.vuetifyjs.com/images/john.jpg"
+                                    alt="John"
+                                >
+                            </v-avatar>
+                        </v-row>
+                        <v-row
+                            justify="center"
+                            class="mt-3"
                         >
-                    </v-avatar>
-                </v-row>
-                <v-row
-                    justify="center"
-                    class="mt-3"
-                >
-                    <h2 class="subtitle-1">Manoj Tyagi</h2>
-                </v-row>
-                <v-row justify="center">
-                    <h2 class="subtitle-1">manojtyagi@gmail.com | +91-7253919169</h2>
-                </v-row>
-                <v-row
-                    justify="center"
-                    class="mt-3"
-                >
-                    <v-btn
-                        small
-                        rounded
-                        color="primary"
-                    >Edit Profile</v-btn>
+                            <h2 class="subtitle-1">Manoj Tyagi</h2>
+                        </v-row>
+                        <v-row justify="center">
+                            <h2 class="subtitle-1">manojtyagi@gmail.com | +91-7253919169</h2>
+                        </v-row>
+                        <v-row justify="center">
+                            <v-btn
+                            small
+                            rounded
+                            color="primary"
+                        >Disable Delivery Profile</v-btn>
+                        </v-row>
+                    </v-col>
+                    <v-col
+                        cols="12"
+                        md="6"
+                    >
+                        <EditDeliveryProfile />
+                    </v-col>
                 </v-row>
             </v-col>
         </v-row>
@@ -59,6 +72,7 @@
 </template>
 
 <script>
+import EditDeliveryProfile from "@/components/Account/Profile/EditDeliveryProfile";
 import NormalNavigation from "@/components/Account/NormalNavigation";
 import BottomSheet from "@/components/Account/Mobile/BottomSheet";
 
@@ -70,8 +84,9 @@ export default {
     },
     components: {
         NormalNavigation,
-        BottomSheet
-    }
+        BottomSheet,
+        EditDeliveryProfile,
+    },
 };
 </script>
 

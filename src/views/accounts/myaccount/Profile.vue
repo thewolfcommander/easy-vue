@@ -19,7 +19,7 @@
                 <v-row justify="center">
                     <v-avatar size="128">
                         <img
-                            src="https://cdn.vuetifyjs.com/images/john.jpg"
+                            src="https://image.freepik.com/free-vector/businessman-character-avatar-icon-vector-illustration-design_24877-18271.jpg"
                             :alt="user.full_name"
                         >
                     </v-avatar>
@@ -39,9 +39,23 @@
                 >
                     <v-btn
                         small
+                        router
+                        :to="{name: 'Settings'}"
                         rounded
                         color="primary"
                     >Edit Profile</v-btn>
+                </v-row>
+
+                <v-row
+                    justify="center"
+                    class="mt-3 mb-4"
+                >
+                    <v-btn
+                        small
+                        @click="syncProfile()"
+                        rounded
+                        color="secondary"
+                    >Sync Profile</v-btn>
                 </v-row>
                 <v-divider></v-divider>
                 <v-row class="mt-5">
@@ -86,6 +100,18 @@ export default {
         UsefulLinks,
     },
     methods: {
+        syncProfile() {
+            this.$store.dispatch('startLoading')
+            this.$store.dispatch('syncProfile', this.$store.getters.getUser.username)
+            .then(() => {
+                this.user = this.$store.getters.getUser;
+                this.$store.dispatch('stopLoading')
+            })
+            .catch(err => {
+                console.log(err)
+                this.$store.dispatch('stopLoading')
+            })
+        }
         // saveNotificationToken(token) {
         //     const ref = db.collection("notificationTokens");
         //     const payload = {

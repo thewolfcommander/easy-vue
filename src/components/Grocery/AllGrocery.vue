@@ -36,7 +36,6 @@
             </v-row>
             <v-row
                 justify="center"
-                v-if="morePage"
             >
                 <v-btn
                     color="secondary"
@@ -45,29 +44,6 @@
                     @click="loadMore"
                 >Load more</v-btn>
             </v-row>
-            <v-dialog
-                v-model="dialog"
-                hide-overlay
-                persistent
-                width="300"
-                class="pt-4 pb-3"
-            >
-                <v-card
-                    color="white"
-                    dark
-                >
-                    <v-card-text>
-                        <span class="subtitle-2 primary--text">
-                            Loading...
-                        </span>
-                        <v-progress-linear
-                            indeterminate
-                            color="primary"
-                            class="mb-0"
-                        ></v-progress-linear>
-                    </v-card-text>
-                </v-card>
-            </v-dialog>
         </v-container>
     </v-container>
 </template>
@@ -82,17 +58,16 @@ export default {
     },
     data() {
         return {
-            groceries: JSON.parse(localStorage.getItem("groceries")) || [],
+            groceries: new Array(),
             morePage: false,
             nextLink: null,
-            dialog: false,
         };
     },
-
     created() {
-        this.dialog = true;
+        this.$store.dispatch("startLoading");
+        console.log("Step 1")
         axios({
-            url: `https://www.easyeats.co.in/api/v1/groceries/items/`,
+            url: `${this.$store.state.apiUrl}grocery/items/`,
             method: "GET",
         })
             .then((response) => {
@@ -108,17 +83,19 @@ export default {
                 } else {
                     (this.morePage = false), (this.nextLink = null);
                 }
-                this.dialog = false;
+
+                this.$store.dispatch("stopLoading");
             })
             .catch((err) => {
                 console.log(err);
-                this.dialog = false;
+                this.$store.dispatch("stopLoading");
             });
+        console.log(this.groceries);
     },
 
     methods: {
         loadMore() {
-            this.dialog = true;
+            this.$store.dispatch("startLoading");
             axios({
                 url: `https${this.nextLink}`,
                 method: "GET",
@@ -139,11 +116,12 @@ export default {
                     } else {
                         (this.morePage = false), (this.nextLink = null);
                     }
-                    this.dialog = false;
+
+                    this.$store.dispatch("stopLoading");
                 })
                 .catch((err) => {
                     console.log(err);
-                    this.dialog = false;
+                    this.$store.dispatch("stopLoading");
                 });
         },
     },

@@ -18,7 +18,7 @@
             >
                 <v-row justify="center"><h3 class="text-h5 grey--text">Cancelled Orders</h3></v-row>
                 <v-row justify="center" class="d-none d-md-flex"><OrderFilter class="mt-3" /></v-row>
-                <Orders />
+                <Orders status="cancelled" />
             </v-col>
         </v-row>
         <v-btn
@@ -38,7 +38,7 @@
 import NormalNavigation from "@/components/Account/NormalNavigation";
 import OrderFilter from "@/components/Account/OrderFilter";
 import BottomSheet from "@/components/Account/Mobile/BottomSheet";
-import Orders from "@/components/Account/Orders/Orders";
+import Orders from "@/components/Account/DBOrders/Orders";
 
 export default {
     data() {
@@ -51,6 +51,12 @@ export default {
         BottomSheet,
         Orders,
         OrderFilter
+    },
+    created() {
+        this.$store.dispatch('startLoading')
+        setTimeout(() => {
+            this.$store.dispatch('stopLoading')
+        }, 1500)
     }
 };
 </script>

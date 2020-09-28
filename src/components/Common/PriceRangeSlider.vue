@@ -3,7 +3,7 @@
         <p class="body-1 secondary--text ml-5">Rs. {{ price[0]*50 }} - {{ price[1]*50 }}</p>
         <v-range-slider
             v-model="price"
-            :color="color"
+            color="primary"
             track-color="grey"
         >
         </v-range-slider>

@@ -63,7 +63,7 @@ export default {
     created() {
         this.dialog = true;
         axios({
-            url: `https://easyeats.co.in/api/v1/addresses/addresses/${this.$store.getters.getAddressForCurrentOrder}/`,
+            url: `${this.$store.state.apiUrl}addresses/addresses/${this.$store.getters.getAddressForCurrentOrder}/`,
             method: "GET",
             headers: {
                 Authorization: `Token ${this.$store.getters.getToken}`,

@@ -34,23 +34,25 @@
                     <v-list-item-title>Sign out</v-list-item-title>
                 </v-list-item>
 
-                <v-subheader>Delivery Profile</v-subheader>
-                <v-list-item
-                    v-for="tile in useful"
-                    :key="tile.text"
-                    link
-                    :to="{name: tile.routeName}"
-                >
-                    <v-list-item-avatar>
-                        <v-avatar
-                            size="32px"
-                            tile
-                        >
-                            <v-icon center>{{ tile.icon }}</v-icon>
-                        </v-avatar>
-                    </v-list-item-avatar>
-                    <v-list-item-title>{{ tile.text }}</v-list-item-title>
-                </v-list-item>
+                <v-subheader v-if="isDeliveryBoyVerified">Delivery Profile</v-subheader>
+                <div v-if="isDeliveryBoyVerified">
+                    <v-list-item
+                        v-for="tile in useful"
+                        :key="tile.text"
+                        link
+                        :to="{name: tile.routeName}"
+                    >
+                        <v-list-item-avatar>
+                            <v-avatar
+                                size="32px"
+                                tile
+                            >
+                                <v-icon center>{{ tile.icon }}</v-icon>
+                            </v-avatar>
+                        </v-list-item-avatar>
+                        <v-list-item-title>{{ tile.text }}</v-list-item-title>
+                    </v-list-item>
+                </div>
             </v-list>
         </v-bottom-sheet>
     </div>
@@ -62,15 +64,15 @@ export default {
         items: [
             { text: "Profile", icon: "mdi-face-profile", routeName: 'Profile'},
             { text: "Orders", icon: "mdi-clock" , routeName: 'Orders'},
-            // { text: "Settings", icon: "mdi-shield-half-full", routeName: 'Settings' },
+            { text: "Settings", icon: "mdi-shield-half-full", routeName: 'Settings' },
         ],
         useful: [
-            // { text: "Delivery Profile", icon: "mdi-truck-delivery", routeName: 'DBProfile' },
-            // { text: "New Orders", icon: "mdi-cart-plus", routeName: 'DBOrders' },
-            // { text: "Shipped Orders", icon: "mdi-cart-outline", routeName: 'DBShippedOrders' },
-            // { text: "Completed Orders", icon: "mdi-cart", routeName: 'DBCompletedOrders' },
-            // { text: "Cancelled Orders", icon: "mdi-cart-off", routeName: 'DBCancelledOrders' },
-            // { text: "DB Settings", icon: "mdi-caravan", routeName: 'DBSettings' },
+            { text: "Delivery Profile", icon: "mdi-truck-delivery", routeName: 'DBProfile' },
+            { text: "New Orders", icon: "mdi-cart-plus", routeName: 'DBOrders' },
+            { text: "Shipped Orders", icon: "mdi-cart-outline", routeName: 'DBShippedOrders' },
+            { text: "Completed Orders", icon: "mdi-cart", routeName: 'DBCompletedOrders' },
+            { text: "Cancelled Orders", icon: "mdi-cart-off", routeName: 'DBCancelledOrders' },
+            { text: "DB Settings", icon: "mdi-caravan", routeName: 'DBSettings' },
         ]
     }),
     props: ["sheet"],
@@ -84,6 +86,14 @@ export default {
                 alert("Some error occured")
             })
         }
+    },
+
+    computed: {
+
+        
+        isDeliveryBoyVerified() {
+            return this.$store.getters.getUser.is_delivery
+        },
     }
 };
 </script>

@@ -11,7 +11,8 @@ const routes = [
         name: 'Menu',
         component: Menu,
         meta: {
-            title: "Delicious Menu Ever - EasyEats | Order Food Online"
+            title: "Delicious Menu Ever - EasyEats | Order Food Online",
+            requiresAuth: true
         }
     },
     {
@@ -19,7 +20,8 @@ const routes = [
         name: 'Restaurants',
         component: Restaurants,
         meta: {
-            title: "Best Restaurants - EasyEats | Order Food Online"
+            title: "Best Restaurants - EasyEats | Order Food Online",
+            requiresAuth: true
         },
     },
     {
@@ -27,7 +29,8 @@ const routes = [
         name: 'RestaurantDetail',
         component: RestaurantDetail,
         meta: {
-            title: "Restaurant Detail - EasyEats | Order Food Online"
+            title: "Restaurant Detail - EasyEats | Order Food Online",
+            requiresAuth: true
         },
         props: true
     },
@@ -36,7 +39,8 @@ const routes = [
         name: 'Categories',
         component: Categories,
         meta: {
-            title: "Amazing Food Categories - EasyEats | Order Food Online"
+            title: "Amazing Food Categories - EasyEats | Order Food Online",
+            requiresAuth: true
         },
     },
     {
@@ -44,7 +48,8 @@ const routes = [
         name: 'CategoryDetail',
         component: CategoryDetail,
         meta: {
-            title: "Category Detail - EasyEats | Order Food Online"
+            title: "Category Detail - EasyEats | Order Food Online",
+            requiresAuth: true
         },
         props: true
     }

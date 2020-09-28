@@ -1,6 +1,7 @@
 import Addresses from '@/views/orders/Addresses'
 import CheckoutHome from '@/views/orders/CheckoutHome'
 import OrderSuccess from '@/views/orders/OrderSuccess'
+import OrderFailed from '@/views/orders/OrderFailed'
 
 
 const routes = [
@@ -9,7 +10,8 @@ const routes = [
         name: 'Addresses',
         component: Addresses,
         meta: {
-            title: "Select an Address - EasyEats | Order Food Online"
+            title: "Select an Address - EasyEats | Order Food Online",
+            requiresAuth: true
         }
     },
     {
@@ -17,7 +19,8 @@ const routes = [
         name: 'CheckoutHome',
         component: CheckoutHome,
         meta: {
-            title: "Checkout Home - EasyEats | Order Food Online"
+            title: "Checkout Home - EasyEats | Order Food Online",
+            requiresAuth: true
         }
     },
 
@@ -26,7 +29,18 @@ const routes = [
         name: 'OrderSuccess',
         component: OrderSuccess,
         meta: {
-            title: "Order Created Successfully - EasyEats | Order Food Online"
+            title: "Order Created Successfully - EasyEats | Order Food Online",
+            requiresAuth: true
+        }
+    },
+
+    {
+        path: '/order/failed/',
+        name: 'OrderFailed',
+        component: OrderFailed,
+        meta: {
+            title: "Sorry! Order failed - EasyEats | Order Food Online",
+            requiresAuth: true
         }
     },
 ]

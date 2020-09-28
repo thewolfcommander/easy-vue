@@ -1,9 +1,10 @@
 <template>
     <v-app>
-        <Navbar class="d-none d-md-flex" />
+        <Navbar class="d-none d-md-flex"/>
         <UpperNavigation class="d-flex d-md-none" />
 
-        <v-row class="mt-5 mb-5 pt-5 pb-5"></v-row>
+        <v-row class="mt-5 mb-5 pt-5 pb-5 d-none d-md-flex"></v-row>
+        <div class="mt-5 mb-5 pt-5 pb-5 d-flex d-md-none"></div>
         <v-content>
             <router-view></router-view>
         </v-content>

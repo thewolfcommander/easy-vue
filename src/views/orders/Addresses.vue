@@ -135,7 +135,7 @@ export default {
     created() {
         this.dialog = true;
         axios({
-            url: `https://easyeats.co.in/api/v1/addresses/addresses/?user=${this.getUser.id}`,
+            url: `${this.$store.state.apiUrl}addresses/addresses/?user=${this.getUser.id}`,
             method: "GET",
             headers: {
                 Authorization: `Token ${this.$store.getters.getToken}`,

@@ -233,7 +233,7 @@ export default {
     },
     methods: {
         createOrder() {
-            this.dialog = true;
+            this.$store.dispatch("startLoading");
             let data = {
                 user: this.$store.getters.getUser.id,
                 cart: this.$store.getters.getCartFromServer.id,
@@ -241,7 +241,7 @@ export default {
                 active: true,
             };
             axios({
-                url: `https://easyeats.co.in/api/v1/orders/create/`,
+                url: `${this.$store.state.apiUrl}orders/create/`,
                 method: `POST`,
                 headers: {
                     Authorization: `Token ${this.$store.getters.getToken}`,
@@ -256,16 +256,26 @@ export default {
                                 "recentOrder",
                                 JSON.stringify(response.data)
                             );
-                            this.dialog = false;
+                            this.$store.dispatch("clearCart");
+                            this.$store.dispatch("stopLoading");
+                            this.$store.dispatch('createFreshCart');
+                            var loaded = this.$store.getters.getCartReloaded
+                            if (loaded) {
+                                this.$store.dispatch('setCartUnloaded')
+                            } else {
+                                this.$store.dispatch('setCartReloaded')
+                            }
                             this.$router.push({ name: "OrderSuccess" });
                         })
-                        .catch(() => {
-                            this.dialog = false;
+                        .catch((err) => {
+                            console.log(err);
+                            this.$store.dispatch("stopLoading");
                             this.$router.push({ name: "OrderFailed" });
                         });
                 })
-                .catch(() => {
-                    this.dialog = false;
+                .catch((err) => {
+                    console.log(err);
+                    this.$store.dispatch("stopLoading");
                     this.$router.push({ name: "OrderFailed" });
                 });
         },

@@ -5,11 +5,12 @@
 
         <v-row justify="center">
             <v-img
-                src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+                :src="item.image ? item.image : `https://cdn.vuetifyjs.com/images/cards/cooking.png`"
                 lazy-src="https://fitmirchi.com/admin/assets/images/image_not_available.png"
-                class="transparent"
-                max-height="90"
-                contain
+                aspect-ratio="1"
+                class="grey lighten-2"
+                max-width="150"
+                max-height="100"
             >
                 <template v-slot:placeholder>
                     <v-row

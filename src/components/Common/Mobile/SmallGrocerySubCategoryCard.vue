@@ -32,7 +32,6 @@
         <v-card-subtitle class="text-center">
             {{ item.name }}
         </v-card-subtitle>
-        <p class="caption grey--text text-center mt-n4">44 Products</p>
 
         <v-card-actions class="mt-n4 text-center">
             <v-row justify="center">
@@ -40,6 +39,8 @@
                     color="primary"
                     text
                     small
+                    router
+                    :to="{name: 'SubCategoryDetail', params: {subCategoryId: item.id} }"
                 >
                     View
                 </v-btn>

@@ -16,7 +16,7 @@ const actions= {
     getRestaurantsFromServer({commit}) {
         return new Promise((resolve, reject) => {
             axios({
-                url: `https://www.easyeats.co.in/api/v1/products/restaurants/?active`,
+                url: `${state.apiUrl}products/restaurants/?active`,
                 method: 'GET'
             })
             .then(response => {
@@ -34,7 +34,7 @@ const actions= {
     getRestaurantDetailFromServer({commit}, id) {
         return new Promise((resolve, reject) => {
             axios({
-                url: `https://www.easyeats.co.in/api/v1/products/restaurants/${id}/`,
+                url: `${state.apiUrl}products/restaurants/${id}/`,
                 method: 'GET',
             })
             .then(response => {
@@ -42,7 +42,7 @@ const actions= {
                 localStorage.setItem('restaurant', JSON.stringify(response.data))
                 commit('SET_RESTAURANT', JSON.stringify(response.data))
                 axios({
-                    url: `https://www.easyeats.co.in/api/v1/products/foods/?restaurant=${id}`,
+                    url: `${state.apiUrl}products/foods/?restaurant=${id}`,
                     method: 'GET'
                 })
                 .then(response => {

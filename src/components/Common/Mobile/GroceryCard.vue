@@ -3,7 +3,7 @@
 
         <v-row justify="center">
             <v-img
-                src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+                :src="item.image"
                 lazy-src="https://fitmirchi.com/admin/assets/images/image_not_available.png"
                 max-height="90"
                 contain

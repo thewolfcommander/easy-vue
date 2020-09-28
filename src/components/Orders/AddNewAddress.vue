@@ -204,7 +204,7 @@ export default {
                 };
                 // console.log(data);
                 axios({
-                    url: `https://easyeats.co.in/api/v1/addresses/addresses/`,
+                    url: `${this.$store.state.apiUrl}addresses/addresses/`,
                     method: "POST",
                     headers: {
                         Authorization: `Token ${this.$store.getters.getToken}`,
