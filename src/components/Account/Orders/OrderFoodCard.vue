@@ -42,7 +42,7 @@
                     readonly
                     size="9"
                 ></v-rating>
-                <div class="grey--text ml-1">4.5</div>
+                <div class="grey--text ml-1">{{ item.food.restaurant.name }}</div>
             </v-row>
 
             <div class="subtitle-1 my-0">
