@@ -34,15 +34,7 @@
                 align="center"
                 class="mx-0 my-0 mt-n5"
             >
-                <v-rating
-                    :value="4.5"
-                    color="amber"
-                    dense
-                    half-increments
-                    readonly
-                    size="9"
-                ></v-rating>
-                <div class="grey--text ml-1">{{ item.food.restaurant.name }}</div>
+                <div class="ml-1 caption"><router-link :to="{name: 'RestaurantDetail', params: {restaurantId: item.food.restaurant.id }}" class="text-decoration-none grey--text">{{ item.food.restaurant.name }}</router-link></div>
             </v-row>
 
             <div class="subtitle-1 my-0">
