@@ -167,6 +167,7 @@
                                     <v-btn
                                         text
                                         color="primary"
+                                        @click="openDevLink()"
                                     >About Developer</v-btn>
                                 </v-col>
                                 <v-col
@@ -211,10 +212,10 @@
 
             <v-card-text class="primary--text">
                 {{ new Date().getFullYear() }} — Exclusive &copy; <strong><a
-                        href="https://www.rightbros.co"
+                        href="https://linkedin.com/in/iammanojtyagi/"
                         target="_blank"
                         class="text-decoration-none secondary--text"
-                    >Rightbros.co</a></strong>
+                    >Manoj Tyagi</a></strong>
             </v-card-text>
         </v-card>
     </v-footer>
@@ -230,6 +231,11 @@ export default {
 
     components: {
         NewsletterForm
+    },
+    methods: {
+        openDevLink() {
+            window.open('https://linkedin.com/in/iammanojtyagi/', '_blank')
+        }
     }
 };
 </script>

@@ -5,7 +5,7 @@
 
         <v-row class="mt-5 mb-5 pt-5 pb-5 d-none d-md-flex"></v-row>
         <div class="mt-5 mb-5 pt-5 pb-5 d-flex d-md-none"></div>
-        <v-content v-if="!isNight">
+        <v-content v-if="!isBlocked">
             <router-view></router-view>
         </v-content>
         <v-container v-else>
@@ -44,10 +44,40 @@
         </v-row>
         <PreLoader v-if="this.$store.getters.getOverlay" />
         <VersionUpdate v-if="!this.$store.getters.getAcceptedVersion" />
+        <v-snackbar
+            v-model="snackbar"
+            :timeout="10000"
+            max-width="320"
+            color="dark"
+            left
+            multi-line
+        >
+            {{ notificationData[notIndex].title }}
+            <br>
+            <p class="caption grey--text">{{ notificationData[notIndex].description }}</p>
+
+            <template v-slot:action="{ attrs }">
+                <v-btn
+                    color="white"
+                    text
+                    v-bind="attrs"
+                    @click="snackbar = false"
+                >
+                    Close
+                </v-btn>
+            </template>
+            <v-btn
+                color="primary"
+                text
+                router
+                :to="{name: notificationData[notIndex].link}"
+            >Let's go</v-btn>
+        </v-snackbar>
     </v-app>
 </template>
 
 <script>
+import axios from "axios";
 import PreLoader from "@/components/PreLoader";
 import VersionUpdate from "@/components/VersionUpdate";
 import Navbar from "@/components/Common/Navbar";
@@ -71,6 +101,43 @@ export default {
     data: () => ({
         scrollpx: 0,
         windowWidth: window.innerWidth,
+        notIndex: 0,
+        snackbar: false,
+        notificationData: [
+            {
+                id: 1,
+                title: "Try the most exciting foods",
+                description:
+                    "Have you tired amazing foods in Srinagar. Click on link below ",
+                link: "Menu",
+                timeout: "",
+                color: "",
+            },
+            {
+                id: 2,
+                title: "Get the best deals on meals now.",
+                description: "Select the perfect meal for you and save upto 20% on delicious foods.",
+                link: "Restaurants",
+                timeout: "",
+                color: "",
+            },
+            {
+                id: 3,
+                title: "Give the groceries a try.",
+                description: "Fill your home with daily need items and save a lot for your pocket.",
+                link: "GroceryHome",
+                timeout: "",
+                color: "",
+            },
+            {
+                id: 4,
+                title: "Have your tried amazing meals from Jugran.",
+                description: "You are really missing out the best deals from Jugran's Restaurant.",
+                link: "Restaurants",
+                timeout: "",
+                color: "",
+            },
+        ],
         //
     }),
     methods: {
@@ -86,6 +153,21 @@ export default {
         },
     },
     created() {
+        axios
+            .get(`${this.$store.state.apiUrl}core/status/`)
+            .then((response) => {
+                if (response.data.status) {
+                    this.$store.dispatch("unblockSite");
+                } else {
+                    this.$store.dispatch("blockSite");
+                }
+            })
+            .catch((err) => console.log(err.message));
+        setInterval(() => {
+            var notify = Math.floor(Math.random(0, 1)*4)
+            this.notIndex = notify
+            this.snackbar = true
+        }, 480000)
         let foods = localStorage.getItem("foodCart");
         let groceries = localStorage.getItem("groceryCart");
 
@@ -112,6 +194,12 @@ export default {
         isNight() {
             var date = new Date();
             return date.getHours() > 22 || date.getHours() < 10;
+        },
+        isBlocked() {
+            return this.$store.getters.getBlocked;
+        },
+        isAdmin() {
+            return this.$store.getters.getUser.is_admin;
         },
     },
 };

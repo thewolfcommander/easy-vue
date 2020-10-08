@@ -1,7 +1,5 @@
 <template>
-    <v-card
-        class="mx-auto my-4"
-    >
+    <v-card class="mx-auto my-4">
 
         <v-row justify="center">
             <v-img
@@ -34,11 +32,16 @@
                 align="center"
                 class="mx-0 my-0 mt-n5"
             >
-                <div class="ml-1 caption"><router-link :to="{name: 'RestaurantDetail', params: {restaurantId: item.food.restaurant.id }}" class="text-decoration-none grey--text">{{ item.food.restaurant.name }}</router-link></div>
+                <div class="ml-1 caption">
+                    <router-link
+                        :to="{name: 'RestaurantDetail', params: {restaurantId: item.food.restaurant.id }}"
+                        class="text-decoration-none grey--text"
+                    >{{ item.food.restaurant.name }}</router-link> 
+                </div>
             </v-row>
 
             <div class="subtitle-1 my-0">
-               &#8377; <strike class="grey--text caption">{{ item.food.gross_price }}</strike> {{ item.food.discount_price }}
+                &#8377; <strike class="grey--text caption">{{ item.food.gross_price }}</strike> {{ item.food.discount_price }} <span class="primary--text ml-3">x {{ item.quantity }}</span>
             </div>
 
         </v-card-text>
@@ -46,7 +49,6 @@
 </template>
 
 <script>
-
 export default {
     data: () => ({
         sheet: false,
@@ -55,22 +57,21 @@ export default {
         wishlistColor: "grey",
         snack: {
             text: null,
-            color: null
+            color: null,
         },
-        snackbar: false
+        snackbar: false,
     }),
     props: ["item"],
-
 
     computed: {
         trimmedName() {
             if (this.item.food.name.length > 18) {
-                return `${this.item.food.name.slice(0, 18)}...`
+                return `${this.item.food.name.slice(0, 18)}...`;
             } else {
-                return this.item.food.name
+                return this.item.food.name;
             }
-        }
-    }
+        },
+    },
 };
 </script>
 

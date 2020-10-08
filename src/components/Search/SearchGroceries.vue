@@ -47,6 +47,9 @@
                     <GroceryCard :item="item" />
                 </v-col>
             </v-row>
+            <v-row justify="center" v-if="loading">
+                <v-progress-circular indeterminate color="primary"></v-progress-circular>
+            </v-row>
         </v-card-text>
     </div>
 </template>
@@ -59,6 +62,7 @@ export default {
     data: () => ({
         entries: [],
         isLoading: false,
+        loading: false,
         model: null,
         search: null,
         query: null,
@@ -70,7 +74,7 @@ export default {
     methods: {
         searchGroceries() {
             // Items have already been loaded
-            this.$store.dispatch("startLoading");
+            this.loading = true
             if (this.query) {
                 axios({
                     url: `https://easyeats-api-v1.herokuapp.com/api/v1/grocery/items/search/?search=${this.query}`,
@@ -79,10 +83,10 @@ export default {
                     console.log(response.data);
                     this.entries = response.data.results;
                     this.results_count = response.data.count;
-                    this.$store.dispatch("stopLoading");
+                    this.loading = false
                 });
             } else {
-                this.$store.dispatch("stopLoading");
+                this.loading = false
             }
         },
     }

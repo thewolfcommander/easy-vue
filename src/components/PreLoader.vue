@@ -1,7 +1,7 @@
 <template>
     <div class="main-loader">
         <div class="text-center">
-            <v-overlay :value="true" :opacity="0.6">
+            <v-overlay :value="true" :opacity="1" class="white">
                 <v-card
                     width="150"
                     height="150"

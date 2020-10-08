@@ -9,6 +9,15 @@
         >
             <NormalSmallOrderCard :item="item" />
         </v-col>
+
+        <v-col cols="12" v-if="loading" class="text-center">
+            <v-row justify="center">
+                <v-progress-circular
+                    indeterminate
+                    color="primary"
+                ></v-progress-circular>
+            </v-row>
+        </v-col>
     </v-row>
 </template>
 
@@ -20,6 +29,7 @@ export default {
     data() {
         return {
             orders: [],
+            loading: true,
         };
     },
     components: {
@@ -38,10 +48,12 @@ export default {
             .then((response) => {
                 this.$store.dispatch("stopLoading");
                 this.orders = response.data;
+                this.loading = false
             })
             .catch((err) => {
                 this.$store.dispatch("stopLoading");
                 console.log(err);
+                this.loading = false
             });
     },
 };

@@ -26,6 +26,15 @@
                 @reRender="reload"
             />
         </v-col>
+        <v-col cols="12" v-if="loading" class="text-center">
+            <p class="subtitle-1 grey--text">{{ text }}</p>
+            <v-row justify="center">
+                <v-progress-circular
+                    indeterminate
+                    color="primary"
+                ></v-progress-circular>
+            </v-row>
+        </v-col>
     </v-row>
 </template>
 
@@ -39,6 +48,8 @@ export default {
     data() {
         return {
             orders: [],
+            loading: true,
+            text: "We are fetching orders. Please wait."
         };
     },
     props: ["status"],
@@ -60,10 +71,13 @@ export default {
             .then((response) => {
                 this.orders = response.data;
                 this.$store.dispatch("stopLoading");
+                this.loading = false
+                this.text = null
             })
             .catch((err) => {
                 this.$store.dispatch("stopLoading");
                 console.log(err);
+                this.text= "Sorry cannot load order right now. Please try again later."
             });
     },
 

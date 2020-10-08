@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+
 // Modules
 import auth from '@/store/modules/auth'
 import cart from '@/store/modules/cart'
@@ -18,11 +19,13 @@ export default new Vuex.Store({
     overlay: false,
     version2: false,
     appVersion: "1.0.0",
+    blocked: localStorage.getItem('blocked') || false,
     acceptedVersion: localStorage.getItem('acceptedVersion') || false,
     cartReloaded: localStorage.getItem('cartReloaded') || false,
   },
   getters: {
     getOverlay: state => !!state.overlay,
+    getBlocked: state => !!state.blocked,
     getVersion: state => !!state.version2,
     getAppVersion: state => state.appVersion,
     getAcceptedVersion: state => !!state.acceptedVersion,
@@ -43,6 +46,12 @@ export default new Vuex.Store({
     },
     setCartUnloaded({commit}) {
       commit('SET_CART_UNLOADED')
+    },
+    blockSite({commit}) {
+      commit('BLOCK_SITE')
+    },
+    unblockSite({commit}) {
+      commit('UNBLOCK_SITE')
     }
   },
   mutations: {
@@ -64,6 +73,15 @@ export default new Vuex.Store({
     SET_CART_UNLOADED(state) {
       state.cartReloaded = false
       localStorage.setItem('cartReloaded', false)
+    },
+    BLOCK_SITE(state) {
+      state.blocked = true
+      localStorage.setItem('blocked', true)
+    },
+
+    UNBLOCK_SITE(state) {
+      state.blocked = false
+      localStorage.setItem('blocked', false)
     }
   },
   modules: {

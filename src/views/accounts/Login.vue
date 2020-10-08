@@ -33,8 +33,10 @@
                                 <v-text-field
                                     outlined
                                     rounded
+                                    :rules="[rules.required, rules.counter, rules.check ]"
                                     v-model="username"
-                                    label="Your username"
+                                    label="Your mobile number*"
+                                    :counter="10"
                                 ></v-text-field>
                             </v-col>
                             <v-col
@@ -121,42 +123,54 @@
 export default {
     data() {
         return {
-            username: null,
+            username: "",
             password: null,
             snackbar: false,
             snack: {
                 text: "Error: All Fields should be entered.",
                 color: "secondary",
             },
+            rules: {
+                required: (value) => !!value || "Required.",
+                counter: (value) =>
+                    value.length <= 10 || "Exactly 10 characters",
+                username: (value) => {
+                    const pattern = /^\d{10}$/;
+                    return pattern.test(value) || "Invalid phone number.";
+                },
+                check: (value) => !isNaN(value) || "Should be only a number",
+            },
         };
     },
     methods: {
         sendMessage() {
             if (this.username && this.password) {
-                this.$store.dispatch("startLoading");
-                let data = {
-                    username: this.username,
-                    password: this.password,
-                };
-                this.$store
-                    .dispatch("loginUser", data)
-                    .then(() => {
-                        this.snackbar = true;
-                        this.snack.text = "Successfully Logged In";
-                        this.snack.color = "success";
-                        this.$router.push({ name: "Home" });
-                        this.$store.dispatch("stopLoading");
-                    })
-                    .catch((err) => {
-                        this.snackbar = true;
-                        this.snack.text = err;
-                        console.log(err);
-                        this.$store.dispatch("stopLoading");
-                    });
+                if (this.username.length === 10) {
+                    this.$store.dispatch("startLoading");
+                    let data = {
+                        username: this.username,
+                        password: this.password,
+                    };
+                    this.$store
+                        .dispatch("loginUser", data)
+                        .then(() => {
+                            this.snackbar = true;
+                            this.snack.text = "Successfully Logged In";
+                            this.snack.color = "success";
+                            this.$router.push({ name: "Home" });
+                            this.$store.dispatch("stopLoading");
+                        })
+                        .catch((err) => {
+                            this.snackbar = true;
+                            this.snack.text = err;
+                            console.log(err);
+                            this.$store.dispatch("stopLoading");
+                        });
+                }
             } else {
                 this.snackbar = true;
             }
-        }
+        },
     },
     computed: {
         getAuthStatus() {

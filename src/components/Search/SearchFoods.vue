@@ -41,20 +41,51 @@
         </v-row>
 
         <v-card-text style="min-height: 200px;">
-            <v-row justify="center" v-if="results_count === 0">No foods Available</v-row>
-            <v-row wrap v-else>
-                <v-col cols="6" sm="3" md="2" lg="2" v-for="item in entries" :key="item.id">
+            <v-row
+                justify="center"
+                v-if="results_count === 0"
+            >No foods Available</v-row>
+            <v-row
+                wrap
+                v-else
+            >
+                <v-col
+                    cols="6"
+                    sm="3"
+                    md="2"
+                    lg="2"
+                    v-for="item in entries"
+                    :key="item.id"
+                >
                     <FoodCard :item="item" />
                 </v-col>
             </v-row>
+            <v-row justify="center" v-if="loading">
+                <v-progress-circular indeterminate color="primary"></v-progress-circular>
+            </v-row>
         </v-card-text>
+        <v-card-actions>
+            <v-row justify="center">
+                <v-row
+                    justify="center"
+                    v-if="morePage"
+                >
+                    <v-btn
+                        color="secondary"
+                        class="mt-5"
+                        depressed
+                        @click="loadMore"
+                    >Load more</v-btn>
+                </v-row>
+            </v-row>
+        </v-card-actions>
     </div>
 </template>
 
 
 <script>
-import axios from 'axios'
-import FoodCard from '@/components/Common/Mobile/FoodCard'
+import axios from "axios";
+import FoodCard from "@/components/Common/Mobile/FoodCard";
 export default {
     data: () => ({
         entries: [],
@@ -63,14 +94,17 @@ export default {
         search: null,
         query: null,
         results_count: 0,
+        morePage: false,
+        nextLink: null,
+        loading: false
     }),
     components: {
-        FoodCard
+        FoodCard,
     },
     methods: {
         searchFood() {
             // Items have already been loaded
-            this.$store.dispatch("startLoading");
+            this.loading = true
             if (this.query) {
                 axios({
                     url: `https://easyeats-api-v1.herokuapp.com/api/v1/products/foods/search/?search=${this.query}`,
@@ -79,18 +113,47 @@ export default {
                     console.log(response.data);
                     this.entries = response.data.results;
                     this.results_count = response.data.count;
-                    this.$store.dispatch("stopLoading");
+                    if (response.data.links.next) {
+                        this.morePage = true
+                        this.nextLink = response.data.links.next.slice(5);
+                    }  else {
+                        (this.morePage = false), (this.nextLink = null);
+                    }
+                    this.loading = false
                 });
             } else {
-                this.$store.dispatch("stopLoading");
+                this.loading = false
             }
         },
-    }
-}
+        loadMore() {
+            this.loading = true;
+            axios({
+                url: `https${this.nextLink}`,
+                method: "GET",
+            })
+                .then((response) => {
+                    response.data.results.forEach((item) => {
+                        this.entries.push(item);
+                    });
+                    console.log(this.entries.length);
+                    if (response.data.links.next) {
+                        this.morePage = true;
+                        this.nextLink = response.data.links.next.slice(5);
+                    } else {
+                        (this.morePage = false), (this.nextLink = null);
+                    }
+                    this.loading = false;
+                })
+                .catch((err) => {
+                    console.log(err);
+                    this.loading = false;
+                });
+        },
+    },
+};
 </script>
 
 <style scoped>
-
 .inline {
     position: relative;
 }

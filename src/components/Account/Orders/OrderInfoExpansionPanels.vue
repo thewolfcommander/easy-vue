@@ -13,6 +13,7 @@
                     <v-list-item-title>Foods</v-list-item-title>
                     <v-list-item-subtitle>
                         <v-row justify="start" wrap>
+                            
                             <v-col cols="6" sm="4" md="3" lg="3" v-for="(i,index) in info.foods" :key="index">
                                 <OrderFoodCard :item="i" />
                             </v-col>

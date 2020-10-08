@@ -33,8 +33,10 @@
                                 <v-text-field
                                     outlined
                                     rounded
+                                    :rules="[rules.required, rules.counter, rules.check ]"
                                     v-model="username"
-                                    label="Your username"
+                                    label="Your mobile number*"
+                                    :counter="10"
                                 ></v-text-field>
                             </v-col>
                             <v-col
@@ -144,13 +146,23 @@
 export default {
     data() {
         return {
-            username: null,
+            username: "",
             fullName: null,
             email: null,
             password: null,
             snackbar: false,
+            rules: {
+                required: (value) => !!value || "Required.",
+                counter: (value) =>
+                    value.length <= 10 || "Exactly 10 characters",
+                username: (value) => {
+                    const pattern = /^\d{10}$/;
+                    return pattern.test(value) || "Invalid phone number.";
+                },
+                check: (value) => !isNaN(value) || "Should be only a number",
+            },
             snack: {
-                text: "Error: All Fields should be entered.",
+                text: "All Fields should be entered.",
                 color: "secondary",
             },
         };
@@ -158,46 +170,48 @@ export default {
     methods: {
         sendMessage() {
             if (this.username && this.email && this.fullName && this.password) {
-                this.$store.dispatch("startLoading");
-                let data = {
-                    user_id: this.username,
-                    password: this.password,
-                    full_name: this.fullName,
-                    email: this.email,
-                };
-                this.$store
-                    .dispatch("registerUser", data)
-                    .then(() => {
-                        this.snackbar = true;
-                        this.snack.text = "Successfully Registered";
-                        this.snack.color = "success";
-                        let user = {
-                            username: this.username,
-                            password: this.password,
-                        };
-                        this.$store
-                            .dispatch("loginUser", user)
-                            .then(() => {
-                                this.snackbar = true;
-                                this.snack.text = "Successfully Logged In";
-                                this.snack.color = "success";
+                if (this.username.length === 10) {
+                    this.$store.dispatch("startLoading");
+                    let data = {
+                        user_id: this.username,
+                        password: this.password,
+                        full_name: this.fullName,
+                        email: this.email,
+                    };
+                    this.$store
+                        .dispatch("registerUser", data)
+                        .then(() => {
+                            this.snackbar = true;
+                            this.snack.text = "Successfully Registered";
+                            this.snack.color = "success";
+                            let user = {
+                                username: this.username,
+                                password: this.password,
+                            };
+                            this.$store
+                                .dispatch("loginUser", user)
+                                .then(() => {
+                                    this.snackbar = true;
+                                    this.snack.text = "Successfully Logged In";
+                                    this.snack.color = "success";
 
-                                this.$store.dispatch("stopLoading");
-                                this.$router.push({ name: "Home" });
-                            })
-                            .catch((err) => {
-                                this.snackbar = true;
-                                this.snack.text = err;
-                                console.log(err);
-                                this.$store.dispatch("stopLoading");
-                            });
-                    })
-                    .catch((err) => {
-                        this.snackbar = true;
-                        this.snack.text = err;
-                        console.log(err);
-                        this.$store.dispatch("stopLoading");
-                    });
+                                    this.$store.dispatch("stopLoading");
+                                    this.$router.push({ name: "Home" });
+                                })
+                                .catch((err) => {
+                                    this.snackbar = true;
+                                    this.snack.text = err;
+                                    console.log(err);
+                                    this.$store.dispatch("stopLoading");
+                                });
+                        })
+                        .catch((err) => {
+                            this.snackbar = true;
+                            this.snack.text = err;
+                            console.log(err);
+                            this.$store.dispatch("stopLoading");
+                        });
+                }
             } else {
                 this.snackbar = true;
             }
