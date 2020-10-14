@@ -1,5 +1,6 @@
 import Home from '../views/index.vue'
 import Cart from '@/views/essentials/Cart'
+import Blocked from '@/views/essentials/Blocked'
 import Search from '@/views/essentials/Search'
 import About from '@/views/essentials/About'
 import Contact from '@/views/essentials/Contact'
@@ -49,6 +50,24 @@ const routes = [
                 {
                     property: 'og:description',
                     content: 'Your cart - EasyEats | Order food online'
+                }
+            ],
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/action-blocked',
+        name: 'Blocked',
+        component: Blocked,
+        meta: {
+            title: 'Action Blocked - Sorry Site not serviceable at the moment - EasyEats | Order food online',
+            metaTags: [{
+                    name: 'description',
+                    content: 'Action Blocked - Sorry Site not serviceable at the moment - EasyEats | Order food online'
+                },
+                {
+                    property: 'og:description',
+                    content: 'Action Blocked - Sorry Site not serviceable at the moment - EasyEats | Order food online'
                 }
             ],
             requiresAuth: true

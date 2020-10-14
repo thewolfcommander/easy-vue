@@ -1,13 +1,8 @@
 <template>
     <div class="main-loader">
         <div class="text-center">
-            <v-overlay :value="true" :opacity="1" class="white">
-                <v-card
-                    width="150"
-                    height="150"
-                    light
-                >
-                    <v-row
+            <v-overlay :value="true" :opacity="0" class="white">
+                <v-row
                         justify="center"
                         align="center"
                         class="pt-5"
@@ -17,20 +12,9 @@
                             indeterminate
                             absolute
                             color="primary"
-                            size="64"
+                            size="96"
                         ></v-progress-circular>
                     </v-row>
-                    <v-row
-                        justify="center"
-                        class="mt-4 primary--text"
-                    >Loading</v-row>
-                    <v-row
-                        justify="center"
-                        class="mt-4 primary--text"
-                    >
-                        <v-btn color="secondary" @click="cancel()">Cancel</v-btn>
-                    </v-row>
-                </v-card>
             </v-overlay>
         </div>
     </div>

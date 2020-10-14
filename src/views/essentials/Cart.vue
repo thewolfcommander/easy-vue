@@ -262,8 +262,23 @@ export default {
         cartItems() {
             return this.isFoods + this.isGroceries;
         },
+
+        isBlocked() {
+            return this.$store.getters.getBlocked;
+        },
     },
     created() {
+        axios
+            .get(`${this.$store.state.apiUrl}core/status/`)
+            .then((response) => {
+                if (response.data.status) {
+                    this.$store.dispatch("unblockSite");
+                } else {
+                    this.$store.dispatch("blockSite");
+                    this.$router.push({name: 'Blocked'})
+                }
+            })
+            .catch((err) => console.log(err.message));
         var loaded = this.$store.getters.getCartReloaded
         if (!loaded) {
             this.$router.go()

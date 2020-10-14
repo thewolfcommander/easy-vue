@@ -5,20 +5,11 @@
 
         <v-row class="mt-5 mb-5 pt-5 pb-5 d-none d-md-flex"></v-row>
         <div class="mt-5 mb-5 pt-5 pb-5 d-flex d-md-none"></div>
-        <v-content v-if="!isBlocked">
+
+        <v-content >
             <router-view></router-view>
         </v-content>
-        <v-container v-else>
-            <v-row justify="center">
-                <v-img
-                    src="https://cdni.iconscout.com/illustration/premium/thumb/connection-lost-2161434-1815076.png"
-                    max-width="450"
-                ></v-img>
-            </v-row>
-            <v-row justify="center">
-                Oops! We are not serviceable at the moment because Restaurants doesn't offer night service. Sorry for your inconvenience.
-            </v-row>
-        </v-container>
+        <!-- <PreLoader v-else /> -->
         <v-row class="mt-5 mb-5 pt-5 pb-5 d-flex d-md-none"></v-row>
         <BottomNavigation class="d-flex d-md-none" />
         <Footer class="d-none d-md-flex" />
@@ -77,7 +68,7 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 import PreLoader from "@/components/PreLoader";
 import VersionUpdate from "@/components/VersionUpdate";
 import Navbar from "@/components/Common/Navbar";
@@ -153,16 +144,6 @@ export default {
         },
     },
     created() {
-        axios
-            .get(`${this.$store.state.apiUrl}core/status/`)
-            .then((response) => {
-                if (response.data.status) {
-                    this.$store.dispatch("unblockSite");
-                } else {
-                    this.$store.dispatch("blockSite");
-                }
-            })
-            .catch((err) => console.log(err.message));
         setInterval(() => {
             var notify = Math.floor(Math.random(0, 1)*4)
             this.notIndex = notify
