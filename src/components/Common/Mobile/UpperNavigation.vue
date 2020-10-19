@@ -93,11 +93,7 @@ export default {
         },
 
         cartItems() {
-            if (this.$store.getters.getCartItemsCount) {
-                return String(this.$store.getters.getCartItemsCount);
-            } else {
-                return "0";
-            }
+            return localStorage.getItem('cartItems') || 0
         },
 
         wishlistItems() {

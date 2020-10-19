@@ -78,11 +78,8 @@
 
 <script>
 export default {
-    props: ['authenticated'],
+    props: ['authenticated', 'cost'],
     computed: {
-        cost() {
-            return this.$store.getters.getCartFromServer
-        }
     }
 }
 </script>

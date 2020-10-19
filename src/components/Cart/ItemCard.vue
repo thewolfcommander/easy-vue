@@ -36,7 +36,7 @@
                     md="9"
                 >
                     <p class="subtitle-1">{{ item.food.name }}</p>
-                    <p class="subtitle-2 mt-n5 grey--text text--lighten-1">By {{ item.food.restaurant }}</p>
+                    <p class="subtitle-2 mt-n5 grey--text text--lighten-1">By {{ item.food.restaurant.name }}</p>
                 </v-col>
             </v-row>
         </v-col>
@@ -78,6 +78,7 @@
                 icon
                 color="primary"
                 class="mt-3"
+                :loading="loading"
                 large
                 @click="removeItem()"
             >
@@ -89,7 +90,7 @@
             md="2"
             class="text-center"
         >
-            <p class="subtitle-1 black--text mt-4">{{ item.food.price }} x {{ item.quantity }} = {{ itemCost }}</p>
+            <p class="subtitle-1 black--text mt-4">{{ item.food.discount_price }} x {{ item.quantity }} = {{ item.cost }}</p>
         </v-col>
         <v-dialog
             v-model="dialog"
@@ -119,12 +120,14 @@
 </template>
 <script>
 // import NProgress from 'nprogress'
+import axios from 'axios'
 
 export default {
     data() {
         return {
             quantity: 1,
             dialog: false,
+            loading: false,
         };
     },
     props: ["item"],
@@ -133,14 +136,21 @@ export default {
             this.item.quantity += val;
         },
         removeItem() {
-            this.dialog = true
-            this.$store.dispatch('removeFromFoodCart', this.item.food.id)
-            .then(() => {
-                this.dialog = false
+            this.loading = true
+            axios({
+                url: `${this.$store.state.apiUrl}cart/food-entry/${this.item.id}/update/`,
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Token ${this.$store.getters.getToken}`,
+                }
             })
-            .catch(err => {
+            .then(() => {
+                this.$emit('refreshCart')
+                this.loading = false
+            })
+            .catch((err) => {
                 console.log(err)
-                this.dialog = false
+                this.loading = false
             })
         }
     },
@@ -148,6 +158,9 @@ export default {
         itemCost() {
             return this.item.food.price * this.item.quantity;
         },
+    },
+    created() {
+        console.info(this.item)
     }
 };
 </script>

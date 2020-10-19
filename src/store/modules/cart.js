@@ -53,21 +53,17 @@ const actions= {
     clearCart({commit}) {
         commit('CLEAR_CART')
     },
-    createFreshCart({commit}) {
+    createFreshCart(token) {
         axios({
             url: `${this.state.apiUrl}cart/create/`,
             method: 'POST',
             headers: {
-                'Authorization': `Token ${this.getters.getToken}`
-            },
-            data: {
-                user: this.getters.getUser.id
+                'Authorization': `Token ${token}`
             }
         })
         .then(res => {
-            localStorage.setItem('foodCart', JSON.stringify(Array()))
-            localStorage.setItem('groceryCart', JSON.stringify(Array()))
-            commit('CART_FROM_SERVER', JSON.stringify(res.data))
+            localStorage.setItem('currentCart', res.data.id)
+            localStorage.setItem('cartItems', res.data.count)
         })
         .catch(err => console.log(err))
     }

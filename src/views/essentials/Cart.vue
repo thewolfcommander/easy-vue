@@ -37,7 +37,7 @@
                         flat
                         class="px-md-5 px-lg-5"
                     >
-                        <v-card-text v-if="cartItems !== 0">
+                        <v-card-text v-if="cartItems!==0">
                             <v-row wrap>
                                 <v-col
                                     cols="4"
@@ -70,23 +70,21 @@
                             <v-divider></v-divider>
                             <v-row
                                 wrap
-                                v-if="isFoods > 0"
                             >
                                 <v-col
                                     cols="12"
-                                    v-for="(item, index) in foodCartItems"
+                                    v-for="(item, index) in foods"
                                     :key="index"
                                 >
-                                    <ItemCard :item="item" />
+                                    <ItemCard :item="item" @refreshCart="carting()" />
                                 </v-col>
                             </v-row>
                             <v-row
                                 wrap
-                                v-if="isGroceries > 0"
                             >
                                 <v-col
                                     cols="12"
-                                    v-for="(item, index) in groceryCartItems"
+                                    v-for="(item, index) in groceries"
                                     :key="index"
                                 >
                                     <GroceryItemCard :item="item" />
@@ -126,7 +124,8 @@
                         <v-divider></v-divider>
                         <TotalPart
                             :authenticated="authenticated"
-                            v-if="cartItems!==0"
+                            :cost="cost"
+                            v-if="cartItems>0"
                         />
                         <PromotionPart
                             :authenticated="authenticated"
@@ -209,7 +208,16 @@ export default {
     data() {
         return {
             tool: false,
+            foods: [],
+            groceries: [],
+            cost: {
+                shipping: 0.00,
+                sub_total: 0.00,
+                total: 0.00,
+                discount: 0.00
+            },
             dialog: false,
+            cartItems: 0,
             foodsPresent: false,
             groceriesPresent: false,
         };
@@ -259,9 +267,9 @@ export default {
         authenticated() {
             return this.$store.getters.isLoggedIn || false;
         },
-        cartItems() {
-            return this.isFoods + this.isGroceries;
-        },
+        // cartItems() {
+        //     return this.isFoods + this.isGroceries;
+        // },
 
         isBlocked() {
             return this.$store.getters.getBlocked;
@@ -279,35 +287,32 @@ export default {
                 }
             })
             .catch((err) => console.log(err.message));
-        var loaded = this.$store.getters.getCartReloaded
-        if (!loaded) {
-            this.$router.go()
-            this.$store.dispatch('setCartReloaded')
-        }
+        // var loaded = this.$store.getters.getCartReloaded
+        // if (!loaded) {
+        //     this.$router.go()
+        //     this.$store.dispatch('setCartReloaded')
+        // }
         this.syncCart();
     },
     methods: {
         syncCart() {
             this.$store.dispatch("startLoading");
-            let data = {
-                user: this.$store.getters.getUser.id,
-                foods: this.prepareForServerCart,
-                groceries: this.prepareForServerGroceryCart,
-            };
             axios({
-                url: `${this.$store.state.apiUrl}cart/create/`,
-                method: `POST`,
+                url: `${this.$store.state.apiUrl}cart/detail/${localStorage.getItem('currentCart')}/`,
+                method: `GET`,
                 headers: {
                     Authorization: `Token ${this.$store.getters.getToken}`,
-                },
-                data: data,
+                }
             })
                 .then((response) => {
-                    console.log(response);
-                    this.$store.dispatch(
-                        "cartFromServer",
-                        JSON.stringify(response.data)
-                    );
+                    console.log(response.data)
+                    this.foods = response.data.foods
+                    this.groceries = response.data.groceries
+                    this.cartItems = response.data.foods.length + response.data.groceries.length
+                    this.cost.shipping = response.data.shipping
+                    this.cost.discount = 0.00
+                    this.cost.sub_total = response.data.sub_total
+                    this.cost.total = response.data.total
                     this.$store.dispatch("stopLoading");
                 })
                 .catch((err) => {
@@ -315,6 +320,10 @@ export default {
                     this.$store.dispatch("stopLoading");
                 });
         },
+        carting() {
+            this.cartItems -= 1
+            this.syncCart()
+        }
     },
 };
 </script>

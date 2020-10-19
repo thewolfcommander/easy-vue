@@ -60,15 +60,11 @@ const actions = {
                                 method: 'POST',
                                 headers: {
                                     'Authorization': `Token ${response.data.token}`
-                                },
-                                data: {
-                                    user: resp.data.id
                                 }
                             })
                             .then(res => {
-                                localStorage.setItem('foodCart', JSON.stringify(Array()))
-                                localStorage.setItem('groceryCart', JSON.stringify(Array()))
-                                commit('CART_FROM_SERVER', JSON.stringify(res.data))
+                                localStorage.setItem('currentCart', res.data.id)
+                                localStorage.setItem('cartItems', res.data.count)
                             })
                             .catch(err => console.log(err))
                         })
