@@ -164,7 +164,7 @@ export default {
                 })
                     .then(() => {
                         this.snack.color = "success";
-                        var cartItem = localStorage.getItem('cartItems')
+                        var cartItem = +localStorage.getItem('cartItems')
                         cartItem += 1
                         localStorage.setItem('cartItems', cartItem)
                         this.snackbar = true;

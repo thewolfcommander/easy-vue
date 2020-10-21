@@ -96,9 +96,7 @@
                                 </v-col>
                             </v-row>
                             <v-divider></v-divider>
-                            <v-row
-                                wrap
-                            >
+                            <v-row wrap>
                                 <v-col
                                     cols="12"
                                     v-for="(item, index) in foods"
@@ -107,9 +105,7 @@
                                     <ItemCard :item="item" />
                                 </v-col>
                             </v-row>
-                            <v-row
-                                wrap
-                            >
+                            <v-row wrap>
                                 <v-col
                                     cols="12"
                                     v-for="(item, index) in groceries"
@@ -126,7 +122,10 @@
                             <p class="subtitle-1">Oops! Your cart is empty</p>
                         </v-row>
                         <v-divider></v-divider>
-                        <TotalPart :authenticated="authenticated" :cost="cost" />
+                        <TotalPart
+                            :authenticated="authenticated"
+                            :cost="cost"
+                        />
                     </v-card>
                 </v-col>
             </v-row>
@@ -197,10 +196,10 @@ export default {
             foods: [],
             groceries: [],
             cost: {
-                shipping: 0.00,
-                sub_total: 0.00,
-                total: 0.00,
-                discount: 0.00
+                shipping: 0.0,
+                sub_total: 0.0,
+                total: 0.0,
+                discount: 0.0,
             },
             dialog: false,
             cartItems: 0,
@@ -234,14 +233,14 @@ export default {
         setTimeout(() => {
             this.dialog = false;
         }, 1500);
-        this.syncCart()
+        this.syncCart();
     },
     methods: {
         createOrder() {
             this.$store.dispatch("startLoading");
             let data = {
                 user: this.$store.getters.getUser.id,
-                cart: localStorage.getItem('currentCart'),
+                cart: localStorage.getItem("currentCart"),
                 address: this.$store.getters.getAddressForCurrentOrder,
                 active: true,
             };
@@ -263,12 +262,29 @@ export default {
                             );
                             this.$store.dispatch("clearCart");
                             this.$store.dispatch("stopLoading");
-                            this.$store.dispatch('createFreshCart', this.$store.getters.getToken);
-                            var loaded = this.$store.getters.getCartReloaded
+                            axios({
+                                url: `${this.$store.state.apiUrl}cart/create/`,
+                                method: "POST",
+                                headers: {
+                                    Authorization: `Token ${this.$store.getters.getToken}`,
+                                },
+                            })
+                                .then((res) => {
+                                    localStorage.setItem(
+                                        "currentCart",
+                                        res.data.id
+                                    );
+                                    localStorage.setItem(
+                                        "cartItems",
+                                        res.data.count
+                                    );
+                                })
+                                .catch((err) => console.log(err));
+                            var loaded = this.$store.getters.getCartReloaded;
                             if (loaded) {
-                                this.$store.dispatch('setCartUnloaded')
+                                this.$store.dispatch("setCartUnloaded");
                             } else {
-                                this.$store.dispatch('setCartReloaded')
+                                this.$store.dispatch("setCartReloaded");
                             }
                             this.$router.push({ name: "OrderSuccess" });
                         })
@@ -287,21 +303,23 @@ export default {
         syncCart() {
             this.$store.dispatch("startLoading");
             axios({
-                url: `${this.$store.state.apiUrl}cart/detail/${localStorage.getItem('currentCart')}/`,
+                url: `${this.$store.state.apiUrl}cart/list/?user=${this.$store.getters.getUser.id}&active=true`,
                 method: `GET`,
                 headers: {
                     Authorization: `Token ${this.$store.getters.getToken}`,
-                }
+                },
             })
                 .then((response) => {
-                    console.log(response.data)
-                    this.foods = response.data.foods
-                    this.groceries = response.data.groceries
-                    this.cartItems = response.data.foods.length + response.data.groceries.length
-                    this.cost.shipping = response.data.shipping
-                    this.cost.discount = 0.00
-                    this.cost.sub_total = response.data.sub_total
-                    this.cost.total = response.data.total
+                    response = response.data[0];
+                    console.log(response);
+                    this.foods = response.foods;
+                    this.groceries = response.groceries;
+                    this.cartItems =
+                        response.foods.length + response.groceries.length;
+                    this.cost.shipping = response.shipping;
+                    this.cost.discount = 0.0;
+                    this.cost.sub_total = response.sub_total;
+                    this.cost.total = response.total;
                     this.$store.dispatch("stopLoading");
                 })
                 .catch((err) => {

@@ -44,12 +44,16 @@
             cols="3"
             md="2"
         >
-            <v-row justify="space-around" class="mt-4 ml-1 mr-1">
+            <v-row
+                justify="space-around"
+                class="mt-4 ml-1 mr-1"
+            >
                 <v-btn
                     icon
+                    :loading="loading"
                     x-small
                     color="secondary"
-                    @click="changeQuantity(-1)"
+                    @click="decreaseQuantity()"
                 >
                     <v-icon
                         x-small
@@ -60,8 +64,9 @@
                 <v-btn
                     icon
                     x-small
+                    :loading="loading"
                     color="primary"
-                    @click="changeQuantity(1)"
+                    @click="increaseQuantity()"
                 >
                     <v-icon
                         x-small
@@ -116,11 +121,11 @@
             </v-card>
         </v-dialog>
     </v-row>
-    
+
 </template>
 <script>
 // import NProgress from 'nprogress'
-import axios from 'axios'
+import axios from "axios";
 
 export default {
     data() {
@@ -132,27 +137,72 @@ export default {
     },
     props: ["item"],
     methods: {
-        changeQuantity(val) {
-            this.item.quantity += val;
+        increaseQuantity() {
+            this.loading = true
+            this.item.quantity = +this.item.quantity
+            if (this.item.quantity < 50){
+                this.item.quantity += 1
+                this.changeQuantity()
+            } else {
+                this.loading = false
+                console.log("hello")
+            }
+        },
+        decreaseQuantity() {
+            this.loading = true
+            this.item.quantity = +this.item.quantity
+            if (this.item.quantity > 0){
+                this.item.quantity -= 1
+                this.changeQuantity()
+                
+            } else {
+                this.loading = false
+                console.log("hello")
+            }
+        },
+        changeQuantity() {
+            this.loading = true;
+            if (this.item.quantity > 1) {
+                axios({
+                    url: `${this.$store.state.apiUrl}cart/food-entry/${this.item.id}/update/`,
+                    method: "PATCH",
+                    headers: {
+                        Authorization: `Token ${this.$store.getters.getToken}`,
+                    },
+                    data: {
+                        quantity: this.item.quantity,
+                    },
+                })
+                    .then(() => {
+                        this.$emit("refreshCart");
+                        this.loading = false;
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        this.loading = false;
+                    });
+            } else {
+                this.loading = false
+            }
         },
         removeItem() {
-            this.loading = true
+            this.loading = true;
             axios({
                 url: `${this.$store.state.apiUrl}cart/food-entry/${this.item.id}/update/`,
-                method: 'DELETE',
+                method: "DELETE",
                 headers: {
                     Authorization: `Token ${this.$store.getters.getToken}`,
-                }
+                },
             })
-            .then(() => {
-                this.$emit('refreshCart')
-                this.loading = false
-            })
-            .catch((err) => {
-                console.log(err)
-                this.loading = false
-            })
-        }
+                .then(() => {
+                    this.$emit("refreshCart");
+                    this.loading = false;
+                })
+                .catch((err) => {
+                    console.log(err);
+                    this.loading = false;
+                });
+        },
     },
     computed: {
         itemCost() {
@@ -160,7 +210,7 @@ export default {
         },
     },
     created() {
-        console.info(this.item)
-    }
+        console.info(this.item);
+    },
 };
 </script>

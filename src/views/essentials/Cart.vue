@@ -6,12 +6,12 @@
                     cols="12"
                     class="text-center"
                 >
-                    <h2 class="text-h4 grey--text">My Shopping Cart</h2>
+                    <h2 class="text-h4 grey--text">My food bucket</h2>
                 </v-col>
             </v-row>
             <v-row
                 justify="center"
-                v-if="authenticated"
+                v-if="false"
             >
                 <v-btn
                     color="primary"
@@ -32,7 +32,23 @@
                 </v-btn>
             </v-row>
             <v-row justify="center">
-                <v-col cols="12">
+                <v-col
+                    cols="12"
+                    v-if="loading"
+                    class="text-center"
+                >
+                    <p class="subtitle-1 grey--text">{{ text }}</p>
+                    <v-row justify="center">
+                        <v-progress-circular
+                            indeterminate
+                            color="primary"
+                        ></v-progress-circular>
+                    </v-row>
+                </v-col>
+                <v-col
+                    cols="12"
+                    v-if="!loading"
+                >
                     <v-card
                         flat
                         class="px-md-5 px-lg-5"
@@ -68,20 +84,19 @@
                                 </v-col>
                             </v-row>
                             <v-divider></v-divider>
-                            <v-row
-                                wrap
-                            >
+                            <v-row wrap>
                                 <v-col
                                     cols="12"
                                     v-for="(item, index) in foods"
                                     :key="index"
                                 >
-                                    <ItemCard :item="item" @refreshCart="carting()" />
+                                    <ItemCard
+                                        :item="item"
+                                        @refreshCart="carting()"
+                                    />
                                 </v-col>
                             </v-row>
-                            <v-row
-                                wrap
-                            >
+                            <v-row wrap>
                                 <v-col
                                     cols="12"
                                     v-for="(item, index) in groceries"
@@ -91,6 +106,7 @@
                                 </v-col>
                             </v-row>
                         </v-card-text>
+
                         <v-row
                             v-if="cartItems===0"
                             justify="center"
@@ -98,6 +114,7 @@
                             <p class="subtitle-1">Oops!! Your cart is empty</p>
 
                         </v-row>
+
                         <v-row
                             v-if="cartItems===0"
                             justify="center"
@@ -211,12 +228,14 @@ export default {
             foods: [],
             groceries: [],
             cost: {
-                shipping: 0.00,
-                sub_total: 0.00,
-                total: 0.00,
-                discount: 0.00
+                shipping: 0.0,
+                sub_total: 0.0,
+                total: 0.0,
+                discount: 0.0,
             },
             dialog: false,
+            loading: true,
+            text: "Wait for a sec, we are loading something awesome...",
             cartItems: 0,
             foodsPresent: false,
             groceriesPresent: false,
@@ -283,7 +302,7 @@ export default {
                     this.$store.dispatch("unblockSite");
                 } else {
                     this.$store.dispatch("blockSite");
-                    this.$router.push({name: 'Blocked'})
+                    this.$router.push({ name: "Blocked" });
                 }
             })
             .catch((err) => console.log(err.message));
@@ -293,37 +312,41 @@ export default {
         //     this.$store.dispatch('setCartReloaded')
         // }
         this.syncCart();
+        this.loading = false;
     },
     methods: {
         syncCart() {
-            this.$store.dispatch("startLoading");
+            this.loading = true;
             axios({
-                url: `${this.$store.state.apiUrl}cart/detail/${localStorage.getItem('currentCart')}/`,
+                url: `${this.$store.state.apiUrl}cart/list/?user=${this.$store.getters.getUser.id}&active=true`,
                 method: `GET`,
                 headers: {
                     Authorization: `Token ${this.$store.getters.getToken}`,
-                }
+                },
             })
                 .then((response) => {
-                    console.log(response.data)
-                    this.foods = response.data.foods
-                    this.groceries = response.data.groceries
-                    this.cartItems = response.data.foods.length + response.data.groceries.length
-                    this.cost.shipping = response.data.shipping
-                    this.cost.discount = 0.00
-                    this.cost.sub_total = response.data.sub_total
-                    this.cost.total = response.data.total
-                    this.$store.dispatch("stopLoading");
+                    response = response.data[0];
+                    this.foods = response.foods;
+                    this.groceries = response.groceries;
+                    this.cartItems =
+                        response.foods.length + response.groceries.length;
+                    this.cost.shipping = response.shipping;
+                    this.cost.discount = 0.0;
+                    this.cost.sub_total = response.sub_total;
+                    this.cost.total = response.total;
+                    this.loading = false;
                 })
                 .catch((err) => {
                     console.log(err);
-                    this.$store.dispatch("stopLoading");
+                    this.loading = false;
                 });
         },
         carting() {
-            this.cartItems -= 1
-            this.syncCart()
-        }
+            this.loading = true;
+            this.cartItems -= 1;
+            this.syncCart();
+            this.loading = false;
+        },
     },
 };
 </script>

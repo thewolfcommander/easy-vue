@@ -19,7 +19,11 @@
             </v-toolbar-title>
             <v-spacer></v-spacer>
 
-            <v-btn icon color="primary" @click="refresh()">
+            <v-btn
+                icon
+                color="primary"
+                @click="refresh()"
+            >
                 <v-icon>mdi-reload</v-icon>
             </v-btn>
 
@@ -29,7 +33,7 @@
                 icon
                 v-if="this.$store.getters.getVersion"
             >
-                
+
                 <v-badge
                     :content="wishlistItems"
                     :value="wishlistItems"
@@ -40,7 +44,11 @@
                 </v-badge>
             </v-btn>
 
-            <v-btn icon router :to="{name: 'Search'}">
+            <v-btn
+                icon
+                router
+                :to="{name: 'Search'}"
+            >
                 <v-icon>mdi-magnify</v-icon>
             </v-btn>
             <v-btn
@@ -66,16 +74,16 @@
                 color="primary"
                 class="d-none d-md-flex mx-1"
             >Home</v-btn>
-            <v-btn
+            <!-- <v-btn
                 text
                 rounded
                 router
                 :to="{name: 'GroceryHome'}"
                 color="primary"
                 class="d-none d-md-flex mx-1"
-            >Groceries</v-btn>
+            >Groceries</v-btn> -->
 
-            <v-menu
+            <!-- <v-menu
                 offset-y
                 open-on-hover
                 class="d-none d-md-flex mx-1"
@@ -96,18 +104,19 @@
                         v-for="(item, index) in items"
                         :key="index"
                     >
-                        <v-btn
-                            block
-                            tile
-                            depressed
-                            color="white"
-                            class="primary--text"
-                            router
-                            :to="{name: item.routeName }"
-                        >{{ item.title }}</v-btn>
+                        
                     </v-list-item>
                 </v-list>
-            </v-menu>
+            </v-menu> -->
+            <v-btn
+                rounded
+                v-for="(item, index) in items"
+                :key="index"
+                color="primary"
+                text
+                router
+                :to="{name: item.routeName }"
+            >{{ item.title }}</v-btn>
             <v-btn
                 rounded
                 color="primary"
@@ -137,10 +146,10 @@ export default {
             { title: "Food Menu", routeName: "Menu" },
             { title: "Restaurants", routeName: "Restaurants" },
             // { title: "Food Categories", routeName: "Categories" },
-            { title: "Grocery Menu", routeName: "GroceryMenu" },
-            { title: "Grocery Categories", routeName: "GroceryCategories" },
-            { title: "Grocery Sub Categories", routeName: "SubCategories" }
-        ]
+            // { title: "Grocery Menu", routeName: "GroceryMenu" },
+            // { title: "Grocery Categories", routeName: "GroceryCategories" },
+            // { title: "Grocery Sub Categories", routeName: "SubCategories" }
+        ],
     }),
 
     methods: {
@@ -150,31 +159,31 @@ export default {
                 .then(() => {
                     this.$router.push({ name: "Login" });
                 })
-                .catch(err => {
+                .catch((err) => {
                     console.log(err.message);
                 });
         },
         refresh() {
-            this.$router.go()
-        }
+            this.$router.go();
+        },
     },
 
     computed: {
         authenticated() {
-            return this.$store.getters.isLoggedIn
+            return this.$store.getters.isLoggedIn;
         },
 
         cartItems() {
-            return localStorage.getItem('cartItems') || 0
+            return localStorage.getItem("cartItems") || 0;
         },
 
         wishlistItems() {
             if (this.$store.getters.getWishlistItemsCount) {
-                return String(this.$store.getters.getWishlistItemsCount)
+                return String(this.$store.getters.getWishlistItemsCount);
             } else {
-                return "0"
+                return "0";
             }
-        }
-    }
+        },
+    },
 };
 </script>

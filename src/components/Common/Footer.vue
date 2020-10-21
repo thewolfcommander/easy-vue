@@ -65,7 +65,7 @@
                                         :to="{name:  'Categories'}"
                                     >Food Categories</v-btn>
                                 </v-col>
-                                <v-col
+                                <!-- <v-col
                                     cols="12"
                                     class="text-left ml-n2 my-0 py-0"
                                 >
@@ -75,7 +75,7 @@
                                         router
                                         :to="{name:  'GroceryHome'}"
                                     >Groceries</v-btn>
-                                </v-col>
+                                </v-col> -->
                             </v-row>
                         </v-col>
                         <v-col
