@@ -1,4 +1,4 @@
-import axios from 'axios';
+// import axios from 'axios';
 
 const state= {
     foodCart: Array(localStorage.getItem('foodCart')) || [],
@@ -53,24 +53,6 @@ const actions= {
     clearCart({commit}) {
         commit('CLEAR_CART')
     },
-    createFreshCart({commit}) {
-        axios({
-            url: `${this.state.apiUrl}cart/create/`,
-            method: 'POST',
-            headers: {
-                'Authorization': `Token ${this.getters.getToken}`
-            },
-            data: {
-                user: this.getters.getUser.id
-            }
-        })
-        .then(res => {
-            localStorage.setItem('foodCart', JSON.stringify(Array()))
-            localStorage.setItem('groceryCart', JSON.stringify(Array()))
-            commit('CART_FROM_SERVER', JSON.stringify(res.data))
-        })
-        .catch(err => console.log(err))
-    }
 };
 const mutations= {
     ADD_TO_FOOD_CART(state, data) {

@@ -36,7 +36,7 @@
                     md="9"
                 >
                     <p class="subtitle-1">{{ item.food.name }}</p>
-                    <p class="subtitle-2 mt-n5 grey--text text--lighten-1">By {{ item.food.restaurant }}</p>
+                    <p class="subtitle-2 mt-n5 grey--text text--lighten-1">By {{ item.food.restaurant.name }}</p>
                 </v-col>
             </v-row>
         </v-col>
@@ -44,12 +44,16 @@
             cols="3"
             md="2"
         >
-            <v-row justify="space-around" class="mt-4 ml-1 mr-1">
+            <v-row
+                justify="space-around"
+                class="mt-4 ml-1 mr-1"
+            >
                 <v-btn
                     icon
+                    :loading="loading"
                     x-small
                     color="secondary"
-                    @click="changeQuantity(-1)"
+                    @click="decreaseQuantity()"
                 >
                     <v-icon
                         x-small
@@ -60,8 +64,9 @@
                 <v-btn
                     icon
                     x-small
+                    :loading="loading"
                     color="primary"
-                    @click="changeQuantity(1)"
+                    @click="increaseQuantity()"
                 >
                     <v-icon
                         x-small
@@ -78,6 +83,7 @@
                 icon
                 color="primary"
                 class="mt-3"
+                :loading="loading"
                 large
                 @click="removeItem()"
             >
@@ -89,7 +95,7 @@
             md="2"
             class="text-center"
         >
-            <p class="subtitle-1 black--text mt-4">{{ item.food.price }} x {{ item.quantity }} = {{ itemCost }}</p>
+            <p class="subtitle-1 black--text mt-4">{{ item.food.discount_price }} x {{ item.quantity }} = {{ item.cost }}</p>
         </v-col>
         <v-dialog
             v-model="dialog"
@@ -115,39 +121,96 @@
             </v-card>
         </v-dialog>
     </v-row>
-    
+
 </template>
 <script>
 // import NProgress from 'nprogress'
+import axios from "axios";
 
 export default {
     data() {
         return {
             quantity: 1,
             dialog: false,
+            loading: false,
         };
     },
     props: ["item"],
     methods: {
-        changeQuantity(val) {
-            this.item.quantity += val;
+        increaseQuantity() {
+            this.loading = true
+            this.item.quantity = +this.item.quantity
+            if (this.item.quantity < 50){
+                this.item.quantity += 1
+                this.changeQuantity()
+            } else {
+                this.loading = false
+                console.log("hello")
+            }
+        },
+        decreaseQuantity() {
+            this.loading = true
+            this.item.quantity = +this.item.quantity
+            if (this.item.quantity > 0){
+                this.item.quantity -= 1
+                this.changeQuantity()
+                
+            } else {
+                this.loading = false
+                console.log("hello")
+            }
+        },
+        changeQuantity() {
+            this.loading = true;
+            if (this.item.quantity > 1) {
+                axios({
+                    url: `${this.$store.state.apiUrl}cart/food-entry/${this.item.id}/update/`,
+                    method: "PATCH",
+                    headers: {
+                        Authorization: `Token ${this.$store.getters.getToken}`,
+                    },
+                    data: {
+                        quantity: this.item.quantity,
+                    },
+                })
+                    .then(() => {
+                        this.$emit("refreshCart");
+                        this.loading = false;
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        this.loading = false;
+                    });
+            } else {
+                this.loading = false
+            }
         },
         removeItem() {
-            this.dialog = true
-            this.$store.dispatch('removeFromFoodCart', this.item.food.id)
-            .then(() => {
-                this.dialog = false
+            this.loading = true;
+            axios({
+                url: `${this.$store.state.apiUrl}cart/food-entry/${this.item.id}/update/`,
+                method: "DELETE",
+                headers: {
+                    Authorization: `Token ${this.$store.getters.getToken}`,
+                },
             })
-            .catch(err => {
-                console.log(err)
-                this.dialog = false
-            })
-        }
+                .then(() => {
+                    this.$emit("refreshCart");
+                    this.loading = false;
+                })
+                .catch((err) => {
+                    console.log(err);
+                    this.loading = false;
+                });
+        },
     },
     computed: {
         itemCost() {
             return this.item.food.price * this.item.quantity;
         },
-    }
+    },
+    created() {
+        console.info(this.item);
+    },
 };
 </script>

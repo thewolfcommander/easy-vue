@@ -6,7 +6,22 @@
             max-width="450px"
         >
             <v-sheet class="text-center">
-                <v-row class="transparent" justify="center" @click="sheet = false"><v-btn depressed fab color="white"><v-icon center color="black">mdi-window-close</v-icon></v-btn></v-row>
+                <v-row
+                    class="transparent"
+                    justify="center"
+                    @click="sheet = false"
+                >
+                    <v-btn
+                        depressed
+                        fab
+                        color="white"
+                    >
+                        <v-icon
+                            center
+                            color="black"
+                        >mdi-window-close</v-icon>
+                    </v-btn>
+                </v-row>
                 <v-card
                     :loading="loading"
                     class="mx-auto"
@@ -46,7 +61,10 @@
 
                     <v-card-text>
                         <span class="subheading">Select Quantity</span>
-                        <v-row justify="space-around" class="mt-4 ml-1 mr-1">
+                        <v-row
+                            justify="space-around"
+                            class="mt-4 ml-1 mr-1"
+                        >
                             <v-btn
                                 fab
                                 x-small
@@ -113,6 +131,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
     data: () => ({
         quantity: 1,
@@ -120,9 +139,9 @@ export default {
         selection: 1,
         snack: {
             text: null,
-            color: null
+            color: null,
         },
-        snackbar: false
+        snackbar: false,
     }),
     props: ["sheet", "item"],
     methods: {
@@ -130,30 +149,35 @@ export default {
             this.loading = true;
             if (this.quantity > 0) {
                 let data = {
-                    food: {
-                        id: this.item.id,
-                        name: this.item.name,
-                        price: this.item.discount_price,
-                        restaurant: this.item.restaurant.name
-                    },
-                    quantity: this.quantity
+                    cart: localStorage.getItem("currentCart"),
+                    food: this.item.id,
+                    quantity: this.quantity,
                 };
 
-                this.$store
-                    .dispatch("addToFoodCart", data)
+                axios({
+                    url: `${this.$store.state.apiUrl}cart/food-entry/create/`,
+                    method: "POST",
+                    headers: {
+                        Authorization: `Token ${this.$store.getters.getToken}`,
+                    },
+                    data: data,
+                })
                     .then(() => {
-                        this.snack.text = `You have successfully added ${this.item.name} in your cart`;
                         this.snack.color = "success";
+                        var cartItem = +localStorage.getItem('cartItems')
+                        cartItem += 1
+                        localStorage.setItem('cartItems', cartItem)
                         this.snackbar = true;
+                        this.snack.text = `You have successfully added ${this.item.name} in your cart`;
                         this.loading = false;
-                        this.sheet = false
+                        this.sheet = false;
                     })
                     .catch(() => {
-                        this.snack.text = "Some Error occured";
                         this.snack.color = "error";
                         this.snackbar = true;
+                        this.snack.text = "Some Error occured";
                         this.loading = false;
-                        this.sheet = false
+                        this.sheet = false;
                     });
             } else {
                 this.snack.text = "Quantity can never be less than 1";
@@ -161,7 +185,7 @@ export default {
                 this.snackbar = true;
                 this.loading = false;
             }
-        }
-    }
+        },
+    },
 };
 </script>

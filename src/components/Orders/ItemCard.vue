@@ -36,7 +36,7 @@
                     md="9"
                 >
                     <p class="subtitle-1">{{ item.food.name }}</p>
-                    <p class="subtitle-2 mt-n5 grey--text text--lighten-1">By {{ item.food.restaurant }}</p>
+                    <p class="subtitle-2 mt-n5 grey--text text--lighten-1">By {{ item.food.restaurant.name }}</p>
                 </v-col>
             </v-row>
         </v-col>
@@ -53,7 +53,7 @@
             md="3"
             class="text-center"
         >
-            <p class="subtitle-1 black--text mt-4">{{ item.food.price }} x {{ item.quantity }} = {{ itemCost }}</p>
+            <p class="subtitle-1 black--text mt-4">{{ item.food.discount_price }} x {{ item.quantity }} = {{ item.cost }}</p>
         </v-col>
         <v-dialog
             v-model="dialog"

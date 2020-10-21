@@ -96,25 +96,19 @@
                                 </v-col>
                             </v-row>
                             <v-divider></v-divider>
-                            <v-row
-                                wrap
-                                v-if="isFoods > 0"
-                            >
+                            <v-row wrap>
                                 <v-col
                                     cols="12"
-                                    v-for="(item, index) in foodCartItems"
+                                    v-for="(item, index) in foods"
                                     :key="index"
                                 >
                                     <ItemCard :item="item" />
                                 </v-col>
                             </v-row>
-                            <v-row
-                                wrap
-                                v-if="isGroceries > 0"
-                            >
+                            <v-row wrap>
                                 <v-col
                                     cols="12"
-                                    v-for="(item, index) in groceryCartItems"
+                                    v-for="(item, index) in groceries"
                                     :key="index"
                                 >
                                     <GroceryItemCard :item="item" />
@@ -128,7 +122,10 @@
                             <p class="subtitle-1">Oops! Your cart is empty</p>
                         </v-row>
                         <v-divider></v-divider>
-                        <TotalPart :authenticated="authenticated" />
+                        <TotalPart
+                            :authenticated="authenticated"
+                            :cost="cost"
+                        />
                     </v-card>
                 </v-col>
             </v-row>
@@ -196,7 +193,16 @@ export default {
     data() {
         return {
             tool: false,
+            foods: [],
+            groceries: [],
+            cost: {
+                shipping: 0.0,
+                sub_total: 0.0,
+                total: 0.0,
+                discount: 0.0,
+            },
             dialog: false,
+            cartItems: 0,
         };
     },
     computed: {
@@ -221,22 +227,20 @@ export default {
         authenticated() {
             return this.$store.getters.isLoggedIn || false;
         },
-        cartItems() {
-            return this.isFoods + this.isGroceries;
-        },
     },
     created() {
         this.dialog = true;
         setTimeout(() => {
             this.dialog = false;
         }, 1500);
+        this.syncCart();
     },
     methods: {
         createOrder() {
             this.$store.dispatch("startLoading");
             let data = {
                 user: this.$store.getters.getUser.id,
-                cart: this.$store.getters.getCartFromServer.id,
+                cart: localStorage.getItem("currentCart"),
                 address: this.$store.getters.getAddressForCurrentOrder,
                 active: true,
             };
@@ -258,12 +262,29 @@ export default {
                             );
                             this.$store.dispatch("clearCart");
                             this.$store.dispatch("stopLoading");
-                            this.$store.dispatch('createFreshCart');
-                            var loaded = this.$store.getters.getCartReloaded
+                            axios({
+                                url: `${this.$store.state.apiUrl}cart/create/`,
+                                method: "POST",
+                                headers: {
+                                    Authorization: `Token ${this.$store.getters.getToken}`,
+                                },
+                            })
+                                .then((res) => {
+                                    localStorage.setItem(
+                                        "currentCart",
+                                        res.data.id
+                                    );
+                                    localStorage.setItem(
+                                        "cartItems",
+                                        res.data.count
+                                    );
+                                })
+                                .catch((err) => console.log(err));
+                            var loaded = this.$store.getters.getCartReloaded;
                             if (loaded) {
-                                this.$store.dispatch('setCartUnloaded')
+                                this.$store.dispatch("setCartUnloaded");
                             } else {
-                                this.$store.dispatch('setCartReloaded')
+                                this.$store.dispatch("setCartReloaded");
                             }
                             this.$router.push({ name: "OrderSuccess" });
                         })
@@ -277,6 +298,33 @@ export default {
                     console.log(err);
                     this.$store.dispatch("stopLoading");
                     this.$router.push({ name: "OrderFailed" });
+                });
+        },
+        syncCart() {
+            this.$store.dispatch("startLoading");
+            axios({
+                url: `${this.$store.state.apiUrl}cart/list/?user=${this.$store.getters.getUser.id}&active=true`,
+                method: `GET`,
+                headers: {
+                    Authorization: `Token ${this.$store.getters.getToken}`,
+                },
+            })
+                .then((response) => {
+                    response = response.data[0];
+                    console.log(response);
+                    this.foods = response.foods;
+                    this.groceries = response.groceries;
+                    this.cartItems =
+                        response.foods.length + response.groceries.length;
+                    this.cost.shipping = response.shipping;
+                    this.cost.discount = 0.0;
+                    this.cost.sub_total = response.sub_total;
+                    this.cost.total = response.total;
+                    this.$store.dispatch("stopLoading");
+                })
+                .catch((err) => {
+                    console.log(err);
+                    this.$store.dispatch("stopLoading");
                 });
         },
     },

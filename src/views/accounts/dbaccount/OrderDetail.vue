@@ -13,6 +13,7 @@
             <v-col
                 cols="12"
                 md="9"
+                v-if="!loading"
                 lg="9"
                 sm="12"
             >
@@ -40,12 +41,44 @@
                 <v-row justify="center">
                     <h3 class="text-h5 grey--text">Order - {{ order.order_id.toUpperCase() }}</h3>
                 </v-row>
-                <v-row justify="start" class="mt-5">
-                    <v-expansion-panels style="z-index: 1" elevation="8">
-                        <OrderBasicInfoExpansionPanel item="Order Details" :info="order" />
-                        <OrderInfoExpansionPanels item="Product Details" :info="order.cart" />
-                        <OrderAddressInfo item="Delivery Details" :info="order.address" />
+                <v-row
+                    justify="start"
+                    class="mt-5"
+                >
+                    <v-expansion-panels
+                        style="z-index: 1"
+                        elevation="8"
+                    >
+                        <OrderBasicInfoExpansionPanel
+                            item="Order Details"
+                            :info="order"
+                        />
+                        <OrderInfoExpansionPanels
+                            item="Product Details"
+                            :info="order.cart"
+                        />
+                        <OrderAddressInfo
+                            item="Delivery Details"
+                            :info="order.address"
+                        />
                     </v-expansion-panels>
+                </v-row>
+            </v-col>
+
+            <v-col
+                cols="12"
+                md="9"
+                lg="9"
+                sm="12"
+                v-if="loading"
+                class="text-center"
+            >
+                <p class="subtitle-1 grey--text">{{ text }}</p>
+                <v-row justify="center">
+                    <v-progress-circular
+                        indeterminate
+                        color="primary"
+                    ></v-progress-circular>
                 </v-row>
             </v-col>
         </v-row>
@@ -59,12 +92,12 @@
             <v-icon center>mdi-menu</v-icon>
         </v-btn>
         <BottomSheet :sheet="sheet" />
-        
+
     </v-container>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 import NormalNavigation from "@/components/Account/NormalNavigation";
 import BottomSheet from "@/components/Account/Mobile/BottomSheet";
 import OrderInfoExpansionPanels from "@/components/Account/Orders/OrderInfoExpansionPanels";
@@ -75,7 +108,9 @@ export default {
     data() {
         return {
             sheet: false,
-            order: {}
+            order: {},
+            loading: true,
+            text: "Wait a second, we are fetching data for you",
         };
     },
     components: {
@@ -83,10 +118,9 @@ export default {
         NormalNavigation,
         OrderInfoExpansionPanels,
         OrderBasicInfoExpansionPanel,
-        OrderAddressInfo
+        OrderAddressInfo,
     },
     created() {
-        this.$store.dispatch("startLoading");
         axios({
             url: `${this.$store.state.apiUrl}orders/detail/${this.$route.params.orderId}/`,
             method: `GET`,
@@ -95,12 +129,11 @@ export default {
             },
         })
             .then((response) => {
-        this.$store.dispatch("stopLoading");
+                this.loading = false;
                 this.order = response.data;
-                console.log(this.order)
             })
             .catch((err) => {
-        this.$store.dispatch("stopLoading");
+                this.loading = false;
                 console.log(err);
             });
     },
