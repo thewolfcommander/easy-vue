@@ -195,6 +195,7 @@ export default {
                 },
             })
                 .then(() => {
+                    console.log(this.$emit)
                     this.$emit("refreshCart");
                     this.loading = false;
                 })

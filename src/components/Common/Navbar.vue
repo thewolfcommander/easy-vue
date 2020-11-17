@@ -140,6 +140,7 @@
 </template>
 
 <script>
+import { mapGetters} from "vuex"; 
 export default {
     data: () => ({
         items: [
@@ -168,13 +169,14 @@ export default {
         },
     },
 
-    computed: {
+    computed:  {
+        ...mapGetters(["getCartItemsCount"]),
         authenticated() {
             return this.$store.getters.isLoggedIn;
         },
 
         cartItems() {
-            return localStorage.getItem("cartItems") || 0;
+            return this.getCartItemsCount;
         },
 
         wishlistItems() {

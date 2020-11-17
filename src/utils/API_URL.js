@@ -1,0 +1,1 @@
+export const API_URL = `https://easyeats-api-v1.herokuapp.com/api/v1/`;

@@ -1,4 +1,5 @@
-// import axios from 'axios';
+import axios from 'axios';
+import {API_URL} from '../../utils/API_URL';
 
 const state= {
     foodCart: Array(localStorage.getItem('foodCart')) || [],
@@ -28,6 +29,27 @@ const actions= {
     //         url: `https://www.easyeats.co.in/api/v1/cart/food-entry/create/`
     //     })
     // },
+    async syncCartFromServer({commit}, data) {
+        console.log("I AM SYNCCARTFROMERVER BITCH")
+        try {
+            const response = await axios({
+                url: `${API_URL}cart/list/?user=${data.getUser.id}&active=true`,
+                method: `GET`,
+                headers: {
+                    Authorization: `Token ${data.getToken}`,
+                },
+            })
+            
+            commit('SYNC_CART',response.data[0])
+        }
+        catch(e) {
+            console.log(e);
+            return e;
+        }
+       console.log("Carting Sync")
+       
+       
+    },
     addToFoodCart({commit}, data) {
         commit('ADD_TO_FOOD_CART', JSON.stringify(data))
     },
@@ -55,6 +77,11 @@ const actions= {
     },
 };
 const mutations= {
+    SYNC_CART(state, data) {
+        console.log(data);
+        state.cartItems = data.foods.length + data.groceries.length
+       localStorage.setItem('cartItems', data.foods.length + data.groceries.length)
+    },
     ADD_TO_FOOD_CART(state, data) {
         let foods = JSON.parse(localStorage.getItem('foodCart'));
         foods = foods ? foods : [];

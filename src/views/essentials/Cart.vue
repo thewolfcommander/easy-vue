@@ -11,7 +11,7 @@
             </v-row>
             <v-row
                 justify="center"
-                v-if="false"
+                v-if="true"
             >
                 <v-btn
                     color="primary"
@@ -214,6 +214,7 @@ import ItemCard from "@/components/Cart/ItemCard";
 import GroceryItemCard from "@/components/Cart/GroceryItemCard";
 import TotalPart from "@/components/Cart/TotalPart";
 import PromotionPart from "@/components/Cart/PromotionPart";
+import {mapActions } from "vuex"; //mapGetters
 
 export default {
     components: {
@@ -311,11 +312,15 @@ export default {
         //     this.$router.go()
         //     this.$store.dispatch('setCartReloaded')
         // }
-        this.syncCart();
+        this.syncCart()
+       
         this.loading = false;
     },
     methods: {
+        ...mapActions(['syncCartFromServer']),
         syncCart() {
+             this.syncCartFromServer(this.$store.getters)
+              //this.$store.dispatch('syncCartFromServer') 
             this.loading = true;
             axios({
                 url: `${this.$store.state.apiUrl}cart/list/?user=${this.$store.getters.getUser.id}&active=true`,
@@ -345,6 +350,8 @@ export default {
             this.loading = true;
             this.cartItems -= 1;
             this.syncCart();
+           
+
             this.loading = false;
         },
     },

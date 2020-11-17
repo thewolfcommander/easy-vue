@@ -132,6 +132,8 @@
 
 <script>
 import axios from "axios";
+import {mapActions} from "vuex";
+
 export default {
     data: () => ({
         quantity: 1,
@@ -145,6 +147,7 @@ export default {
     }),
     props: ["sheet", "item"],
     methods: {
+        ...mapActions(['syncCartFromServer']),
         reserve() {
             this.loading = true;
             if (this.quantity > 0) {
@@ -164,9 +167,11 @@ export default {
                 })
                     .then(() => {
                         this.snack.color = "success";
-                        var cartItem = +localStorage.getItem('cartItems')
-                        cartItem += 1
-                        localStorage.setItem('cartItems', cartItem)
+                        // var cartItem = +localStorage.getItem('cartItems')
+                        // cartItem += 1
+                        // localStorage.setItem('cartItems', cartItem)
+                        this.syncCartFromServer(this.$store.getters)
+
                         this.snackbar = true;
                         this.snack.text = `You have successfully added ${this.item.name} in your cart`;
                         this.loading = false;
