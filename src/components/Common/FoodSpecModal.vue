@@ -103,14 +103,15 @@
                     </v-card-actions>
                 </v-card>
             </v-sheet>
-            <v-snackbar
+        </v-bottom-sheet>
+        <v-snackbar
                 v-model="snackbar"
                 bottom
                 light
                 :class="`${snack.color}--text`"
                 left
                 multi-line
-                :timeout="6000"
+                :timeout="3000"
             >
                 {{ snack.text }}
 
@@ -126,7 +127,6 @@
                     </v-btn>
                 </template>
             </v-snackbar>
-        </v-bottom-sheet>
     </v-row>
 </template>
 
@@ -176,6 +176,8 @@ export default {
                         this.snack.text = `You have successfully added ${this.item.name} in your cart`;
                         this.loading = false;
                         this.sheet = false;
+                        console.log("Snac", this.snack)
+                        console.log(this.snackbar)
                     })
                     .catch(() => {
                         this.snack.color = "error";

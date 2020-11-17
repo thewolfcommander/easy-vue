@@ -11,7 +11,7 @@
             </v-row>
             <v-row
                 justify="center"
-                v-if="true"
+                v-if="false"
             >
                 <v-btn
                     color="primary"
@@ -108,10 +108,21 @@
                         </v-card-text>
 
                         <v-row
-                            v-if="cartItems===0"
+                            v-if="cartItems===0 && cartLoaded"
                             justify="center"
                         >
                             <p class="subtitle-1">Oops!! Your cart is empty</p>
+
+                        </v-row>
+                        <v-row
+                            v-if="cartItems===0 && !cartLoaded"
+                            justify="center"
+                        >
+                           <v-progress-linear
+                        indeterminate
+                        color="primary"
+                        class="mb-0"
+                    ></v-progress-linear>
 
                         </v-row>
 
@@ -240,6 +251,7 @@ export default {
             cartItems: 0,
             foodsPresent: false,
             groceriesPresent: false,
+            cartLoaded : false
         };
     },
     computed: {
@@ -340,6 +352,7 @@ export default {
                     this.cost.sub_total = response.sub_total;
                     this.cost.total = response.total;
                     this.loading = false;
+                    this.cartLoaded = true;
                 })
                 .catch((err) => {
                     console.log(err);

@@ -187,6 +187,7 @@ export default {
         },
         removeItem() {
             this.loading = true;
+            console.log(this)
             axios({
                 url: `${this.$store.state.apiUrl}cart/food-entry/${this.item.id}/update/`,
                 method: "DELETE",
@@ -195,7 +196,7 @@ export default {
                 },
             })
                 .then(() => {
-                    console.log(this.$emit)
+                   // console.log(this.$emit)
                     this.$emit("refreshCart");
                     this.loading = false;
                 })
