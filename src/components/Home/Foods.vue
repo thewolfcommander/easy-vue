@@ -19,7 +19,7 @@
                             :to="{name: 'Menu'}"
                             color="primary"
                             class="mt-1"
-                        >Explore all</v-btn>
+                        >Explore All</v-btn>
                     </v-row>
                 </v-col>
                 <v-col cols="12" class="mt-n5">
