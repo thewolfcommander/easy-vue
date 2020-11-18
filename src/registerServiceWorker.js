@@ -1,16 +1,16 @@
 /* eslint-disable no-console */
 
-import {unregister } from 'register-service-worker'
+import {register } from 'register-service-worker'
 
 if (process.env.NODE_ENV === 'production') {
-  unregister(`${process.env.BASE_URL}service-worker.js`, {
+  register(`${process.env.BASE_URL}service-worker.js`, {
       ready () {
         console.log(
           'App is being served from cache by a service worker.\n' +
           'For more details, visit https://goo.gl/AFskqB'
         )
       },
-      unregistered () {
+      registered () {
         console.log('Service worker has been registered.')
       },
       cached () {
@@ -20,6 +20,14 @@ if (process.env.NODE_ENV === 'production') {
         console.log('New content is downloading.')
       },
       updated () {
+        // check if browser is chrome
+if (!!window.chrome && !!window.chrome.webstore) { 
+  self.skipWaiting();
+  window.location.reload();
+} else {
+  self.skipWaiting();
+  window.location.reload();
+}
         console.log('New content is available; please refresh.')
       },
       offline () {
