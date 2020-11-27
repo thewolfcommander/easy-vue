@@ -7,7 +7,7 @@
                     rounded
                     outlined
                     @click="$router.go(-1)"
-                >Go Back</v-btn>
+                >back</v-btn>
             </v-row>
             <v-row justify="center">
                 <v-col

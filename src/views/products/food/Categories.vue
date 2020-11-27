@@ -6,7 +6,7 @@
                     cols="12"
                     class="text-center"
                 >
-                    <h2 class="text-h4 grey--text">Food Categories</h2>
+                    <h2 class="text-h4 grey--text">Food Categories </h2>
                 </v-col>
             </v-row>
             <v-row

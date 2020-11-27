@@ -8,5 +8,6 @@ self.addEventListener('message', (event) => {
   self.addEventListener('install', function (event) {
 
     self.skipWaiting().then(console.log("installed version"));
+    window.location.reload();
 
 });
