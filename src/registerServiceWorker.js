@@ -17,18 +17,15 @@ if (process.env.NODE_ENV === 'production') {
         console.log('Content has been cached for offline use.')
       },
       updatefound () {
+
         console.log('New content is downloading.')
+        console.log("why is it not reloading");
+        postMessage({ type: 'SKIP_WAITING' , data : 'SKIP_WAITING'});       
       },
       updated () {
-        // check if browser is chrome
-if (!!window.chrome && !!window.chrome.webstore) { 
-  self.skipWaiting();
-  window.location.reload();
-} else {
-  self.skipWaiting();
-  window.location.reload();
-}
+       
         console.log('New content is available; please refresh.')
+        postMessage({ type: 'SKIP_WAITING' , data : 'SKIP_WAITING'});
       },
       offline () {
         console.log('No internet connection found. App is running in offline mode.')
