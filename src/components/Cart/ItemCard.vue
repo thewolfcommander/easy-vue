@@ -172,7 +172,7 @@ export default {
         },
         changeQuantity() {
             this.loading = true;
-            if (this.item.quantity > 1) {
+            if (this.item.quantity > 0) {
                 axios({
                     url: `${this.$store.state.apiUrl}cart/food-entry/${this.item.id}/update/`,
                     method: "PATCH",
