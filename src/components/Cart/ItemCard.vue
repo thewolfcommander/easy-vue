@@ -47,15 +47,17 @@
             <v-row
                 justify="space-around"
                 class="mt-4 ml-1 mr-1"
+                v-if="!loading"
             >
                 <v-btn
                     icon
                     :loading="loading"
                     x-small
-                    color="secondary"
+                    color="primary"
+                    v-if="item.quantity>1"
                     @click="decreaseQuantity()"
                 >
-                    <v-icon
+                 <v-icon
                         x-small
                         center
                     >mdi-minus</v-icon>
@@ -74,6 +76,13 @@
                     >mdi-plus</v-icon>
                 </v-btn>
             </v-row>
+                        <v-row
+                justify="space-around"
+                class="mt-4 ml-1 mr-1"
+                v-if="loading"
+            >
+
+                        </v-row>
         </v-col>
         <v-col
             cols="2"
@@ -85,6 +94,7 @@
                 class="mt-3"
                 :loading="loading"
                 large
+                
                 @click="removeItem()"
             >
                 <v-icon>mdi-close</v-icon>
