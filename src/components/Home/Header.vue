@@ -3,7 +3,7 @@
     cycle
     height="400"
     hide-delimiter-background
-    show-arrows-on-hover
+    :show-arrows="false"
     width="100vw"
   >
     <v-carousel-item
@@ -29,7 +29,7 @@
         ],
         slides: [
           {
-            src: "https://previews.123rf.com/images/seamartini/seamartini1808/seamartini180801343/111770323-potato-chips-fast-food-retro-advertisement-poster-for-restaurant-or-cinema-bistro-snacks-menu-vector.jpg",
+            src: "https://user-images.githubusercontent.com/22274195/101616984-0dda7e00-3a36-11eb-888a-9b7be1ee1b4e.jpg",
             title: "Advertisement",
             link: "Home"
           },

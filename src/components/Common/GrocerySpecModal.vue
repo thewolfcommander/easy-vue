@@ -52,7 +52,7 @@
                                 fab
                                 x-small
                                 color="secondary"
-                                @click="quantity--"
+                                @click="quantMinus"
                             >
                                 <v-icon
                                     x-small
@@ -127,6 +127,19 @@ export default {
     }),
     props: ["sheet", "item"],
     methods: {
+        quantPlus() {
+
+        },
+        quantMinus()  {
+            if(this.quantity>0) {
+                this.quantity--;
+            }
+            else {
+                this.snack.text = "Quantity can never be less than 1";
+                this.snack.color = "error";
+                this.snackbar = true;
+            }
+        },
         reserve() {
             this.loading = true;
             if (this.quantity > 0) {
@@ -149,7 +162,11 @@ export default {
                         this.sheet = false
                     })
                     .catch(() => {
-                        this.snack.text = "Some Error occured";
+                        this.$store.dispatch('logoutUser')
+            .then(() => {
+                this.$router.push({name: 'Login'})
+            })
+                        this.snack.text = "Session Expired. Please Login Again";
                         this.snack.color = "error";
                         this.snackbar = true;
                         this.loading = false;

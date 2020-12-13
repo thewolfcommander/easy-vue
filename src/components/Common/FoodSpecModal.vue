@@ -69,7 +69,7 @@
                                 fab
                                 x-small
                                 color="secondary"
-                                @click="quantity--"
+                                @click="quantity >0 ? quantity-- : quantity"
                             >
                                 <v-icon
                                     x-small

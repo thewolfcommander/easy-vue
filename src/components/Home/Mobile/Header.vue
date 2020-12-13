@@ -1,14 +1,18 @@
 <template>
   <v-carousel
     cycle
-    height="450"
+    height="500"
+    width="100vw"
+    hide-delimiter-background
+    :show-arrows="false"
   >
-    <v-carousel-item
-      v-for="(slide, i) in slides"
-      :key="i"
+  <v-carousel-item v-for="(slide, i) in slides" :key="i">
+      <v-img
+      width="100vw"
       :src="slide.src"
-    >
+    ></v-img>
     </v-carousel-item>
+  
   </v-carousel>
 </template>
 
@@ -25,7 +29,7 @@
         ],
         slides: [
           {
-            src: "https://www.crushpixel.com/static13/preview2/fast-food-restaurant-poster-design-1121379.jpg",
+            src: "https://user-images.githubusercontent.com/22274195/101622672-5ea1a500-3a3d-11eb-8619-b1fd71c0817e.jpg",
             title: "Advertisement",
             link: "Home"
           },
