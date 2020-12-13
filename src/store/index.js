@@ -15,7 +15,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    apiUrl: "https://easyeats-api-v1.herokuapp.com/api/v1/",
+    apiUrl: "http://35.154.3.50:8000/api/v1/",
     overlay: false,
     version2: false,
     appVersion: "1.0.0",
