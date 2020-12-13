@@ -48,7 +48,7 @@ export default {
     data() {
         return {
             about_us: `
-        Hello, we are easyeats. We provide you the best food near you in the fastest ever possible time. We define a new symbol of quality and trust with you.
+        Hi, we are easyeats. We provide you the best food near you in the fastest ever possible time. We define a new symbol of quality and trust with you.
         `,
         page_title: "About Us"
         };
