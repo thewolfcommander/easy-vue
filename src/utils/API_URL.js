@@ -1,1 +1,1 @@
-export const API_URL = `http://35.154.3.50:8000/api/v1/`;
+export const API_URL = `https://easyeats-api-v1.herokuapp.com/api/v1/`;
