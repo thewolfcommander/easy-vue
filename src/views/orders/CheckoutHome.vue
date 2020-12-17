@@ -138,13 +138,17 @@
                 >
                     <v-col cols="12">
                         <v-btn
-                            color="primary"
-                            tile
-                            depressed
-                            class="text-start"
+                          
+                            color="success"
+                        tile
+                        fab
+                        depressed
+                        fixed
+                        bottom
+                            class="text-start mb-8 pr-5"
                             x-large
                             @click="createOrder()"
-                            width="100%"
+                            width="87%"
                         >Create Order</v-btn>
                     </v-col>
                 </v-col>

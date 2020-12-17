@@ -1,4 +1,5 @@
 <template>
+<v-slide-x-reverse-transition>
     <v-row>
         <v-col
             cols="4"
@@ -44,6 +45,7 @@
             cols="3"
             md="2"
         >
+        
             <v-row
                 justify="space-around"
                 class="mt-4 ml-1 mr-1"
@@ -76,12 +78,12 @@
                     >mdi-plus</v-icon>
                 </v-btn>
             </v-row>
+           
                         <v-row
                 justify="space-around"
                 class="mt-4 ml-1 mr-1"
                 v-if="loading"
             >
-
                         </v-row>
         </v-col>
         <v-col
@@ -131,7 +133,7 @@
             </v-card>
         </v-dialog>
     </v-row>
-
+ </v-slide-x-reverse-transition>
 </template>
 <script>
 // import NProgress from 'nprogress'
@@ -207,8 +209,9 @@ export default {
             })
                 .then(() => {
                    // console.log(this.$emit)
-                    this.$emit("refreshCart");
                     this.loading = false;
+                    this.$emit("refreshCart");
+                    
                 })
                 .catch((err) => {
                     console.log(err);

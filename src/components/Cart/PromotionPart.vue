@@ -49,14 +49,17 @@
                     v-if="authenticated"
                 >
                     <v-btn
-                        color="primary"
+                        color="success"
                         tile
+                        fab
                         depressed
-                        class="text-start"
+                        fixed
+                        bottom
+                        class="text-start mb-5 pb-5"
                         x-large
                         @click="createCart()"
                         width="100%"
-                    >Checkout</v-btn>
+                    >Checkout <span class="ml-2 white--text">₹{{cost.total || 0}}</span></v-btn>
                 </v-col>
 
                 <v-col
@@ -119,7 +122,7 @@
 
 <script>
 export default {
-    props: ["authenticated", 'syncCart'],
+    props: ["authenticated", 'syncCart', 'cost'],
     data() {
         return {
             promo: "",

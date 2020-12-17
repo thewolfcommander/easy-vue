@@ -1,15 +1,15 @@
 <template>
     <v-container fluid>
-        <v-container>
-            <v-row justify="center">
+      
+            <!-- <v-row >
                 <v-col
                     cols="12"
                     class="text-center"
                 >
                     <h2 class="text-h4 grey--text">My food bucket</h2>
                 </v-col>
-            </v-row>
-            <v-row
+            </v-row> -->
+            <!-- <v-row
                 justify="center"
                 v-if="false"
             >
@@ -30,31 +30,30 @@
                         mdi-information
                     </v-icon>
                 </v-btn>
-            </v-row>
+            </v-row> -->
             <v-row justify="center">
                 <v-col
                     cols="12"
-                    v-if="loading"
+                    v-show="loading"
                     class="text-center"
                 >
-                    <p class="subtitle-1 grey--text">{{ text }}</p>
                     <v-row justify="center">
-                        <v-progress-circular
-                            indeterminate
-                            color="primary"
-                        ></v-progress-circular>
+                      <v-progress-linear
+                      indeterminate
+                      color="primary"></v-progress-linear>
                     </v-row>
+                     <p class="subtitle-1 grey--text">{{ text }}</p>
                 </v-col>
                 <v-col
                     cols="12"
-                    v-if="!loading"
+                    v-show="!loading"
                 >
                     <v-card
                         flat
-                        class="px-md-5 px-lg-5"
+                        class=""
                     >
                         <v-card-text v-if="cartItems!==0">
-                            <v-row wrap>
+                            <!-- <v-row wrap>
                                 <v-col
                                     cols="4"
                                     md="6"
@@ -83,17 +82,23 @@
                                     <p class="subtitle-2 black--text">Price</p>
                                 </v-col>
                             </v-row>
-                            <v-divider></v-divider>
+                            <v-divider></v-divider> -->
                             <v-row wrap>
                                 <v-col
                                     cols="12"
                                     v-for="(item, index) in foods"
                                     :key="index"
                                 >
+                                <v-card
+                                 outlined
+                                class="px-2"
+                                >
                                     <ItemCard
+                                    transition="scroll-y-transition"
                                         :item="item"
                                         @refreshCart="carting()"
                                     />
+                                    </v-card>
                                 </v-col>
                             </v-row>
                             <v-row wrap>
@@ -159,11 +164,12 @@
                             :authenticated="authenticated"
                             :syncCart="syncCart"
                             v-if="cartItems!==0"
+                            :cost="cost"
                         />
                     </v-card>
                 </v-col>
             </v-row>
-        </v-container>
+       
 
         <v-dialog
             v-model="tool"
@@ -247,7 +253,7 @@ export default {
             },
             dialog: false,
             loading: true,
-            text: "Wait for a sec, we are loading something awesome...",
+            text: "Syncing Up The Cart!",
             cartItems: 0,
             foodsPresent: false,
             groceriesPresent: false,
@@ -363,9 +369,6 @@ export default {
             this.loading = true;
             this.cartItems -= 1;
             this.syncCart();
-           
-
-            this.loading = false;
         },
     },
 };
