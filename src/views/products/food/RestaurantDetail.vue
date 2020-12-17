@@ -100,8 +100,15 @@
                         label="Start typing to search"
                         prepend-inner-icon="mdi-magnify"
                     ></v-text-field>
-                    <p class="caption primary--text mt-4 mb-0">Showing {{ itemsCount }} items <v-btn
-                            v-if="morePage"
+                                <v-progress-circular
+                                v-if="loading"
+                                    indeterminate
+                                    color="primary"
+                                ></v-progress-circular>
+                    <p class="caption primary--text mt-4 mb-0"
+                    v-if="!loading"
+                    >Showing {{ itemsCount }} items <v-btn
+                            v-if="morePage && !loading"
                             text
                             x-small
                             @click="loadMore()"
@@ -147,6 +154,7 @@ import FoodCard from "@/components/Common/Mobile/FoodCard";
 export default {
     data() {
         return {
+            loading : true,
             foods: [],
             categories: [],
             morePage: false,
@@ -178,6 +186,7 @@ export default {
             });
     },
     mounted() {
+        this.$store.dispatch("startLoading");
         axios({
             url: `${this.$store.state.apiUrl}products/foods?restaurant=${this.restaurant.id}`,
             method: "GET",
@@ -191,7 +200,7 @@ export default {
                 } else {
                     (this.morePage = false), (this.nextLink = null);
                 }
-                this.$store.dispatch("stopLoading");
+                //this.$store.dispatch("stopLoading");
                 axios({
                     url: `${this.$store.state.apiUrl}products/categories?restaurant=${this.restaurant.id}`,
                     method: "GET",
@@ -202,6 +211,8 @@ export default {
                             "categories",
                             JSON.stringify(response.data)
                         );
+                        this.$store.dispatch("stopLoading");
+                        this.loading = false;
                     })
                     .catch((err) => {
                         console.log(err);
