@@ -103,6 +103,7 @@
                                 <v-progress-circular
                                 v-if="loading"
                                     indeterminate
+                                    class="mt-2"
                                     color="primary"
                                 ></v-progress-circular>
                     <p class="caption primary--text mt-4 mb-0"
