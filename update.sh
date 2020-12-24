@@ -1,4 +1,3 @@
 git add . 
 git commit -m "Fixed Bugs"
-
-git push
+git push origin master
