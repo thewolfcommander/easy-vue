@@ -11,21 +11,19 @@
                 </v-card-title>
                 <v-card-text>
                     <v-container>
-                        <v-row>
-                            <v-col
-                                cols="12"
-                                sm="6"
-                                md="4"
-                            >
+                       
+                          
                                 <v-text-field
+                                outlined
                                     v-model="name"
+                                     :disabled="addressAdding"
                                     label="Address name*"
                                     hint="Ex: Home, Office"
                                     persistent-hint
                                     required
                                 ></v-text-field>
-                            </v-col>
-                            <v-col
+                           
+                            <!-- <v-col
                                 cols="12"
                                 sm="6"
                                 md="4"
@@ -36,8 +34,8 @@
                                     hint="Ex: 246174"
                                     persistent-hint
                                 ></v-text-field>
-                            </v-col>
-                            <v-col
+                            </v-col> -->
+                            <!-- <v-col
                                 cols="12"
                                 sm="6"
                                 md="4"
@@ -50,15 +48,20 @@
                                     persistent-hint
                                     required
                                 ></v-text-field>
-                            </v-col>
-                            <v-col cols="12">
-                                <v-text-field
-                                    v-model="address1"
-                                    label="Address Line 1*"
-                                    required
-                                ></v-text-field>
-                            </v-col>
-                            <v-col
+                            </v-col> -->
+                           
+                                <v-textarea
+                                outlined
+                                  :disabled="addressAdding"
+                                v-model="address1"
+                                required
+                                name="input-6-1"
+                                label="Address"
+                                value="Provide Your Address Here"
+                              hint="Ex: Near Base Hospital, Srikot">
+                              </v-textarea>
+                           
+                            <!-- <v-col
                                 cols="12"
                                 md="6"
                             >
@@ -67,8 +70,8 @@
                                     required
                                     v-model="address2"
                                 ></v-text-field>
-                            </v-col>
-                            <v-col
+                            </v-col> -->
+                            <!-- <v-col
                                 cols="12"
                                 md="6"
                             >
@@ -77,18 +80,17 @@
                                     required
                                     v-model="city"
                                 ></v-text-field>
-                            </v-col>
-                            <v-col
-                                cols="12"
-                                md="6"
-                            >
+                            </v-col> -->
+                           
                                 <v-text-field
+                                    outlined
+                                     :disabled="addressAdding"
                                     label="Landmark*"
                                     requiired
                                     v-model="landmark"
                                 ></v-text-field>
-                            </v-col>
-                            <v-col
+                            
+                            <!-- <v-col
                                 cols="12"
                                 md="6"
                             >
@@ -108,29 +110,29 @@
                                     required
                                     v-model="mobile_number"
                                 ></v-text-field>
-                            </v-col>
-                            <v-col
-                                cols="12"
-                                md="6"
-                            >
+                            </v-col> -->
+                           
                                 <v-text-field
+                                    outlined
+                                      :disabled="addressAdding"
                                     label="Alternate Phone Number"
                                     v-model="alt_mobile"
                                 ></v-text-field>
-                            </v-col>
-                        </v-row>
+                           
+                       
                     </v-container>
-                    <small>*indicates required field</small>
                 </v-card-text>
-                <v-card-actions>
+                <v-card-actions class="mt-n12">
                     <v-spacer></v-spacer>
                     <v-btn
+                      :disabled="addressAdding"
                         color="blue darken-1"
                         text
                         @click="show = false"
                     >Close</v-btn>
                     <v-btn
-                        color="blue darken-1"
+                      :disabled="addressAdding"
+                        color="green darken-1"
                         text
                         @click="addAddress()"
                     >Save and Proceed</v-btn>
@@ -145,6 +147,7 @@
 
             <template v-slot:action="{ attrs }">
                 <v-btn
+                
                     color="blue"
                     text
                     v-bind="attrs"
@@ -163,6 +166,8 @@ export default {
     props: ["show"],
     data() {
         return {
+            addressAdding : false,
+            user : JSON.parse(this.$store.state.auth.user),
             name: null,
             address1: null,
             address2: null,
@@ -179,14 +184,14 @@ export default {
     },
     methods: {
         addAddress() {
+           this.addressAdding = true;
             if (
-                this.name &&
+                this.name && 
                 this.address1 &&
                 this.city &&
                 this.pincode &&
                 this.state &&
-                this.country &&
-                this.mobile_number
+                this.country
             ) {
                 this.$store.dispatch("startLoading");
                 let data = {
@@ -198,7 +203,7 @@ export default {
                     pincode: this.pincode,
                     state: this.state,
                     country: this.country,
-                    mobile_number: this.mobile_number,
+                    mobile_number: this.user.username,
                     alt_mobile: this.alt_mobile,
                     user: this.$store.getters.getUser.id,
                 };
@@ -221,6 +226,7 @@ export default {
                             .catch((err) => {
                                 console.log(err);
                         this.$store.dispatch("stopLoading");
+                        this.addressAdding = false;
                             });
                     })
                     .catch((err) => {
@@ -228,10 +234,12 @@ export default {
                         this.text = err.message;
                         this.snackbar = true;
                         this.$store.dispatch("stopLoading");
+                         this.addressAdding = false;
                     });
             } else {
                 this.text = "Please Enter Required Fields";
                 this.snackbar = true;
+                this.addressAdding = false;
             }
         },
     },

@@ -1,14 +1,14 @@
 <template>
     <v-container fluid>
         <v-container>
-            <v-row justify="center">
+            <!-- <v-row justify="center">
                 <v-col
                     cols="12"
                     class="text-center"
                 >
-                    <h2 class="text-h4 grey--text">Register Here</h2>
+                    <h5 class="text-h4 grey--text">Register Here</h5>
                 </v-col>
-            </v-row>
+            </v-row> -->
             <v-row
                 justify="center"
                 v-if="!getAuthStatus"
@@ -35,6 +35,8 @@
                                     rounded
                                     :rules="[rules.required, rules.counter, rules.check ]"
                                     v-model="username"
+                                     autocomplete="off"
+                                    aria-autocomplete="off"
                                     label="Your mobile number*"
                                     :counter="10"
                                 ></v-text-field>
@@ -47,6 +49,8 @@
                                 <v-text-field
                                     outlined
                                     rounded
+                                     autocomplete="off"
+                                    aria-autocomplete="off"
                                     v-model="fullName"
                                     label="Your Full Name"
                                 ></v-text-field>
@@ -59,6 +63,8 @@
                                 <v-text-field
                                     outlined
                                     rounded
+                                     autocomplete="off"
+                                    aria-autocomplete="off"
                                     v-model="email"
                                     label="Your Email"
                                 ></v-text-field>
@@ -71,6 +77,8 @@
                                 <v-text-field
                                     outlined
                                     rounded
+                                    autocomplete="off"
+                                    aria-autocomplete="off"
                                     type="password"
                                     v-model="password"
                                     label="Your Password"
@@ -84,7 +92,7 @@
                                 <v-row justify="center">
                                     <v-btn
                                         large
-                                        @click="sendMessage"
+                                        @click="sendOTP"
                                         color="primary"
                                         rounded
                                     >Register</v-btn>
@@ -102,6 +110,7 @@
                     </v-card>
                 </v-col>
             </v-row>
+            
             <v-row
                 v-else
                 justify="center"
@@ -119,6 +128,50 @@
                     :to="{name: 'Profile'}"
                 >Go to Profile</v-btn>
             </v-row>
+            <v-bottom-sheet
+      v-model="sendOtpSheetOpen"
+      persistent
+    >
+      <v-sheet
+        
+        height="210px"
+      >
+        <v-btn
+          style="color : black"
+          text
+          class="mt-1"
+          color="error"
+          @click="sendOtpSheetOpen = !sendOtpSheetOpen"
+        >
+      <v-icon size="40px">{{"mdi-close"}}</v-icon>
+        </v-btn>
+        <div class="py-3">
+           <v-col
+            class="text-center"
+          cols="12"
+      
+        >
+          <v-text-field
+            label="OTP"
+            placeholder="Enter OTP"
+            outlined
+          ></v-text-field>
+        </v-col>
+     <v-col
+          cols="12"
+          
+          class="text-center"
+        >
+        <v-btn 
+        @click="verifyOTP"
+        depressed color="primary" class="mt-n12 text-center" style="color : white">
+      Verify
+    </v-btn>
+     </v-col>
+         
+        </div>
+      </v-sheet>
+    </v-bottom-sheet>
             <v-snackbar
                 v-model="snackbar"
                 bottom
@@ -151,6 +204,7 @@ export default {
             email: null,
             password: null,
             snackbar: false,
+            sendOtpSheetOpen : false,
             rules: {
                 required: (value) => !!value || "Required.",
                 counter: (value) =>
@@ -168,6 +222,26 @@ export default {
         };
     },
     methods: {
+        sendOTP() {
+             this.sendOtpSheetOpen = true;
+             this.$store.dispatch("sendOtp");
+             
+        },
+        verifyOTP() {
+            this.$store.dispatch("verifyOtp").then(()=> {
+                // some check if verfied
+                this.snackbar = true;
+                this.snack.text = "OTP Verified";
+                this.snack.color = "success";
+                if(this.username && this.email && this.fullName && this.password && this.username.length === 10) {
+                    this.sendMessage();
+                }
+                else {
+                    // error : not verified
+                }
+             
+            })
+        },
         sendMessage() {
             if (this.username && this.email && this.fullName && this.password) {
                 if (this.username.length === 10) {
@@ -178,6 +252,7 @@ export default {
                         full_name: this.fullName,
                         email: this.email,
                     };
+
                     this.$store
                         .dispatch("registerUser", data)
                         .then(() => {

@@ -23,13 +23,13 @@
                     align="center"
                     justify="end"
                 >
-                    <v-btn
+                    <!-- <v-btn
                         color="secondary"
                         depressed
                         dark
                         small
                         class="mx-3"
-                    >Edit</v-btn>
+                    >Edit</v-btn> -->
                     <v-btn
                         color="primary"
                         depressed

@@ -85,6 +85,7 @@
         <FoodSpecModal
             :sheet="sheet"
             :item="item"
+            @closeSheet="sheet = false"
         />
 
     </v-card>

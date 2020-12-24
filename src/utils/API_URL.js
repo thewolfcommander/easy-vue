@@ -1,1 +1,3 @@
-export const API_URL = `https://easyeats-api-v1.herokuapp.com/api/v1/`;
+export const API_URL = `http://127.0.0.1:8000/api/v1/`;
+//PRODUCTION URL : http://127.0.0.1:8000/api/v1/
+//DEVELOPMENT URL : http://127.0.0.1:8000/api/v1/

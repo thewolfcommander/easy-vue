@@ -1,5 +1,4 @@
 <template>
-<v-slide-x-reverse-transition>
     <v-row>
         <v-col
             cols="4"
@@ -39,8 +38,40 @@
                     <p class="subtitle-1">{{ item.food.name }}</p>
                     <p class="subtitle-2 mt-n5 grey--text text--lighten-1">By {{ item.food.restaurant.name }}</p>
                 </v-col>
-            </v-row>
-        </v-col>
+                
+                     <template v-if="item.varient_type != 0 || extrasCompute.length>0">
+                          <div class="text-center d-flex pa-2">
+                        <v-chip
+                        v-if="item.varient_type != 0"
+                        class="ma-2"
+                        color="primary"
+                        text-color="white"
+                        >
+                         <v-icon left>
+                            mdi-label
+                          </v-icon>
+                          {{item.food.varients.find((v)=> v.id=== item.varient_type).name}}
+                        </v-chip>
+                      </div>
+                      <div class="d-flex flex-row flex-wrap flex-shrink-0" v-if="extrasCompute.length>0"> 
+                          <div
+                          class=""
+                           v-for="extra in extrasCompute"
+                          :key="extra.id"
+                          >
+                          <v-chip
+                          class="ma-2"
+                          color="secondary"
+                          text-color="white"
+                        >
+                          {{extra.name}}
+                        </v-chip>
+                        </div>
+                      </div>
+                        </template>
+                        
+                </v-row>
+                 </v-col>
         <v-col
             cols="3"
             md="2"
@@ -54,6 +85,7 @@
                 <v-btn
                     icon
                     :loading="loading"
+                    :disabled="loading"
                     x-small
                     color="primary"
                     v-if="item.quantity>1"
@@ -69,6 +101,7 @@
                     icon
                     x-small
                     :loading="loading"
+                    :disabled="loading"
                     color="primary"
                     @click="increaseQuantity()"
                 >
@@ -95,6 +128,7 @@
                 color="primary"
                 class="mt-3"
                 :loading="loading"
+                :disabled="loading"
                 large
                 
                 @click="removeItem()"
@@ -133,7 +167,6 @@
             </v-card>
         </v-dialog>
     </v-row>
- </v-slide-x-reverse-transition>
 </template>
 <script>
 // import NProgress from 'nprogress'
@@ -145,10 +178,15 @@ export default {
             quantity: 1,
             dialog: false,
             loading: false,
+            extras : []
         };
     },
     props: ["item"],
     methods: {
+ 
+        varient() {
+
+        },
         increaseQuantity() {
             this.loading = true
             this.item.quantity = +this.item.quantity
@@ -173,8 +211,10 @@ export default {
             }
         },
         changeQuantity() {
+          
             this.loading = true;
             if (this.item.quantity > 0) {
+                 this.$emit('hideOtherCartItems');
                 axios({
                     url: `${this.$store.state.apiUrl}cart/food-entry/${this.item.id}/update/`,
                     method: "PATCH",
@@ -183,14 +223,18 @@ export default {
                     },
                     data: {
                         quantity: this.item.quantity,
+                        varient_type : 0,
+                        extras_addon : "[]"
                     },
                 })
                     .then(() => {
                         this.$emit("refreshCart");
+                         this.$emit("enableItems");
                         this.loading = false;
                     })
                     .catch((err) => {
                         console.log(err);
+                         this.$emit("enableItems");
                         this.loading = false;
                     });
             } else {
@@ -198,6 +242,7 @@ export default {
             }
         },
         removeItem() {
+           this.$emit('hideOtherCartItems');
             this.loading = true;
             console.log(this)
             axios({
@@ -210,18 +255,34 @@ export default {
                 .then(() => {
                    // console.log(this.$emit)
                     this.loading = false;
+                    this.$emit("enableItems");
                     this.$emit("refreshCart");
                     
                 })
                 .catch((err) => {
                     console.log(err);
                     this.loading = false;
+                     this.$emit("enableItems");
                 });
         },
     },
     computed: {
         itemCost() {
             return this.item.food.price * this.item.quantity;
+        },
+        extrasCompute() {
+            if(this.item.food.extras.length>0) {
+                let parsedExtras = JSON.parse(this.item.extras_addon)
+                let finalValue = []
+                parsedExtras.map((addon)=> {
+                    finalValue.push(this.item.food.extras.find((v)=> v.id === addon))
+                })
+                return finalValue
+            }
+            else {
+                return []
+            }
+
         },
     },
     created() {

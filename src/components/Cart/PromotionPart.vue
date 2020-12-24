@@ -39,6 +39,7 @@
         <v-col
             cols="12"
             md="3"
+            :disabled="loading"
         >
             <v-row
                 wrap
@@ -46,6 +47,7 @@
             >
                 <v-col
                     cols="12"
+                     :disabled="loading"
                     v-if="authenticated"
                 >
                     <v-btn
@@ -55,9 +57,12 @@
                         depressed
                         fixed
                         bottom
-                        class="text-start mb-5 pb-5"
-                        x-large
+                      
+
+                        class="text-start mb-10"
+                       
                         @click="createCart()"
+                        style="z-index: 9999"
                         width="100%"
                     >Checkout <span class="ml-2 white--text">₹{{cost.total || 0}}</span></v-btn>
                 </v-col>
@@ -122,11 +127,12 @@
 
 <script>
 export default {
-    props: ["authenticated", 'syncCart', 'cost'],
+    props: ["authenticated", 'syncCart', 'cost', 'loading'],
     data() {
         return {
             promo: "",
             dialog: false,
+            itemLoading : this.loading
         }
     },
     computed: {
@@ -149,11 +155,13 @@ export default {
     },
     methods: {
         createCart() {
-            this.dialog = true
+            if(!this.loading) {
+                 this.dialog = true
             this.syncCart()
 
                 this.dialog = false
             this.$router.push({name: 'Addresses'})
+            }
         }
     }
 };

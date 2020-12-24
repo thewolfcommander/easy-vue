@@ -92,8 +92,11 @@
                                 <v-card
                                  outlined
                                 class="px-2"
+                                :disabled="itemLoading"
                                 >
                                     <ItemCard
+                                    @hideOtherCartItems="disableItems"
+                                    @enableItems="enableItems"
                                     transition="scroll-y-transition"
                                         :item="item"
                                         @refreshCart="carting()"
@@ -161,6 +164,7 @@
                             v-if="cartItems>0"
                         />
                         <PromotionPart
+                         :loading="itemLoading"
                             :authenticated="authenticated"
                             :syncCart="syncCart"
                             v-if="cartItems!==0"
@@ -242,6 +246,7 @@ export default {
     },
     data() {
         return {
+            itemLoading : false,
             tool: false,
             foods: [],
             groceries: [],
@@ -261,6 +266,7 @@ export default {
         };
     },
     computed: {
+
         isFoods() {
             return JSON.parse(this.$store.getters.getFoodCart).length || 0;
         },
@@ -335,10 +341,16 @@ export default {
         this.loading = false;
     },
     methods: {
-        ...mapActions(['syncCartFromServer']),
+        ...mapActions(['syncCartItems']),
+        
+        disableItems() {
+            this.itemLoading = true;
+        },
+         enableItems() {
+            this.itemLoading = false;
+        },
         syncCart() {
-             this.syncCartFromServer(this.$store.getters)
-              //this.$store.dispatch('syncCartFromServer') 
+             //this.syncCartFromServer(this.$store.getters)
             this.loading = true;
             axios({
                 url: `${this.$store.state.apiUrl}cart/list/?user=${this.$store.getters.getUser.id}&active=true`,
@@ -349,10 +361,19 @@ export default {
             })
                 .then((response) => {
                     response = response.data[0];
-                    this.foods = response.foods;
+                    let sortedFoods = response.foods.sort(function(a, b) {
+                        if(parseInt(a.id)> parseInt(b.id)) {
+                            return 1;
+                        }
+                        else {
+                            return -1;
+                        }
+                        });
+                    this.foods = sortedFoods;
                     this.groceries = response.groceries;
                     this.cartItems =
                         response.foods.length + response.groceries.length;
+                    this.syncCartItems(this.cartItems);
                     this.cost.shipping = response.shipping;
                     this.cost.discount = 0.0;
                     this.cost.sub_total = response.sub_total;

@@ -4,7 +4,9 @@ import axios from 'axios';
 const state = {
     user: localStorage.getItem('user') || {},
     status: localStorage.getItem('status') || false,
-    token: localStorage.getItem('token') || ""
+    token: localStorage.getItem('token') || "",
+    otpSent : false,
+    otpVerified : false
 };
 
 const getters = {
@@ -140,10 +142,27 @@ const actions = {
     }) {
         localStorage.clear();
         commit('LOGOUT_USER');
+    },
+    sendOtp({
+        commit
+    }) {
+        commit('SEND_OTP', true);
+    },
+    verifyOtp({
+        commit
+    }) {
+        commit('VERIFY_OTP', true);
     }
 };
 
 const mutations = {
+    SEND_OTP(state, response) {
+        state.otpSent = response;
+    },
+
+    VERIFY_OTP(state, response) {
+        state.otpVerified = response;
+    },
     LOGIN_USER(state, response) {
         state.user = {}
         state.token = response

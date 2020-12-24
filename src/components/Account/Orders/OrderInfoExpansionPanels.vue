@@ -23,8 +23,8 @@
                         >
                                 <v-col
                                     cols="12"
-                                        v-for="item in info.foods"
-                                        :key="item.title"
+                                        v-for="item in item_computed.foods"
+                                        :key="item.id"
                                     sm="6"
                                 >
                                     <v-card
@@ -47,6 +47,25 @@
                                                     >{{ item.food.restaurant.name }}</router-link>
                                                 </v-list-item-subtitle>
                                                 <v-list-subtitle>&#8377; <strike class="grey--text caption">{{ item.food.gross_price }}</strike> {{ item.food.discount_price }} <span class="primary--text ml-3">x {{ item.quantity }}</span></v-list-subtitle>
+                                                 <v-chip-group>
+                                                          <v-chip 
+                                                          color="primary"
+                                                          :key="item.varientType"
+                                                          >
+                                                              {{`${item.varientType} ${item.food.name}`}}
+                                                          </v-chip>
+                                                      </v-chip-group>
+                                                  
+                                                     <v-chip-group>
+                                                          <v-chip 
+                                                          color="secondary"
+                                                          v-for="extra_add in item.extrasAddonsList"
+                                                          :key="extra_add.id"
+                                                          >
+                                                              {{extra_add.name}}
+                                                          </v-chip>
+                                                      </v-chip-group>
+                                                  
                                             </v-list-item-content>
                                         </v-list-item>
                                     </v-card>
@@ -85,6 +104,7 @@
 
 <script>
 import OrderGroceryCard from "@/components/Account/Orders/OrderGroceryCard";
+import axios from 'axios';
 export default {
     props: ["item", "info"],
     components: {
@@ -98,7 +118,48 @@ export default {
                 { key: "Sub total", value: this.info.sub_total },
                 { key: "Total", value: this.info.total },
             ],
+            varient_type_value : 0,
+            extra_addon_array : [],
+            item_computed : {}
         };
     },
+    created() {
+        console.log(this.info);
+        this.item_computed = this.info;
+        this.info.foods.map((food,index)=> {
+        if(parseInt(food.varient_type) !=0) {
+               axios({
+                url: `${this.$store.state.apiUrl}products/foods/varient/${parseInt(food.varient_type)}/`,
+                method: "GET",
+                headers: {
+                    Authorization: `Token ${this.$store.getters.getToken}`,
+                }
+            }).then((res)=> {
+                console.log(res.data)
+                this.item_computed.foods[index].varientType = res.data.name
+                //this.varient_type_value = res.data.name
+            })
+        }
+            let extras_array = JSON.parse(food.extras_addon)
+            if(extras_array.length>0) {
+                extras_array.map((extra_value)=> {
+                       axios({
+                        url: `${this.$store.state.apiUrl}products/foods/extra/${parseInt(extra_value)}/`,
+                        method: "GET",
+                        headers: {
+                            Authorization: `Token ${this.$store.getters.getToken}`,
+                        }
+                    }).then((res)=> {
+                        this.item_computed.foods[index].extrasAddonsList = []
+                        this.item_computed.foods[index].extrasAddonsList.push(res.data)
+                        //this.extra_addon_array.push(res.data)
+                        console.log(res.data)
+                        console.log("ITEM COMPUTED", this.item_computed)
+                        
+                    })
+                })
+            }
+        })
+  }
 };
 </script>
