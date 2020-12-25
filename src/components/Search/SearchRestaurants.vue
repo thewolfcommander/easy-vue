@@ -73,7 +73,7 @@ export default {
             this.$store.dispatch("startLoading");
             if (this.query) {
                 axios({
-                    url: `http://127.0.0.1:8000/api/v1/products/restaurants/search/?search=${this.query}`,
+                    url: `https://www.dartzobackendservice.cloudns.asia/dartzo/products/restaurants/search/?search=${this.query}`,
                     method: "GET",
                 }).then((response) => {
                     console.log(response.data);

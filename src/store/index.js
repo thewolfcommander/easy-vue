@@ -15,7 +15,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    apiUrl: "http://127.0.0.1:8000/api/v1/",
+    apiUrl: "https://www.dartzobackendservice.cloudns.asia/dartzo/",
     overlay: false,
     version2: false,
     appVersion: "1.0.0",
