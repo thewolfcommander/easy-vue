@@ -14,7 +14,7 @@ const actions = {
         commit
     }, data) {
         axios({
-            url: `https://www.dartzobackendservice.cloudns.asia/dartzo/accounts/dboys/create/`,
+            url: `https://www.dartzobackendservice.cloudns.asia/api/v1/accounts/dboys/create/`,
             method: 'POST',
             data: data,
             headers: {

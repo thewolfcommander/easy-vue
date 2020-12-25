@@ -77,7 +77,7 @@ export default {
             this.loading = true
             if (this.query) {
                 axios({
-                    url: `https://www.dartzobackendservice.cloudns.asia/dartzo/grocery/items/search/?search=${this.query}`,
+                    url: `https://www.dartzobackendservice.cloudns.asia/api/v1/grocery/items/search/?search=${this.query}`,
                     method: "GET",
                 }).then((response) => {
                     console.log(response.data);
