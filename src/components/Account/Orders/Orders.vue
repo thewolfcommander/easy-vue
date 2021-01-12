@@ -42,7 +42,7 @@ export default {
             url: `${this.$store.state.apiUrl}orders/all/?user=${this.$store.getters.getUser.id}`,
             method: `GET`,
             headers: {
-                Authorization: `Token ${this.$store.getters.getToken}`,
+                Authorization: `Bearer ${this.$store.getters.getToken}`,
             },
         })
             .then((response) => {

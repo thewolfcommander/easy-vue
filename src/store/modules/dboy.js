@@ -14,11 +14,11 @@ const actions = {
         commit
     }, data) {
         axios({
-            url: `https://www.dartzobackendservice.cloudns.asia/api/v1/accounts/dboys/create/`,
+            url: `http://127.0.0.1:8000/api/v1/accounts/dboys/create/`,
             method: 'POST',
             data: data,
             headers: {
-                Authorization: `Token ${this.getters.getToken}`
+                Authorization: `Bearer ${this.getters.getToken}`
             }
         })
         .then(response => {

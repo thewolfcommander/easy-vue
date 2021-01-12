@@ -84,6 +84,9 @@ export default {
                 // console.log(response.data)
             })
             .catch((err) => {
+                if(err.response && err.response.status === 401) {
+                        this.$store.dispatch("refreshToken");
+                    }
                 console.log(err);
             });
     },

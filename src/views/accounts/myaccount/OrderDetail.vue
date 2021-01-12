@@ -118,7 +118,7 @@ export default {
             url: `${this.$store.state.apiUrl}orders/detail/${this.$route.params.orderId}/`,
             method: `GET`,
             headers: {
-                Authorization: `Token ${this.$store.getters.getToken}`,
+                Authorization: `Bearer ${this.$store.getters.getToken}`,
             },
         })
             .then((response) => {
@@ -126,6 +126,9 @@ export default {
                 this.order = response.data;
             })
             .catch((err) => {
+                if(err.response && err.response.status === 401) {
+                        this.$store.dispatch("refreshToken");
+                    }
                 this.loading = false
                 console.log(err);
             });

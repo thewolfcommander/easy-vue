@@ -35,17 +35,24 @@ const actions= {
     async syncCartFromServer({commit}, data) {
         try {
             const response = await axios({
-                url: `${API_URL}cart/list/?user=${data.getUser.id}&active=true`,
+                url: `${API_URL}cart/mycart/`,
                 method: `GET`,
                 headers: {
-                    Authorization: `Token ${data.getToken}`,
+                    Authorization: `Bearer ${data.getToken}`,
                 },
             })
             
-            commit('SYNC_CART_FROM_OUTSIDE',response.data[0])
+            commit('SYNC_CART_FROM_OUTSIDE',response)
         }
         catch(e) {
+            const data = {
+                username : data.getUser.username,
+            }
+            if(e.response && e.response.status === 401) {
+            this.$store.dispatch('refreshToken', data);
             console.log(e);
+            }
+            
             return e;
         }
        console.log("Carting Sync")

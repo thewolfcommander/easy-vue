@@ -252,7 +252,7 @@ export default {
                 url: `${this.$store.state.apiUrl}orders/create/`,
                 method: `POST`,
                 headers: {
-                    Authorization: `Token ${this.$store.getters.getToken}`,
+                    Authorization: `Bearer ${this.$store.getters.getToken}`,
                 },
                 data: data,
             })
@@ -270,7 +270,7 @@ export default {
                                 url: `${this.$store.state.apiUrl}cart/create/`,
                                 method: "POST",
                                 headers: {
-                                    Authorization: `Token ${this.$store.getters.getToken}`,
+                                    Authorization: `Bearer ${this.$store.getters.getToken}`,
                                 },
                             })
                                 .then((res) => {
@@ -283,7 +283,10 @@ export default {
                                         res.data.count
                                     );
                                 })
-                                .catch((err) => console.log(err));
+                                .catch((err) => {
+                                    console.log(err)
+                                  
+                                    });
                             var loaded = this.$store.getters.getCartReloaded;
                             if (loaded) {
                                 this.$store.dispatch("setCartUnloaded");
@@ -299,6 +302,9 @@ export default {
                         });
                 })
                 .catch((err) => {
+                      if(err.response && err.response.status === 401) {
+                        this.$store.dispatch("refreshToken");
+                    }
                     console.log(err);
                     this.$store.dispatch("stopLoading");
                     this.$router.push({ name: "OrderFailed" });
@@ -307,14 +313,14 @@ export default {
         syncCart() {
             this.$store.dispatch("startLoading");
             axios({
-                url: `${this.$store.state.apiUrl}cart/list/?user=${this.$store.getters.getUser.id}&active=true`,
+                url: `${this.$store.state.apiUrl}cart/mycart`,
                 method: `GET`,
                 headers: {
-                    Authorization: `Token ${this.$store.getters.getToken}`,
+                    Authorization: `Bearer ${this.$store.getters.getToken}`,
                 },
             })
                 .then((response) => {
-                    response = response.data[0];
+                    response = response.data;
                     console.log(response);
                     this.foods = response.foods;
                     this.groceries = response.groceries;
@@ -327,6 +333,9 @@ export default {
                     this.$store.dispatch("stopLoading");
                 })
                 .catch((err) => {
+                    if(err.response && err.response.status === 401) {
+                        this.$store.dispatch("refreshToken");
+                    }
                     console.log(err);
                     this.$store.dispatch("stopLoading");
                 });

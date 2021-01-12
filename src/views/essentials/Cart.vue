@@ -316,26 +316,11 @@ export default {
         // },
 
         isBlocked() {
-            return this.$store.getters.getBlocked;
+            return false;
         },
     },
     created() {
-        axios
-            .get(`${this.$store.state.apiUrl}core/status/`)
-            .then((response) => {
-                if (response.data.status) {
-                    this.$store.dispatch("unblockSite");
-                } else {
-                    this.$store.dispatch("blockSite");
-                    this.$router.push({ name: "Blocked" });
-                }
-            })
-            .catch((err) => console.log(err.message));
-        // var loaded = this.$store.getters.getCartReloaded
-        // if (!loaded) {
-        //     this.$router.go()
-        //     this.$store.dispatch('setCartReloaded')
-        // }
+ 
         this.syncCart()
        
         this.loading = false;
@@ -353,14 +338,14 @@ export default {
              //this.syncCartFromServer(this.$store.getters)
             this.loading = true;
             axios({
-                url: `${this.$store.state.apiUrl}cart/list/?user=${this.$store.getters.getUser.id}&active=true`,
+                url: `${this.$store.state.apiUrl}cart/mycart/`,
                 method: `GET`,
                 headers: {
-                    Authorization: `Token ${this.$store.getters.getToken}`,
+                    Authorization: `Bearer ${this.$store.getters.getToken}`,
                 },
             })
                 .then((response) => {
-                    response = response.data[0];
+                    response = response.data
                     let sortedFoods = response.foods.sort(function(a, b) {
                         if(parseInt(a.id)> parseInt(b.id)) {
                             return 1;
@@ -373,16 +358,20 @@ export default {
                     this.groceries = response.groceries;
                     this.cartItems =
                         response.foods.length + response.groceries.length;
-                    this.syncCartItems(this.cartItems);
+                    this.syncCartItems(response.foods.length + response.groceries.length);
                     this.cost.shipping = response.shipping;
                     this.cost.discount = 0.0;
                     this.cost.sub_total = response.sub_total;
                     this.cost.total = response.total;
                     this.loading = false;
                     this.cartLoaded = true;
+                    
                 })
                 .catch((err) => {
-                    console.log(err);
+                   
+                    if(err.response && err.response.status === 401) {
+                        this.$store.dispatch("refreshToken");
+                    }
                     this.loading = false;
                 });
         },

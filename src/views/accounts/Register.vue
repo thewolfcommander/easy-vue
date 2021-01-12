@@ -41,49 +41,8 @@
                                     :counter="10"
                                 ></v-text-field>
                             </v-col>
-                            <v-col
-                                cols="12"
-                                md="8"
-                                class="mt-n5"
-                            >
-                                <v-text-field
-                                    outlined
-                                    rounded
-                                     autocomplete="off"
-                                    aria-autocomplete="off"
-                                    v-model="fullName"
-                                    label="Your Full Name"
-                                ></v-text-field>
-                            </v-col>
-                            <v-col
-                                cols="12"
-                                md="8"
-                                class="mt-n5"
-                            >
-                                <v-text-field
-                                    outlined
-                                    rounded
-                                     autocomplete="off"
-                                    aria-autocomplete="off"
-                                    v-model="email"
-                                    label="Your Email"
-                                ></v-text-field>
-                            </v-col>
-                            <v-col
-                                cols="12"
-                                md="8"
-                                class="mt-n5"
-                            >
-                                <v-text-field
-                                    outlined
-                                    rounded
-                                    autocomplete="off"
-                                    aria-autocomplete="off"
-                                    type="password"
-                                    v-model="password"
-                                    label="Your Password"
-                                ></v-text-field>
-                            </v-col>
+                         
+                   
                             <v-col
                                 cols="12"
                                 md="8"
@@ -95,7 +54,7 @@
                                         @click="sendOTP"
                                         color="primary"
                                         rounded
-                                    >Register</v-btn>
+                                    >Send OTP</v-btn>
                                 </v-row>
                             </v-col>
                             <v-col
@@ -129,6 +88,7 @@
                 >Go to Profile</v-btn>
             </v-row>
             <v-bottom-sheet
+            :fullscreen="step3"
       v-model="sendOtpSheetOpen"
       persistent
     >
@@ -146,6 +106,7 @@
       <v-icon size="40px">{{"mdi-close"}}</v-icon>
         </v-btn>
         <div class="py-3">
+            <template v-if="step2">
            <v-col
             class="text-center"
           cols="12"
@@ -153,6 +114,7 @@
         >
           <v-text-field
             label="OTP"
+            v-model="otp"
             placeholder="Enter OTP"
             outlined
           ></v-text-field>
@@ -168,7 +130,49 @@
       Verify
     </v-btn>
      </v-col>
-         
+     </template>
+           <template v-if="step3">
+                                <v-col
+                                cols="12"
+                                md="8"
+                                class="mt-n5"
+                                
+                            >
+                                <v-text-field
+                                    outlined
+                                    rounded
+                                     autocomplete="off"
+                                    aria-autocomplete="off"
+                                    v-model="fullName"
+                                    label="Your Full Name"
+                                ></v-text-field>
+                            </v-col>
+                            <v-col
+                                cols="12"
+                                md="8"
+                                class="mt-n5"
+                            >
+                                <v-text-field
+                                    outlined
+                                    rounded
+                                    autocomplete="off"
+                                    aria-autocomplete="off"
+                                    type="password"
+                                    v-model="password"
+                                    label="Your Password"
+                                ></v-text-field>
+                            </v-col>
+                       <v-col
+                    cols="12"
+                    class="text-center"
+                    >
+                    <v-btn 
+                    @click="sendMessage"
+                    depressed color="primary" class="mt-n12 text-center" style="color : white">
+                Register
+                </v-btn>
+                </v-col>
+                            </template>
         </div>
       </v-sheet>
     </v-bottom-sheet>
@@ -204,6 +208,10 @@ export default {
             email: null,
             password: null,
             snackbar: false,
+            otp : null,
+            step1 : true,
+            step2 : false,
+            step3 : false,
             sendOtpSheetOpen : false,
             rules: {
                 required: (value) => !!value || "Required.",
@@ -224,33 +232,44 @@ export default {
     methods: {
         sendOTP() {
              this.sendOtpSheetOpen = true;
-             this.$store.dispatch("sendOtp");
+             if(this.username.length === 10)
+             this.$store.dispatch("startLoading");
+             this.$store.dispatch("sendOtp", this.username)
+             .then((res)=> {
+                 // show some message of otp being sent
+                 console.log(res.data)
+                 this.step2 = true
+                 this.step1 = false
+             })
+             .catch((err)=> {
+                 // handle some error messages here
+                 console.log(err)
+             })
              
         },
         verifyOTP() {
-            this.$store.dispatch("verifyOtp").then(()=> {
+            this.$store.dispatch("verifyOtp", {phone : this.username, otp : this.otp}).then(()=> {
                 // some check if verfied
                 this.snackbar = true;
                 this.snack.text = "OTP Verified";
                 this.snack.color = "success";
-                if(this.username && this.email && this.fullName && this.password && this.username.length === 10) {
-                    this.sendMessage();
-                }
-                else {
-                    // error : not verified
-                }
+                this.step2 = false
+                this.step3 = true
+            
              
+            })
+            .catch((err)=> {
+                console.log(err)
             })
         },
         sendMessage() {
-            if (this.username && this.email && this.fullName && this.password) {
+            if (this.username && this.fullName && this.password) {
                 if (this.username.length === 10) {
                     this.$store.dispatch("startLoading");
                     let data = {
                         user_id: this.username,
                         password: this.password,
                         full_name: this.fullName,
-                        email: this.email,
                     };
 
                     this.$store
@@ -264,7 +283,7 @@ export default {
                                 password: this.password,
                             };
                             this.$store
-                                .dispatch("loginUser", user)
+                                .dispatch("LoginWithToken", user)
                                 .then(() => {
                                     this.snackbar = true;
                                     this.snack.text = "Successfully Logged In";

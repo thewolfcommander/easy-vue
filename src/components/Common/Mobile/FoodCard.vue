@@ -130,7 +130,10 @@ export default {
                     this.wishlistColor = "primary";
                     this.loading = false;
                 })
-                .catch(() => {
+                .catch((err) => {
+                      if(err.response && err.response.status === 401) {
+                        this.$store.dispatch("refreshToken");
+                    }
                     this.snack.text = "Some Error occured";
                     this.snack.color = "error";
                     this.snackbar = true;

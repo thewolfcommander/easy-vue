@@ -104,7 +104,7 @@ export default {
                 url: `${this.$store.state.apiUrl}orders/update/${this.item.id}/`,
                 method: `PATCH`,
                 headers: {
-                    Authorization: `Token ${this.$store.getters.getToken}`,
+                    Authorization: `Bearer ${this.$store.getters.getToken}`,
                 },
                 data: {
                     status: "delivered",
@@ -128,7 +128,7 @@ export default {
                 url: `${this.$store.state.apiUrl}orders/update/${this.item.id}/`,
                 method: `PATCH`,
                 headers: {
-                    Authorization: `Token ${this.$store.getters.getToken}`,
+                    Authorization: `Bearer ${this.$store.getters.getToken}`,
                 },
                 data: {
                     status: "cancelled",

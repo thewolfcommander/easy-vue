@@ -107,7 +107,7 @@ export default {
             this.loading = true
             if (this.query) {
                 axios({
-                    url: `https://www.dartzobackendservice.cloudns.asia/api/v1/products/foods/search/?search=${this.query}`,
+                    url: `http://127.0.0.1:8000/api/v1/products/foods/search/?search=${this.query}`,
                     method: "GET",
                 }).then((response) => {
                     console.log(response.data);

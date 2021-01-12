@@ -250,7 +250,7 @@ export default {
                     url: `${this.$store.state.apiUrl}cart/food-entry/create/`,
                     method: "POST",
                     headers: {
-                        Authorization: `Token ${this.$store.getters.getToken}`,
+                        Authorization: `Bearer ${this.$store.getters.getToken}`,
                     },
                     data: data,
                 })

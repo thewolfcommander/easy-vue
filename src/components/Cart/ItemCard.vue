@@ -219,7 +219,7 @@ export default {
                     url: `${this.$store.state.apiUrl}cart/food-entry/${this.item.id}/update/`,
                     method: "PATCH",
                     headers: {
-                        Authorization: `Token ${this.$store.getters.getToken}`,
+                        Authorization: `Bearer ${this.$store.getters.getToken}`,
                     },
                     data: {
                         quantity: this.item.quantity,
@@ -249,7 +249,7 @@ export default {
                 url: `${this.$store.state.apiUrl}cart/food-entry/${this.item.id}/update/`,
                 method: "DELETE",
                 headers: {
-                    Authorization: `Token ${this.$store.getters.getToken}`,
+                    Authorization: `Bearer ${this.$store.getters.getToken}`,
                 },
             })
                 .then(() => {

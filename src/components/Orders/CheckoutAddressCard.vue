@@ -66,7 +66,7 @@ export default {
             url: `${this.$store.state.apiUrl}addresses/addresses/${this.$store.getters.getAddressForCurrentOrder}/`,
             method: "GET",
             headers: {
-                Authorization: `Token ${this.$store.getters.getToken}`,
+                Authorization: `Bearer ${this.$store.getters.getToken}`,
             },
         })
             .then((response) => {
@@ -74,6 +74,9 @@ export default {
                 this.dialog = false;
             })
             .catch((err) => {
+                if(err.response && err.response.status === 401) {
+                        this.$store.dispatch("refreshToken");
+                    }
                 console.log(err);
                 this.dialog = false;
             });

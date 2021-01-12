@@ -138,7 +138,7 @@ export default {
             url: `${this.$store.state.apiUrl}addresses/addresses/?user=${this.getUser.id}`,
             method: "GET",
             headers: {
-                Authorization: `Token ${this.$store.getters.getToken}`,
+                Authorization: `Bearer ${this.$store.getters.getToken}`,
             },
         })
             .then((response) => {
@@ -147,6 +147,9 @@ export default {
                 console.log(this.addresses);
             })
             .catch((err) => {
+                if(err.response && err.response.status === 401) {
+                        this.$store.dispatch("refreshToken");
+                    }
                 console.log(err);
                 this.dialog = false;
             });

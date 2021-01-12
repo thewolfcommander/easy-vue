@@ -132,7 +132,7 @@ export default {
                 url: `${this.$store.state.apiUrl}products/foods/varient/${parseInt(food.varient_type)}/`,
                 method: "GET",
                 headers: {
-                    Authorization: `Token ${this.$store.getters.getToken}`,
+                    Authorization: `Bearer ${this.$store.getters.getToken}`,
                 }
             }).then((res)=> {
                 console.log(res.data)
@@ -147,7 +147,7 @@ export default {
                         url: `${this.$store.state.apiUrl}products/foods/extra/${parseInt(extra_value)}/`,
                         method: "GET",
                         headers: {
-                            Authorization: `Token ${this.$store.getters.getToken}`,
+                            Authorization: `Bearer ${this.$store.getters.getToken}`,
                         }
                     }).then((res)=> {
                         this.item_computed.foods[index].extrasAddonsList = []

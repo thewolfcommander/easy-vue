@@ -212,7 +212,7 @@ export default {
                     url: `${this.$store.state.apiUrl}addresses/addresses/`,
                     method: "POST",
                     headers: {
-                        Authorization: `Token ${this.$store.getters.getToken}`,
+                        Authorization: `Bearer ${this.$store.getters.getToken}`,
                     },
                     data: data,
                 })
@@ -230,6 +230,9 @@ export default {
                             });
                     })
                     .catch((err) => {
+                        if(err.response && err.response.status === 401) {
+                        this.$store.dispatch("refreshToken");
+                    }
                         console.log(err);
                         this.text = err.message;
                         this.snackbar = true;

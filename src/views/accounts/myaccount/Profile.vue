@@ -108,6 +108,9 @@ export default {
                 this.$store.dispatch('stopLoading')
             })
             .catch(err => {
+                if(err.response && err.response.status === 401) {
+                        this.$store.dispatch("refreshToken");
+                    }
                 console.log(err)
                 this.$store.dispatch('stopLoading')
             })

@@ -65,7 +65,7 @@ export default {
             url: `${this.$store.state.apiUrl}orders/all/?status=${this.status}`,
             method: `GET`,
             headers: {
-                Authorization: `Token ${this.$store.getters.getToken}`,
+                Authorization: `Bearer ${this.$store.getters.getToken}`,
             },
         })
             .then((response) => {
@@ -88,7 +88,7 @@ export default {
                 url: `${this.$store.state.apiUrl}orders/all/?status=${this.status}`,
                 method: `GET`,
                 headers: {
-                    Authorization: `Token ${this.$store.getters.getToken}`,
+                    Authorization: `Bearer ${this.$store.getters.getToken}`,
                 },
             })
                 .then((response) => {

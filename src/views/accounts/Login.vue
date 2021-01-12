@@ -148,16 +148,18 @@ export default {
                 if (this.username.length === 10) {
                     this.$store.dispatch("startLoading");
                     let data = {
+                        grant_type : 'password',
                         username: this.username,
                         password: this.password,
                     };
                     this.$store
-                        .dispatch("loginUser", data)
+                        .dispatch("LoginWithToken", data)
                         .then(() => {
                             this.snackbar = true;
                             this.snack.text = "Successfully Logged In";
                             this.snack.color = "success";
-                            this.$router.push({ name: "Home" });
+                           // this.$router.push({ name: "Home" });
+                           document.location.href = '/'
                             this.$store.dispatch("stopLoading");
                         })
                         .catch((err) => {
