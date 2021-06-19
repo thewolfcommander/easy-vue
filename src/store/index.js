@@ -13,7 +13,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    apiUrl: "https://easyeats-api-v1.herokuapp.com/api/v1/",
+    apiUrl: process.env.apiUrl,
     overlay: false,
     version2: false,
     appVersion: "1.0.0",
