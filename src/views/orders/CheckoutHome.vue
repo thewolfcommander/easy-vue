@@ -212,7 +212,7 @@ export default {
         active: true,
       };
       axios({
-        url: `${process.env.apiUrl}orders/create/`,
+        url: `${process.env.VUE_APP_API_URL}orders/create/`,
         method: `POST`,
         headers: {
           Authorization: `Token ${this.$store.getters.getToken}`,
@@ -230,7 +230,7 @@ export default {
               this.$store.dispatch("clearCart");
               this.$store.dispatch("stopLoading");
               axios({
-                url: `${process.env.apiUrl}cart/create/`,
+                url: `${process.env.VUE_APP_API_URL}cart/create/`,
                 method: "POST",
                 headers: {
                   Authorization: `Token ${this.$store.getters.getToken}`,
@@ -264,7 +264,7 @@ export default {
     syncCart() {
       this.$store.dispatch("startLoading");
       axios({
-        url: `${process.env.apiUrl}cart/list/?user=${this.$store.getters.getUser.id}&active=true`,
+        url: `${process.env.VUE_APP_API_URL}cart/list/?user=${this.$store.getters.getUser.id}&active=true`,
         method: `GET`,
         headers: {
           Authorization: `Token ${this.$store.getters.getToken}`,

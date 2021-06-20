@@ -123,7 +123,7 @@ export default {
   created() {
     this.dialog = true;
     axios({
-      url: `${process.env.apiUrl}addresses/addresses/?user=${this.getUser.id}`,
+      url: `${process.env.VUE_APP_API_URL}addresses/addresses/?user=${this.getUser.id}`,
       method: "GET",
       headers: {
         Authorization: `Token ${this.$store.getters.getToken}`,

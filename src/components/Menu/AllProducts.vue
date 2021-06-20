@@ -84,7 +84,7 @@ export default {
   created() {
     this.dialog = true;
     axios({
-      url: `${process.env.apiUrl}products/foods/`,
+      url: `${process.env.VUE_APP_API_URL}products/foods/`,
       method: "GET",
     })
       .then((response) => {

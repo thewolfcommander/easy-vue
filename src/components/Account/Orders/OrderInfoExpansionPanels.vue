@@ -128,7 +128,7 @@ export default {
     this.info.foods.map((food, index) => {
       if (parseInt(food.varient_type) != 0) {
         axios({
-          url: `${process.env.apiUrl}products/foods/varient/${parseInt(
+          url: `${process.env.VUE_APP_API_URL}products/foods/varient/${parseInt(
             food.varient_type
           )}/`,
           method: "GET",
@@ -145,7 +145,7 @@ export default {
       if (extras_array.length > 0) {
         extras_array.map((extra_value) => {
           axios({
-            url: `${process.env.apiUrl}products/foods/extra/${parseInt(
+            url: `${process.env.VUE_APP_API_URL}products/foods/extra/${parseInt(
               extra_value
             )}/`,
             method: "GET",

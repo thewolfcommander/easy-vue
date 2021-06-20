@@ -169,7 +169,7 @@ export default {
       if (this.item.quantity > 0) {
         this.$emit("hideOtherCartItems");
         axios({
-          url: `${process.env.apiUrl}cart/food-entry/${this.item.id}/update/`,
+          url: `${process.env.VUE_APP_API_URL}cart/food-entry/${this.item.id}/update/`,
           method: "PATCH",
           headers: {
             Authorization: `Token ${this.$store.getters.getToken}`,
@@ -199,7 +199,7 @@ export default {
       this.loading = true;
       console.log(this);
       axios({
-        url: `${process.env.apiUrl}cart/food-entry/${this.item.id}/update/`,
+        url: `${process.env.VUE_APP_API_URL}cart/food-entry/${this.item.id}/update/`,
         method: "DELETE",
         headers: {
           Authorization: `Token ${this.$store.getters.getToken}`,

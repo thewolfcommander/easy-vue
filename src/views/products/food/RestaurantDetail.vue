@@ -141,7 +141,7 @@ export default {
   },
   created() {
     axios({
-      url: `${process.env.apiUrl}products/restaurants/${this.restaurant.id}/`,
+      url: `${process.env.VUE_APP_API_URL}products/restaurants/${this.restaurant.id}/`,
       method: "GET",
     })
       .then((response) => {
@@ -154,7 +154,7 @@ export default {
   mounted() {
     this.$store.dispatch("startLoading");
     axios({
-      url: `${process.env.apiUrl}products/foods?restaurant=${this.restaurant.id}`,
+      url: `${process.env.VUE_APP_API_URL}products/foods?restaurant=${this.restaurant.id}`,
       method: "GET",
     })
       .then((response) => {
@@ -168,7 +168,7 @@ export default {
         }
         //this.$store.dispatch("stopLoading");
         axios({
-          url: `${process.env.apiUrl}products/categories?restaurant=${this.restaurant.id}`,
+          url: `${process.env.VUE_APP_API_URL}products/categories?restaurant=${this.restaurant.id}`,
           method: "GET",
         })
           .then((response) => {

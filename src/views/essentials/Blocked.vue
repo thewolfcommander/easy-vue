@@ -18,7 +18,7 @@ import axios from "axios";
 export default {
   created() {
     axios
-      .get(`${process.env.apiUrl}core/status/`)
+      .get(`${process.env.VUE_APP_API_URL}core/status/`)
       .then((response) => {
         if (response.data.status) {
           this.$store.dispatch("unblockSite");

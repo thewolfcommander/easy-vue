@@ -56,7 +56,7 @@ export default {
   created() {
     this.$store.dispatch("startLoading");
     axios({
-      url: `${process.env.apiUrl}orders/all/?status=${this.status}`,
+      url: `${process.env.VUE_APP_API_URL}orders/all/?status=${this.status}`,
       method: `GET`,
       headers: {
         Authorization: `Token ${this.$store.getters.getToken}`,
@@ -80,7 +80,7 @@ export default {
     reload() {
       this.$store.dispatch("startLoading");
       axios({
-        url: `${process.env.apiUrl}orders/all/?status=${this.status}`,
+        url: `${process.env.VUE_APP_API_URL}orders/all/?status=${this.status}`,
         method: `GET`,
         headers: {
           Authorization: `Token ${this.$store.getters.getToken}`,

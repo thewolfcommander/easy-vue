@@ -59,7 +59,7 @@ export default {
 
   created() {
     axios({
-      url: `${process.env.apiUrl}products/categories/?active=true`,
+      url: `${process.env.VUE_APP_API_URL}products/categories/?active=true`,
       method: "GET",
     })
       .then((response) => {

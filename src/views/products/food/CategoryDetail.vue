@@ -110,7 +110,7 @@ export default {
   },
   created() {
     axios({
-      url: `${process.env.apiUrl}products/categories/${this.category.id}/`,
+      url: `${process.env.VUE_APP_API_URL}products/categories/${this.category.id}/`,
       method: "GET",
     })
       .then((response) => {
@@ -122,7 +122,7 @@ export default {
   },
   mounted() {
     axios({
-      url: `${process.env.apiUrl}products/foods?category=${this.category.id}`,
+      url: `${process.env.VUE_APP_API_URL}products/foods?category=${this.category.id}`,
       method: "GET",
     })
       .then((response) => {

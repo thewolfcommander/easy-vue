@@ -71,7 +71,7 @@ export default {
     shipOrder() {
       this.$store.dispatch("startLoading");
       axios({
-        url: `${process.env.apiUrl}orders/update/${this.item.id}/`,
+        url: `${process.env.VUE_APP_API_URL}orders/update/${this.item.id}/`,
         method: `PATCH`,
         headers: {
           Authorization: `Token ${this.$store.getters.getToken}`,
@@ -95,7 +95,7 @@ export default {
     cancelOrder() {
       this.$store.dispatch("startLoading");
       axios({
-        url: `${process.env.apiUrl}orders/update/${this.item.id}/`,
+        url: `${process.env.VUE_APP_API_URL}orders/update/${this.item.id}/`,
         method: `PATCH`,
         headers: {
           Authorization: `Token ${this.$store.getters.getToken}`,

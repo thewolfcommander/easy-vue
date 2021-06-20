@@ -269,7 +269,7 @@ export default {
   },
   created() {
     axios
-      .get(`${process.env.apiUrl}core/status/`)
+      .get(`${process.env.VUE_APP_API_URL}core/status/`)
       .then((response) => {
         if (response.data.status) {
           this.$store.dispatch("unblockSite");
@@ -301,7 +301,7 @@ export default {
       //this.syncCartFromServer(this.$store.getters)
       this.loading = true;
       axios({
-        url: `${process.env.apiUrl}cart/list/?user=${this.$store.getters.getUser.id}&active=true`,
+        url: `${process.env.VUE_APP_API_URL}cart/list/?user=${this.$store.getters.getUser.id}&active=true`,
         method: `GET`,
         headers: {
           Authorization: `Token ${this.$store.getters.getToken}`,

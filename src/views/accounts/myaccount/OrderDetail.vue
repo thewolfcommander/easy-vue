@@ -84,7 +84,7 @@ export default {
   },
   created() {
     axios({
-      url: `${process.env.apiUrl}orders/detail/${this.$route.params.orderId}/`,
+      url: `${process.env.VUE_APP_API_URL}orders/detail/${this.$route.params.orderId}/`,
       method: `GET`,
       headers: {
         Authorization: `Token ${this.$store.getters.getToken}`,

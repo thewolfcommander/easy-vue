@@ -219,7 +219,7 @@ export default {
         };
 
         axios({
-          url: `${process.env.apiUrl}cart/food-entry/create/`,
+          url: `${process.env.VUE_APP_API_URL}cart/food-entry/create/`,
           method: "POST",
           headers: {
             Authorization: `Token ${this.$store.getters.getToken}`,

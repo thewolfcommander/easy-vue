@@ -13,7 +13,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    apiUrl: process.env.apiUrl,
+    apiUrl: process.env.VUE_APP_API_URL,
     overlay: false,
     version2: false,
     appVersion: "1.0.0",

@@ -33,7 +33,7 @@ export default {
   created() {
     this.$store.dispatch("startLoading");
     axios({
-      url: `${process.env.apiUrl}orders/all/?user=${this.$store.getters.getUser.id}`,
+      url: `${process.env.VUE_APP_API_URL}orders/all/?user=${this.$store.getters.getUser.id}`,
       method: `GET`,
       headers: {
         Authorization: `Token ${this.$store.getters.getToken}`,

@@ -58,7 +58,7 @@ export default {
   created() {
     this.dialog = true;
     axios({
-      url: `${process.env.apiUrl}addresses/addresses/${this.$store.getters.getAddressForCurrentOrder}/`,
+      url: `${process.env.VUE_APP_API_URL}addresses/addresses/${this.$store.getters.getAddressForCurrentOrder}/`,
       method: "GET",
       headers: {
         Authorization: `Token ${this.$store.getters.getToken}`,

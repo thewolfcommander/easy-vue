@@ -55,7 +55,7 @@ export default {
 
   created() {
     axios({
-      url: `${process.env.apiUrl}products/restaurants/?active=true`,
+      url: `${process.env.VUE_APP_API_URL}products/restaurants/?active=true`,
       method: "GET",
     })
       .then((response) => {

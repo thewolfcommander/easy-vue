@@ -65,7 +65,7 @@ export default {
   },
   mounted() {
     axios({
-      url: `${process.env.apiUrl}products/restaurants/?active`,
+      url: `${process.env.VUE_APP_API_URL}products/restaurants/?active`,
       method: "GET",
     })
       .then((response) => {

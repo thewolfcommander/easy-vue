@@ -37,7 +37,7 @@ export default {
 
   created() {
     axios({
-      url: `${process.env.apiUrl}grocery/sub-categories/?active=true`,
+      url: `${process.env.VUE_APP_API_URL}grocery/sub-categories/?active=true`,
       method: "GET",
     })
       .then((response) => {

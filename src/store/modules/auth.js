@@ -19,7 +19,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       console.log(data);
       axios({
-        url: `${process.env.apiUrl}accounts/login/`,
+        url: `${process.env.VUE_APP_API_URL}accounts/login/`,
         data: data,
         method: "POST",
       })
@@ -29,7 +29,7 @@ const actions = {
           commit("LOGIN_USER", response.data.token);
 
           axios({
-            url: `${process.env.apiUrl}accounts/users/${data.username}/`,
+            url: `${process.env.VUE_APP_API_URL}accounts/users/${data.username}/`,
             method: "GET",
             headers: {
               Authorization: `Token ${response.data.token}`,
@@ -54,7 +54,7 @@ const actions = {
               localStorage.setItem("user", JSON.stringify(user));
               commit("SET_USER", JSON.stringify(user));
               axios({
-                url: `${process.env.apiUrl}cart/create/`,
+                url: `${process.env.VUE_APP_API_URL}cart/create/`,
                 method: "POST",
                 headers: {
                   Authorization: `Token ${response.data.token}`,
@@ -83,7 +83,7 @@ const actions = {
   registerUser({ commit }, data) {
     return new Promise((resolve, reject) => {
       axios({
-        url: `${process.env.apiUrl}accounts/register/`,
+        url: `${process.env.VUE_APP_API_URL}accounts/register/`,
         data: data,
         method: "POST",
       })
@@ -100,7 +100,7 @@ const actions = {
 
   syncProfile({ commit }, username) {
     axios({
-      url: `${process.env.apiUrl}accounts/users/${username}/`,
+      url: `${process.env.VUE_APP_API_URL}accounts/users/${username}/`,
       method: "GET",
       headers: {
         Authorization: `Token ${this.getters.getToken}`,

@@ -56,7 +56,7 @@ export default {
 
   created() {
     axios({
-      url: `${process.env.apiUrl}grocery/items/`,
+      url: `${process.env.VUE_APP_API_URL}grocery/items/`,
       method: "GET",
     })
       .then((response) => {

@@ -195,7 +195,7 @@ export default {
         };
         // console.log(data);
         axios({
-          url: `${process.env.apiUrl}addresses/addresses/`,
+          url: `${process.env.VUE_APP_API_URL}addresses/addresses/`,
           method: "POST",
           headers: {
             Authorization: `Token ${this.$store.getters.getToken}`,

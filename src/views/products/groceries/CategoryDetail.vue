@@ -95,7 +95,7 @@ export default {
   },
   created() {
     axios({
-      url: `${process.env.apiUrl}grocery/categories/${this.$route.params.categoryId}/`,
+      url: `${process.env.VUE_APP_API_URL}grocery/categories/${this.$route.params.categoryId}/`,
       method: "GET",
     })
       .then((response) => {
@@ -111,7 +111,7 @@ export default {
 
   mounted() {
     axios({
-      url: `${process.env.apiUrl}grocery/sub-categories/?active=true&category=${this.$route.params.categoryId}`,
+      url: `${process.env.VUE_APP_API_URL}grocery/sub-categories/?active=true&category=${this.$route.params.categoryId}`,
       method: "GET",
     })
       .then((response) => {

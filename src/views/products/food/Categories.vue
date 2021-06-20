@@ -91,7 +91,7 @@ export default {
   created() {
     this.dialog = true;
     axios({
-      url: `${process.env.apiUrl}products/categories/?active=True`,
+      url: `${process.env.VUE_APP_API_URL}products/categories/?active=True`,
       method: "GET",
     })
       .then((response) => {

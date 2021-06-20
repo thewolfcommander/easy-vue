@@ -137,7 +137,6 @@ export default {
     },
   },
   created() {
-    console.log(process.env.apiUrl);
     setInterval(() => {
       var notify = Math.floor(Math.random(0, 1) * 4);
       this.notIndex = notify;
