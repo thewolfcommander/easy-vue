@@ -67,7 +67,7 @@ export default {
         this.$store.dispatch("startLoading");
         console.log("Step 1")
         axios({
-            url: `${this.$store.state.apiUrl}grocery/items/`,
+            url: `${process.env.apiUrl}grocery/items/`,
             method: "GET",
         })
             .then((response) => {

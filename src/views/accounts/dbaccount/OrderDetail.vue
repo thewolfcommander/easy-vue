@@ -1,99 +1,65 @@
 <template>
-    <v-container>
-        <v-row wrap>
-            <v-col
-                cols="12"
-                md="3"
-                lg="3"
-                sm="12"
-                class="d-none d-md-flex"
-            >
-                <NormalNavigation />
-            </v-col>
-            <v-col
-                cols="12"
-                md="9"
-                v-if="!loading"
-                lg="9"
-                sm="12"
-            >
-                <v-row justify="center">
-                    <v-img
-                        src="https://img.icons8.com/pastel-glyph/2x/purchase-order.png"
-                        lazy-src="https://img.icons8.com/pastel-glyph/2x/purchase-order.png"
-                        max-height="90"
-                        contain
-                    >
-                        <template v-slot:placeholder>
-                            <v-row
-                                class="fill-height ma-0"
-                                align="center"
-                                justify="center"
-                            >
-                                <v-progress-circular
-                                    indeterminate
-                                    color="grey lighten-5"
-                                ></v-progress-circular>
-                            </v-row>
-                        </template>
-                    </v-img>
-                </v-row>
-                <v-row justify="center">
-                    <h3 class="text-h5 grey--text">Order - {{ order.order_id.toUpperCase() }}</h3>
-                </v-row>
-                <v-row
-                    justify="start"
-                    class="mt-5"
-                >
-                    <v-expansion-panels
-                        style="z-index: 1"
-                        elevation="8"
-                    >
-                        <OrderBasicInfoExpansionPanel
-                            item="Order Details"
-                            :info="order"
-                        />
-                        <OrderInfoExpansionPanels
-                            item="Product Details"
-                            :info="order.cart"
-                        />
-                        <OrderAddressInfo
-                            item="Delivery Details"
-                            :info="order.address"
-                        />
-                    </v-expansion-panels>
-                </v-row>
-            </v-col>
-
-            <v-col
-                cols="12"
-                md="9"
-                lg="9"
-                sm="12"
-                v-if="loading"
-                class="text-center"
-            >
-                <p class="subtitle-1 grey--text">{{ text }}</p>
-                <v-row justify="center">
-                    <v-progress-circular
-                        indeterminate
-                        color="primary"
-                    ></v-progress-circular>
-                </v-row>
-            </v-col>
+  <v-container>
+    <v-row wrap>
+      <v-col cols="12" md="3" lg="3" sm="12" class="d-none d-md-flex">
+        <NormalNavigation />
+      </v-col>
+      <v-col cols="12" md="9" v-if="!loading" lg="9" sm="12">
+        <v-row justify="center">
+          <v-img
+            src="https://img.icons8.com/pastel-glyph/2x/purchase-order.png"
+            lazy-src="https://img.icons8.com/pastel-glyph/2x/purchase-order.png"
+            max-height="90"
+            contain
+          >
+            <template v-slot:placeholder>
+              <v-row class="fill-height ma-0" align="center" justify="center">
+                <v-progress-circular
+                  indeterminate
+                  color="grey lighten-5"
+                ></v-progress-circular>
+              </v-row>
+            </template>
+          </v-img>
         </v-row>
-        <v-btn
-            color="primary"
-            dark
-            fab
-            class="fab-button d-flex d-md-none"
-            @click="sheet = !sheet"
-        >
-            <v-icon center>mdi-menu</v-icon>
-        </v-btn>
-        <BottomSheet :sheet="sheet" />
+        <v-row justify="center">
+          <h3 class="text-h5 grey--text">
+            Order - {{ order.order_id.toUpperCase() }}
+          </h3>
+        </v-row>
+        <v-row justify="start" class="mt-5">
+          <v-expansion-panels style="z-index: 1" elevation="8">
+            <OrderBasicInfoExpansionPanel item="Order Details" :info="order" />
+            <OrderInfoExpansionPanels
+              item="Product Details"
+              :info="order.cart"
+            />
+            <OrderAddressInfo item="Delivery Details" :info="order.address" />
+          </v-expansion-panels>
+        </v-row>
+      </v-col>
 
-    </v-container>
+      <v-col cols="12" md="9" lg="9" sm="12" v-if="loading" class="text-center">
+        <p class="subtitle-1 grey--text">{{ text }}</p>
+        <v-row justify="center">
+          <v-progress-circular
+            indeterminate
+            color="primary"
+          ></v-progress-circular>
+        </v-row>
+      </v-col>
+    </v-row>
+    <v-btn
+      color="primary"
+      dark
+      fab
+      class="fab-button d-flex d-md-none"
+      @click="sheet = !sheet"
+    >
+      <v-icon center>mdi-menu</v-icon>
+    </v-btn>
+    <BottomSheet :sheet="sheet" />
+  </v-container>
 </template>
 
 <script>
@@ -105,47 +71,46 @@ import OrderBasicInfoExpansionPanel from "@/components/Account/DBOrders/OrderBas
 import OrderAddressInfo from "@/components/Account/Orders/OrderAddressInfo";
 
 export default {
-    data() {
-        return {
-            sheet: false,
-            order: {},
-            loading: true,
-            text: "Wait a second, we are fetching data for you",
-        };
-    },
-    components: {
-        BottomSheet,
-        NormalNavigation,
-        OrderInfoExpansionPanels,
-        OrderBasicInfoExpansionPanel,
-        OrderAddressInfo,
-    },
-    created() {
-        axios({
-            url: `${this.$store.state.apiUrl}orders/detail/${this.$route.params.orderId}/`,
-            method: `GET`,
-            headers: {
-                Authorization: `Token ${this.$store.getters.getToken}`,
-            },
-        })
-            .then((response) => {
-                this.loading = false;
-                this.order = response.data;
-            })
-            .catch((err) => {
-                this.loading = false;
-                console.log(err);
-            });
-    },
+  data() {
+    return {
+      sheet: false,
+      order: {},
+      loading: true,
+      text: "Wait a second, we are fetching data for you",
+    };
+  },
+  components: {
+    BottomSheet,
+    NormalNavigation,
+    OrderInfoExpansionPanels,
+    OrderBasicInfoExpansionPanel,
+    OrderAddressInfo,
+  },
+  created() {
+    axios({
+      url: `${process.env.apiUrl}orders/detail/${this.$route.params.orderId}/`,
+      method: `GET`,
+      headers: {
+        Authorization: `Token ${this.$store.getters.getToken}`,
+      },
+    })
+      .then((response) => {
+        this.loading = false;
+        this.order = response.data;
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      });
+  },
 };
 </script>
 
-
 <style scoped>
 .fab-button {
-    position: fixed !important;
-    bottom: 70px !important;
-    z-index: 1000;
-    right: 25px !important;
+  position: fixed !important;
+  bottom: 70px !important;
+  z-index: 1000;
+  right: 25px !important;
 }
 </style>
